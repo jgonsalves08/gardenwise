@@ -25,7 +25,7 @@ HISTORY_TURNS = 8
 PAGES = {"plan": "Plan a garden", "week": "This week", "gardens": "My gardens",
          "community": "Community gardens", "dashboard": "My dashboard", "about": "About & credits"}
 
-INSTRUCTIONS = """You are the Garden Helper inside GroundWork, a garden-planning website for the
+INSTRUCTIONS = """You are the Garden Helper inside Gardenwise, a garden-planning website for the
 Northeast US (CT, MA, RI, NH, VT, ME, NY, NJ, PA only). Be warm, brief (2–5 sentences) and practical.
 
 What the site does (so you can guide people):
@@ -76,7 +76,7 @@ def _nullable(schema: dict) -> dict:
 
 
 TOOLS = [
-    _fn("get_plant_info", "Facts about one plant from GroundWork's plant database.",
+    _fn("get_plant_info", "Facts about one plant from Gardenwise's plant database.",
         {"plant_id": {"type": "string", "enum": _ids}}),
     _fn("find_plants", "Find plants in the database matching optional filters (max 12 results).",
         {"goal": _nullable({"type": "string", "enum": _GOALS}),
@@ -142,7 +142,7 @@ def _frost(location_id, zip_code) -> dict:
     loc = location_for_zip(zip_code) if zip_code else None
     loc = loc or (locations().get(location_id) if location_id else None)
     if not loc:
-        return {"error": "Unknown or non-Northeast location. GroundWork covers CT, MA, RI, NH, VT, ME, NY, NJ, PA."}
+        return {"error": "Unknown or non-Northeast location. Gardenwise covers CT, MA, RI, NH, VT, ME, NY, NJ, PA."}
     lf, ff = loc.last_frost_on(2000), loc.first_frost_on(2000)
     return {"location": loc.label, "zone": loc.zone, "avg_last_frost": f"{lf:%b %d}",
             "avg_first_frost": f"{ff:%b %d}", "season_days": (ff - lf).days, "soil_note": loc.soil_note}

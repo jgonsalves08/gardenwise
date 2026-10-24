@@ -1,4 +1,4 @@
-# 🌱 GroundWork
+# 🌱 Gardenwise
 
 A Streamlit app that turns a one-minute form (location, skill level, goals, start timing, space,
 optional sun) into a garden plan for the Northeast US: the right plants, a dated planting

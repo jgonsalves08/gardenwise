@@ -1,4 +1,4 @@
-"""GroundWork — Streamlit entry point.
+"""Gardenwise — Streamlit entry point.
 
 Run:  streamlit run app.py
 
@@ -52,7 +52,7 @@ account.topbar()
 ui.usage_panel(st.session_state.budget)
 st.sidebar.page_link(pages["dashboard"], label="My dashboard", icon="📊")
 st.sidebar.page_link(pages["about"], label="About & credits", icon="ℹ️")
-if st.sidebar.button("❓ How GroundWork works", type="tertiary"):
+if st.sidebar.button("❓ How Gardenwise works", type="tertiary"):
     st.session_state.show_guide = True
     st.session_state.hidden_tips = set()
     st.switch_page(pages["plan"])

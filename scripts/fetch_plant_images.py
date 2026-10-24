@@ -29,7 +29,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "data" / "plant_images"
 CREDITS = OUT / "credits.json"
-UA = "GroundWork-class-project/1.0 (Yale SOM course project; educational use)"
+UA = "Gardenwise-class-project/1.0 (Yale SOM course project; educational use)"
 WIDTH = 320
 SSL_CTX = ssl.create_default_context(cafile=certifi.where())  # verified TLS with Mozilla's CA bundle
 

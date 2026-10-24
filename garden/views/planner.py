@@ -92,7 +92,7 @@ def page() -> None:
                     loc_id = zl.id
                     st.caption(f"Using frost data for **{zl.label}**.")
                 else:
-                    st.caption("That ZIP is outside the Northeast states GroundWork covers (CT, MA, RI, NH, "
+                    st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
                                "VT, ME, NY, NJ, PA), so the dropdown location is used instead.")
             place_raw = st.text_input(
                 "🏷️ Place nickname (optional)", value=pf.get("place", ""), max_chars=40,
