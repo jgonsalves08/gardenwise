@@ -28,9 +28,10 @@ def page() -> None:
             "Tell us your space, skill and goals. Get the right plants, a dated planting calendar, "
             "a bed layout and a costed shopping list — checked against your local frost dates.")
 
-    ui.welcome_guide()
+    ui.page_tip("plan", "New here? The <b>Home</b> page explains how Gardenwise works in four steps. "
+                        "Or press 💬 <b>Garden helper</b> (bottom right) and describe your garden in a sentence.")
     pf: dict = st.session_state.get("prefill") or {}
-    if pf:
+    if pf and not pf.get("from_home"):
         b1, b2 = st.columns([5, 1], vertical_alignment="center")
         if pf.get("from_helper"):
             b1.info("💬 The garden helper filled in this form from your chat. Check it over, change anything, "

@@ -70,6 +70,16 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVert
             display: flex; align-items: center; justify-content: center; font-weight: 700;}
 .page-tip {background: #FFFBEA; border: 1px solid #F3E3A4; border-radius: 10px; padding: .45rem .8rem;
            font-size: .9rem; color: #12243A;}
+.st-key-brand_link a {padding: .2rem .2rem !important;}
+.st-key-brand_link a p, .st-key-brand_link a span {font-size: 1.2rem !important; font-weight: 800 !important;
+    color: #1F5FAD !important;}
+.home-hero {padding: 2.2rem 2.2rem;}
+.home-hero h1 {font-size: 2.4rem;}
+.home-hero p {font-size: 1.12rem; max-width: 760px;}
+.aud-icon {font-size: 1.8rem; margin-bottom: .2rem;}
+.aud-desc {min-height: 3.2rem; margin: .2rem 0 .6rem 0;}
+.why-card {background: #FFFFFF; border: 1px solid #E3EBF5; border-radius: 12px; padding: .8rem .9rem;
+           font-size: .92rem;}
 .legend-chip {display: inline-block; padding: 4px 10px; border-radius: 999px; margin: 0 6px 6px 0;
               font-size: .85rem; color: #12243A;}
 .month {color: #1F5FAD; margin: 1rem 0 .3rem 0; font-weight: 700;}

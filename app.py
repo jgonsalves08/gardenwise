@@ -12,7 +12,7 @@ import uuid
 import streamlit as st
 
 from garden import config, llm, seed, ui
-from garden.views import about, account, community, dashboard, gardens, helper_ui, planner, week
+from garden.views import about, account, community, dashboard, gardens, helper_ui, home, planner, week
 
 st.set_page_config(page_title=config.APP_NAME, page_icon="🌱", layout="wide")
 ui.inject_css()
@@ -30,7 +30,8 @@ if "budget" not in st.session_state:
     st.session_state.budget = llm.Budget(session_id=uuid.uuid4().hex[:8])
 
 pages = {
-    "plan": st.Page(planner.page, title="Plan a garden", icon="🌱", default=True),
+    "home": st.Page(home.page, title="Home", icon="🏠", default=True),
+    "plan": st.Page(planner.page, title="Plan a garden", icon="🌱", url_path="plan"),
     "week": st.Page(week.page, title="This week", icon="📋", url_path="week"),
     "gardens": st.Page(gardens.page, title="My gardens", icon="🌿", url_path="gardens"),
     "community": st.Page(community.page, title="Community gardens", icon="🏘️", url_path="community"),
@@ -42,10 +43,11 @@ st.session_state.pages = pages
 # Custom sidebar order: main pages, then account, AI usage, and the dashboard button under it.
 nav = st.navigation(list(pages.values()), position="hidden")
 with st.sidebar:
-    st.markdown(f'<div class="brand">🌱 {config.APP_NAME}</div>'
-                f'<div class="brand-sub">{config.APP_TAGLINE}</div>', unsafe_allow_html=True)
+    with st.container(key="brand_link"):   # clicking the name goes Home
+        st.page_link(pages["home"], label=config.APP_NAME, icon="🌱")
+    st.markdown(f'<div class="brand-sub">{config.APP_TAGLINE}</div>', unsafe_allow_html=True)
     st.markdown('<div class="nav-label">Menu</div>', unsafe_allow_html=True)
-    for key in ("plan", "week", "gardens", "community"):
+    for key in ("home", "plan", "week", "gardens", "community"):
         st.page_link(pages[key])
     st.divider()
 account.topbar()
@@ -55,6 +57,6 @@ st.sidebar.page_link(pages["about"], label="About & credits", icon="ℹ️")
 if st.sidebar.button("❓ How Gardenwise works", type="tertiary"):
     st.session_state.show_guide = True
     st.session_state.hidden_tips = set()
-    st.switch_page(pages["plan"])
+    st.switch_page(pages["home"])
 helper_ui.render()
 nav.run()
