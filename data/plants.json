@@ -1,0 +1,2516 @@
+[
+  {
+    "id": "tomato_cherry",
+    "name": "Cherry tomato",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 60,
+    "harvest_window_days": 70,
+    "spacing_in": 24,
+    "per_sqft": 0.25,
+    "container_ok": true,
+    "min_container_gal": 5,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": true,
+    "goals": [
+      "salsa",
+      "salad",
+      "kids"
+    ],
+    "companions": [
+      "basil",
+      "marigold",
+      "carrot",
+      "parsley",
+      "nasturtium"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists tomato plants as toxic to dogs and cats: leaves and stems contain solanine/tomatine; ripe fruit is low risk.",
+    "tip": "Buy a sturdy transplant, set it deep up to the first leaves after nights stay above 50°F, and tie it to a 6-ft stake.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 9,
+    "retail_price_per_lb": 3.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "tomato_slicing",
+    "name": "Slicing tomato",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 75,
+    "harvest_window_days": 50,
+    "spacing_in": 24,
+    "per_sqft": 0.25,
+    "container_ok": true,
+    "min_container_gal": 10,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": true,
+    "goals": [
+      "salsa",
+      "salad"
+    ],
+    "companions": [
+      "basil",
+      "marigold",
+      "carrot",
+      "parsley"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists tomato plants as toxic to dogs and cats: leaves and stems contain solanine/tomatine; ripe fruit is low risk.",
+    "tip": "Mulch and water deeply once a week, and remove lower leaves touching the soil to slow early blight, which is common in the Northeast.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 10,
+    "retail_price_per_lb": 2.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "tomato_paste",
+    "name": "Paste (Roma) tomato",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 75,
+    "harvest_window_days": 30,
+    "spacing_in": 24,
+    "per_sqft": 0.25,
+    "container_ok": true,
+    "min_container_gal": 10,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa"
+    ],
+    "companions": [
+      "basil",
+      "marigold",
+      "onion_sets",
+      "parsley"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists tomato plants as toxic to dogs and cats: leaves and stems contain solanine/tomatine; ripe fruit is low risk.",
+    "tip": "Determinate Romas ripen in a 3-4 week burst, so cage them and plan a canning or sauce day for late August.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 3,
+    "yield_lb_per_plant": 8,
+    "retail_price_per_lb": 1.7,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "tomatillo",
+    "name": "Tomatillo",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 70,
+    "harvest_window_days": 45,
+    "spacing_in": 36,
+    "per_sqft": 0.25,
+    "container_ok": true,
+    "min_container_gal": 10,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa"
+    ],
+    "companions": [
+      "pepper_jalapeno",
+      "cilantro",
+      "marigold"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA list, but it is a nightshade relative whose leaves and unripe fruit contain alkaloids; keep pets from chewing it.",
+    "tip": "Plant at least two tomatillos because they need cross-pollination, and harvest when the fruit fills and splits the papery husk.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 5,
+    "retail_price_per_lb": 2.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail"
+  },
+  {
+    "id": "pepper_jalapeno",
+    "name": "Jalapeño pepper",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 8,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 70,
+    "harvest_window_days": 60,
+    "spacing_in": 18,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa",
+      "pickling"
+    ],
+    "companions": [
+      "basil",
+      "onion_sets",
+      "tomato_paste",
+      "cilantro"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; capsaicin in hot peppers can irritate a pet's mouth and stomach.",
+    "tip": "Wait until soil is warm (about two weeks after last frost) to transplant, since cold soil stunts peppers for weeks.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 2,
+    "retail_price_per_lb": 1.8,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "pepper_bell",
+    "name": "Bell pepper",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 8,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 75,
+    "harvest_window_days": 45,
+    "spacing_in": 18,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 5,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa"
+    ],
+    "companions": [
+      "basil",
+      "onion_sets",
+      "carrot",
+      "tomato_slicing"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Choose an early-maturing variety, use black plastic mulch to warm the soil, and expect fully red fruit to take 3-4 extra weeks past green.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.psu.edu/"
+    ],
+    "plants_per_person": 3,
+    "yield_lb_per_plant": 2.5,
+    "retail_price_per_lb": 2.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "cucumber_pickling",
+    "name": "Pickling cucumber",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 55,
+    "harvest_window_days": 30,
+    "spacing_in": 12,
+    "per_sqft": 2,
+    "container_ok": true,
+    "min_container_gal": 5,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": true,
+    "goals": [
+      "pickling",
+      "salad"
+    ],
+    "companions": [
+      "dill",
+      "bean_bush",
+      "radish",
+      "nasturtium",
+      "sunflower"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Grow on a trellis for better airflow, pick every day or two at 3-4 inches, and watch for striped cucumber beetles in June.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 5,
+    "retail_price_per_lb": 1.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "zucchini",
+    "name": "Zucchini",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 50,
+    "harvest_window_days": 60,
+    "spacing_in": 36,
+    "per_sqft": 0.11,
+    "container_ok": true,
+    "min_container_gal": 15,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "kids"
+    ],
+    "companions": [
+      "nasturtium",
+      "bean_bush",
+      "radish",
+      "calendula"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "One or two plants are plenty for a family; pick fruit at 6-8 inches every couple of days.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 7,
+    "retail_price_per_lb": 1.8,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "squash_butternut",
+    "name": "Butternut squash",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 100,
+    "harvest_window_days": 21,
+    "spacing_in": 36,
+    "per_sqft": 0.06,
+    "container_ok": false,
+    "min_container_gal": null,
+    "indoor_ok": false,
+    "sprawling": true,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "three_sisters"
+    ],
+    "companions": [
+      "corn_sweet",
+      "bean_pole",
+      "nasturtium",
+      "marigold"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Give each vine about 16 sq ft, and harvest before the first frost once the rind is tan and can't be dented with a fingernail.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 6,
+    "retail_price_per_lb": 1.4,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "pumpkin",
+    "name": "Pumpkin",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 100,
+    "harvest_window_days": 21,
+    "spacing_in": 48,
+    "per_sqft": 0.06,
+    "container_ok": false,
+    "min_container_gal": null,
+    "indoor_ok": false,
+    "sprawling": true,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "three_sisters",
+      "kids"
+    ],
+    "companions": [
+      "corn_sweet",
+      "bean_pole",
+      "nasturtium",
+      "marigold"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Count back from your first frost date (about 100 days) to sow, and slip a board under each fruit to prevent rot.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 10,
+    "retail_price_per_lb": 0.7,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "corn_sweet",
+    "name": "Sweet corn",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 10,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 75,
+    "harvest_window_days": 14,
+    "spacing_in": 9,
+    "per_sqft": 1,
+    "container_ok": false,
+    "min_container_gal": null,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": false,
+    "goals": [
+      "three_sisters",
+      "kids"
+    ],
+    "companions": [
+      "bean_pole",
+      "squash_butternut",
+      "pumpkin",
+      "cucumber_pickling"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list (ASPCA's toxic 'corn plant' is a Dracaena houseplant); corn cobs are a serious intestinal blockage risk for dogs.",
+    "tip": "Plant in a block of at least four short rows rather than one long row so wind pollinates the ears fully.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 15,
+    "yield_lb_per_plant": 0.6,
+    "retail_price_per_lb": 1.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "bean_bush",
+    "name": "Bush beans",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 55,
+    "harvest_window_days": 21,
+    "spacing_in": 4,
+    "per_sqft": 9,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pickling",
+      "kids"
+    ],
+    "companions": [
+      "cucumber_pickling",
+      "carrot",
+      "potato",
+      "strawberry",
+      "marigold"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; cooked green beans are commonly fed to dogs, but raw dried bean seeds contain lectins.",
+    "tip": "Sow seeds 1 inch deep once soil is warm, and pick pods while they are pencil-thin to keep plants producing.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 20,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 2.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "bean_pole",
+    "name": "Pole beans",
+    "category": "vegetable",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 65,
+    "harvest_window_days": 45,
+    "spacing_in": 6,
+    "per_sqft": 8,
+    "container_ok": true,
+    "min_container_gal": 5,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": true,
+    "goals": [
+      "three_sisters"
+    ],
+    "companions": [
+      "corn_sweet",
+      "squash_butternut",
+      "pumpkin",
+      "carrot",
+      "radish"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; raw dried bean seeds contain lectins, so don't let pets eat stored seed.",
+    "tip": "Set up a 6-7 ft trellis or teepee before sowing, and keep picking every two days to extend the harvest into fall.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 10,
+    "yield_lb_per_plant": 1,
+    "retail_price_per_lb": 2.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "pea_snap",
+    "name": "Sugar snap peas",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -28,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 65,
+    "harvest_window_days": 21,
+    "spacing_in": 2,
+    "per_sqft": 8,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": true,
+    "goals": [
+      "salad",
+      "kids"
+    ],
+    "companions": [
+      "radish",
+      "carrot",
+      "spinach",
+      "lettuce",
+      "mint"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Garden peas are not on the ASPCA toxic list (unlike ornamental sweet pea, Lathyrus, which is toxic).",
+    "tip": "Sow as soon as the soil can be worked in early April, about four weeks before last frost, along a trellis at least 5 ft tall.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 60,
+    "yield_lb_per_plant": 0.1,
+    "retail_price_per_lb": 5.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail"
+  },
+  {
+    "id": "lettuce",
+    "name": "Lettuce",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": 4,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": 45,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 30,
+    "spacing_in": 6,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad"
+    ],
+    "companions": [
+      "radish",
+      "carrot",
+      "chives",
+      "pea_snap",
+      "spinach"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Sow a short row every two weeks in spring and again in August, and harvest outer leaves so plants keep growing.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 10,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 2.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "spinach",
+    "name": "Spinach",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -35,
+    "fall_plant_days_before_first_frost": 45,
+    "frost_tender": false,
+    "days_to_maturity": 40,
+    "harvest_window_days": 21,
+    "spacing_in": 4,
+    "per_sqft": 9,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad"
+    ],
+    "companions": [
+      "pea_snap",
+      "radish",
+      "lettuce",
+      "strawberry"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; spinach contains oxalates, so only small amounts are advised for pets.",
+    "tip": "Sow 5 weeks before last frost because spinach bolts as days lengthen in June; a late-August sowing gives the best crop.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.umaine.edu/gardening/"
+    ],
+    "plants_per_person": 15,
+    "yield_lb_per_plant": 0.25,
+    "retail_price_per_lb": 4.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "kale",
+    "name": "Kale",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": -21,
+    "fall_plant_days_before_first_frost": 60,
+    "frost_tender": false,
+    "days_to_maturity": 55,
+    "harvest_window_days": 120,
+    "spacing_in": 18,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "pesto_herbs"
+    ],
+    "companions": [
+      "onion_sets",
+      "dill",
+      "beet",
+      "nasturtium",
+      "chamomile"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Pick the lower leaves and leave the top growing, and use insect netting to keep cabbage worms off.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.uvm.edu/extension"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 2,
+    "retail_price_per_lb": 3.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "swiss_chard",
+    "name": "Swiss chard",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": 60,
+    "frost_tender": false,
+    "days_to_maturity": 55,
+    "harvest_window_days": 120,
+    "spacing_in": 9,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad"
+    ],
+    "companions": [
+      "onion_sets",
+      "lettuce",
+      "radish",
+      "bean_bush"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; chard contains oxalates, so only small amounts are advised for pets.",
+    "tip": "Cut outer stalks at the base about an inch above the soil and the plant will keep producing from June until hard frost.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 3,
+    "yield_lb_per_plant": 2,
+    "retail_price_per_lb": 3.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail"
+  },
+  {
+    "id": "arugula",
+    "name": "Arugula",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -28,
+    "fall_plant_days_before_first_frost": 40,
+    "frost_tender": false,
+    "days_to_maturity": 35,
+    "harvest_window_days": 21,
+    "spacing_in": 4,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "pesto_herbs"
+    ],
+    "companions": [
+      "lettuce",
+      "spinach",
+      "radish",
+      "dill"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Sow small batches every two to three weeks in spring and fall; summer heat makes it bolt and taste hot.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 15,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 8.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail clamshells"
+  },
+  {
+    "id": "radish",
+    "name": "Radish",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -28,
+    "fall_plant_days_before_first_frost": 30,
+    "frost_tender": false,
+    "days_to_maturity": 25,
+    "harvest_window_days": 10,
+    "spacing_in": 2,
+    "per_sqft": 16,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "kids"
+    ],
+    "companions": [
+      "lettuce",
+      "carrot",
+      "pea_snap",
+      "cucumber_pickling",
+      "nasturtium"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Thin seedlings to 2 inches apart and harvest within a week of maturity, before roots turn woody and split.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": 30,
+    "yield_lb_per_plant": 0.05,
+    "retail_price_per_lb": 2.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "carrot",
+    "name": "Carrot",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -21,
+    "fall_plant_days_before_first_frost": 90,
+    "frost_tender": false,
+    "days_to_maturity": 70,
+    "harvest_window_days": 60,
+    "spacing_in": 2,
+    "per_sqft": 16,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "kids"
+    ],
+    "companions": [
+      "onion_sets",
+      "chives",
+      "radish",
+      "lettuce",
+      "tomato_cherry"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists carrot as non-toxic; a common dog treat.",
+    "tip": "Keep the seedbed constantly moist for the 2-3 weeks carrots take to germinate (a board or burlap over the row helps), then thin to 2 inches.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 40,
+    "yield_lb_per_plant": 0.15,
+    "retail_price_per_lb": 1.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "beet",
+    "name": "Beet",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -21,
+    "fall_plant_days_before_first_frost": 70,
+    "frost_tender": false,
+    "days_to_maturity": 55,
+    "harvest_window_days": 30,
+    "spacing_in": 3,
+    "per_sqft": 9,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "pickling"
+    ],
+    "companions": [
+      "onion_sets",
+      "lettuce",
+      "kale",
+      "bean_bush"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; no known toxicity, though large amounts of any plant can upset a pet's stomach.",
+    "tip": "Each beet 'seed' is a cluster that sprouts several plants, so thin to one every 3 inches and eat the thinnings as greens.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.umaine.edu/gardening/"
+    ],
+    "plants_per_person": 20,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 1.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail"
+  },
+  {
+    "id": "onion_sets",
+    "name": "Onion (from sets)",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -28,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 100,
+    "harvest_window_days": 21,
+    "spacing_in": 4,
+    "per_sqft": 9,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa",
+      "pickling"
+    ],
+    "companions": [
+      "carrot",
+      "beet",
+      "lettuce",
+      "tomato_paste",
+      "pepper_bell"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "Allium: ASPCA lists as toxic to dogs and cats (can damage red blood cells); keep pets out of the bed.",
+    "tip": "Plant sets 1 inch deep in early spring, keep the bed weeded since onions can't compete, and harvest when the tops flop over.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 30,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 1.2,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "scallion",
+    "name": "Scallions (green onions)",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -28,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 60,
+    "harvest_window_days": 60,
+    "spacing_in": 1,
+    "per_sqft": 16,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa",
+      "salad"
+    ],
+    "companions": [
+      "carrot",
+      "lettuce",
+      "beet",
+      "tomato_cherry"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "Allium: ASPCA lists as toxic to dogs and cats (can damage red blood cells); keep pets out of the bed.",
+    "tip": "Sow thickly in a short row every 3-4 weeks; you can also regrow store-bought scallion roots in a glass of water on a windowsill.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 30,
+    "yield_lb_per_plant": 0.05,
+    "retail_price_per_lb": 4.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail bunches"
+  },
+  {
+    "id": "garlic",
+    "name": "Garlic (fall-planted)",
+    "category": "vegetable",
+    "edible": true,
+    "season": "fall_planted",
+    "zone_min": 3,
+    "zone_max": 9,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": null,
+    "fall_plant_days_before_first_frost": 0,
+    "frost_tender": false,
+    "days_to_maturity": 240,
+    "harvest_window_days": 14,
+    "spacing_in": 6,
+    "per_sqft": 9,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa",
+      "pickling",
+      "pesto_herbs"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "strawberry",
+      "beet",
+      "lettuce"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "Allium: ASPCA lists as toxic to dogs and cats (can damage red blood cells); keep pets out of the bed.",
+    "tip": "Plant hardneck cloves 2 inches deep, pointy end up, around your first fall frost (4-6 weeks before the ground freezes), mulch with straw, and cut off the scapes in June.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 15,
+    "yield_lb_per_plant": 0.1,
+    "retail_price_per_lb": 5.0,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; price est. from retail"
+  },
+  {
+    "id": "potato",
+    "name": "Potato",
+    "category": "vegetable",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 90,
+    "harvest_window_days": 30,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 10,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "kids"
+    ],
+    "companions": [
+      "bean_bush",
+      "marigold",
+      "calendula",
+      "corn_sweet"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists potato as toxic to dogs and cats: green tubers, sprouts, and foliage contain solanine. Cooked ripe tubers are low risk.",
+    "tip": "Plant certified seed potatoes, hill soil over the stems as they grow so tubers never see light, and hand-pick Colorado potato beetles.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 8,
+    "yield_lb_per_plant": 2,
+    "retail_price_per_lb": 0.9,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "strawberry",
+    "name": "Strawberry (day-neutral)",
+    "category": "fruit",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 3,
+    "zone_max": 9,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -21,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 90,
+    "harvest_window_days": 90,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "kids"
+    ],
+    "companions": [
+      "spinach",
+      "lettuce",
+      "garlic",
+      "bean_bush",
+      "thyme"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists strawberry as non-toxic to dogs and cats.",
+    "tip": "Pinch off flowers for the first 4-6 weeks after planting, remove runners, and net the bed against birds once berries color.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 10,
+    "yield_lb_per_plant": 1,
+    "retail_price_per_lb": 3.5,
+    "yield_source": "Cornell/UMN Extension 'how much to plant per person' guides; USDA ERS Fruit & Vegetable Prices (2022 data, pub. 2023)"
+  },
+  {
+    "id": "basil",
+    "name": "Basil",
+    "category": "herb",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 30,
+    "harvest_window_days": 90,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pesto_herbs"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "tomato_slicing",
+      "pepper_bell",
+      "pepper_jalapeno"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists basil as non-toxic to dogs and cats.",
+    "tip": "Wait until nights stay above 50°F to plant, and pinch the tops weekly so plants bush out instead of flowering.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 20,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "cilantro",
+    "name": "Cilantro",
+    "category": "herb",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -7,
+    "fall_plant_days_before_first_frost": 45,
+    "frost_tender": false,
+    "days_to_maturity": 50,
+    "harvest_window_days": 21,
+    "spacing_in": 6,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salsa",
+      "pesto_herbs"
+    ],
+    "companions": [
+      "tomatillo",
+      "pepper_jalapeno",
+      "spinach",
+      "lettuce"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists coriander (cilantro) as non-toxic to dogs and cats.",
+    "tip": "Cilantro bolts quickly in summer heat, so sow every 3 weeks in spring and again in late summer, in light afternoon shade.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 4,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 6,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "parsley",
+    "name": "Parsley",
+    "category": "herb",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 8,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 120,
+    "spacing_in": 9,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pesto_herbs"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "tomato_slicing",
+      "carrot",
+      "chives"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists parsley as toxic to dogs and cats in large amounts: furanocoumarins can cause skin sensitivity to sunlight.",
+    "tip": "Soak seeds overnight before sowing indoors because parsley is slow to germinate, or simply buy transplants.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 1,
+    "retail_price_per_lb": 6,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "dill",
+    "name": "Dill",
+    "category": "herb",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 50,
+    "harvest_window_days": 30,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pickling",
+      "pollinator"
+    ],
+    "companions": [
+      "cucumber_pickling",
+      "lettuce",
+      "kale",
+      "onion_sets"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists dill as non-toxic to dogs and cats.",
+    "tip": "Sow directly where it will grow since dill dislikes transplanting, and leave a few plants to flower for swallowtail caterpillars and beneficial wasps.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 20,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "chives",
+    "name": "Chives",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 3,
+    "zone_max": 9,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 8,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 150,
+    "spacing_in": 8,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "salad"
+    ],
+    "companions": [
+      "carrot",
+      "tomato_cherry",
+      "lettuce",
+      "strawberry"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "Allium: ASPCA lists as toxic to dogs and cats (can damage red blood cells); keep pets out of the bed.",
+    "tip": "Snip leaves to 2 inches above the soil and they regrow all season; divide clumps every 3 years in spring.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 25,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "mint",
+    "name": "Mint",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 4,
+    "zone_max": 9,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 30,
+    "harvest_window_days": 150,
+    "spacing_in": 18,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "herbal_tea",
+      "pollinator"
+    ],
+    "companions": [
+      "pea_snap",
+      "kale",
+      "tomato_slicing"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists mint (Mentha) as toxic to dogs and cats; it can cause vomiting and diarrhea.",
+    "tip": "Grow mint in a pot (even a pot sunk into the bed) because its runners will take over a garden within a season.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 20,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "oregano",
+    "name": "Oregano",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 5,
+    "zone_max": 10,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 120,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator"
+    ],
+    "companions": [
+      "pepper_bell",
+      "tomato_paste",
+      "basil",
+      "thyme"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists oregano as toxic to dogs and cats; it can cause mild vomiting and diarrhea.",
+    "tip": "Plant in well-drained soil and full sun, and cut back by half in early summer for a fresh flush of flavorful leaves.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 25,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "thyme",
+    "name": "Thyme",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 5,
+    "zone_max": 9,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 150,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "herbal_tea"
+    ],
+    "companions": [
+      "strawberry",
+      "lavender",
+      "oregano",
+      "kale"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists common thyme (Thymus vulgaris) as non-toxic; note 'Spanish thyme' (Coleus amboinicus) is a different, toxic plant.",
+    "tip": "Give it sharp drainage (add grit or plant at a bed edge) because wet winter soil kills thyme more often than cold.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 25,
+    "yield_source": "Cornell/UMN Extension herb guidance; price est. from typical retail clamshell/bunch prices"
+  },
+  {
+    "id": "chamomile",
+    "name": "German chamomile",
+    "category": "herb",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -14,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 65,
+    "harvest_window_days": 45,
+    "spacing_in": 8,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "herbal_tea",
+      "pollinator"
+    ],
+    "companions": [
+      "kale",
+      "onion_sets",
+      "cucumber_pickling"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists chamomile as toxic to dogs and cats (vomiting, diarrhea; bleeding risk with long-term use).",
+    "tip": "Press the tiny seeds onto the soil surface without covering them since they need light to germinate, and pick flowers when fully open.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 4,
+    "yield_lb_per_plant": 0.1,
+    "retail_price_per_lb": 30,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail"
+  },
+  {
+    "id": "lemon_balm",
+    "name": "Lemon balm",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 4,
+    "zone_max": 9,
+    "sun": [
+      "full",
+      "part",
+      "shade"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 45,
+    "harvest_window_days": 150,
+    "spacing_in": 18,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "herbal_tea",
+      "pollinator"
+    ],
+    "companions": [
+      "tomato_slicing",
+      "kale",
+      "chamomile"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists lemon balm (Melissa officinalis) as toxic to dogs and cats (vomiting, diarrhea); ASPCA also calls it 'bee balm', which is not Monarda.",
+    "tip": "Shear plants before they set seed, because lemon balm self-sows aggressively much like its mint relatives.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.5,
+    "retail_price_per_lb": 20,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail"
+  },
+  {
+    "id": "lavender",
+    "name": "Lavender (English)",
+    "category": "herb",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 5,
+    "zone_max": 9,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "experienced",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 90,
+    "harvest_window_days": 30,
+    "spacing_in": 18,
+    "per_sqft": 0.5,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers",
+      "herbal_tea"
+    ],
+    "companions": [
+      "thyme",
+      "oregano",
+      "coneflower"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists lavender as toxic to dogs and cats (linalool can cause nausea and vomiting).",
+    "tip": "Pick a hardy angustifolia variety like 'Munstead' or 'Hidcote', plant in gravelly well-drained soil, and never cut into bare woody stems.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 30,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail"
+  },
+  {
+    "id": "sunflower",
+    "name": "Sunflower",
+    "category": "flower",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 80,
+    "harvest_window_days": 21,
+    "spacing_in": 18,
+    "per_sqft": 0.5,
+    "container_ok": true,
+    "min_container_gal": 5,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers",
+      "kids"
+    ],
+    "companions": [
+      "cucumber_pickling",
+      "corn_sweet",
+      "zinnia",
+      "nasturtium"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists sunflower as non-toxic to dogs and cats.",
+    "tip": "Sow seeds 1 inch deep after last frost on the north side of the garden, and cover young seedlings if birds or squirrels dig them up.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 4.0,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail (seeds)"
+  },
+  {
+    "id": "zinnia",
+    "name": "Zinnia",
+    "category": "flower",
+    "edible": false,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 75,
+    "harvest_window_days": 75,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers",
+      "kids"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "cosmos",
+      "sunflower",
+      "marigold"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists zinnia as non-toxic to dogs and cats.",
+    "tip": "The more you cut zinnias for bouquets, the more they bloom; water at the base to avoid powdery mildew.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": null,
+    "yield_lb_per_plant": null,
+    "retail_price_per_lb": null,
+    "yield_source": "Not applicable (non-edible ornamental/cover crop)"
+  },
+  {
+    "id": "marigold",
+    "name": "Marigold (Tagetes)",
+    "category": "flower",
+    "edible": false,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": 6,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 50,
+    "harvest_window_days": 90,
+    "spacing_in": 10,
+    "per_sqft": 4,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "kids",
+      "cut_flowers"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "tomato_slicing",
+      "bean_bush",
+      "potato",
+      "squash_butternut"
+    ],
+    "pet_toxic": {
+      "cats": true,
+      "dogs": true
+    },
+    "pet_note": "ASPCA lists marigold (Tagetes) as toxic to dogs and cats; sap can cause mild stomach upset and skin irritation.",
+    "tip": "Tuck marigolds along the edges of the vegetable bed and deadhead spent flowers to keep color coming until frost.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": null,
+    "yield_lb_per_plant": null,
+    "retail_price_per_lb": null,
+    "yield_source": "Not applicable (non-edible ornamental/cover crop)"
+  },
+  {
+    "id": "nasturtium",
+    "name": "Nasturtium",
+    "category": "flower",
+    "edible": true,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 55,
+    "harvest_window_days": 90,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "pollinator",
+      "kids"
+    ],
+    "companions": [
+      "cucumber_pickling",
+      "squash_butternut",
+      "radish",
+      "tomato_cherry",
+      "zucchini"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists nasturtium as non-toxic to dogs and cats.",
+    "tip": "Soak the large seeds overnight, sow after last frost in lean soil (rich soil means leaves, not flowers), and add the peppery flowers to salads.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 25,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail (edible flowers/leaves)"
+  },
+  {
+    "id": "cosmos",
+    "name": "Cosmos",
+    "category": "flower",
+    "edible": false,
+    "season": "warm",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": true,
+    "days_to_maturity": 70,
+    "harvest_window_days": 90,
+    "spacing_in": 12,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": true,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers"
+    ],
+    "companions": [
+      "zinnia",
+      "sunflower",
+      "tomato_slicing"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not found on the ASPCA toxic list; generally considered pet-safe, though not explicitly confirmed by ASPCA.",
+    "tip": "Don't fertilize cosmos; it flowers best in average soil and may need a stake once it passes 4 feet.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": null,
+    "yield_lb_per_plant": null,
+    "retail_price_per_lb": null,
+    "yield_source": "Not applicable (non-edible ornamental/cover crop)"
+  },
+  {
+    "id": "calendula",
+    "name": "Calendula (pot marigold)",
+    "category": "flower",
+    "edible": true,
+    "season": "cool",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": -7,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 55,
+    "harvest_window_days": 90,
+    "spacing_in": 10,
+    "per_sqft": 1,
+    "container_ok": true,
+    "min_container_gal": 2,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers",
+      "herbal_tea",
+      "salad"
+    ],
+    "companions": [
+      "tomato_cherry",
+      "zucchini",
+      "potato",
+      "kale"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "ASPCA lists calendula (pot marigold) as non-toxic to dogs and cats; don't confuse it with Tagetes marigolds.",
+    "tip": "Sow around last frost, deadhead often, and cut plants back by a third in midsummer heat for a big fall rebloom.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://www.aspca.org/pet-care/animal-poison-control/toxic-and-non-toxic-plants"
+    ],
+    "plants_per_person": 2,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 25,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail (edible petals)"
+  },
+  {
+    "id": "coneflower",
+    "name": "Purple coneflower (Echinacea)",
+    "category": "flower",
+    "edible": false,
+    "season": "perennial",
+    "zone_min": 3,
+    "zone_max": 8,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 60,
+    "harvest_window_days": 75,
+    "spacing_in": 18,
+    "per_sqft": 0.5,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers"
+    ],
+    "companions": [
+      "bee_balm",
+      "lavender",
+      "zinnia"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; generally regarded as pet-safe.",
+    "tip": "Plant nursery-grown native Echinacea purpurea in spring and leave the seedheads standing over winter to feed goldfinches.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://extension.unh.edu/"
+    ],
+    "plants_per_person": null,
+    "yield_lb_per_plant": null,
+    "retail_price_per_lb": null,
+    "yield_source": "Not applicable (non-edible ornamental/cover crop)"
+  },
+  {
+    "id": "bee_balm",
+    "name": "Bee balm (Monarda)",
+    "category": "flower",
+    "edible": true,
+    "season": "perennial",
+    "zone_min": 4,
+    "zone_max": 9,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "intermediate",
+    "planting_method": "transplant",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": 0,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 60,
+    "harvest_window_days": 60,
+    "spacing_in": 18,
+    "per_sqft": 0.5,
+    "container_ok": true,
+    "min_container_gal": 3,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "pollinator",
+      "cut_flowers",
+      "herbal_tea"
+    ],
+    "companions": [
+      "coneflower",
+      "tomato_slicing",
+      "squash_butternut"
+    ],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Monarda is not on the ASPCA toxic list; don't confuse it with lemon balm, which ASPCA also calls 'bee balm' and lists as toxic.",
+    "tip": "Choose a mildew-resistant variety like 'Jacob Cline', give it good airflow, and divide clumps every 2-3 years.",
+    "sources": [
+      "https://extension.unh.edu/",
+      "https://ag.umass.edu/home-lawn-garden"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.2,
+    "retail_price_per_lb": 20,
+    "yield_source": "Estimate (no standard extension per-person guidance); price est. from specialty retail (tea/edible flowers)"
+  },
+  {
+    "id": "winter_rye",
+    "name": "Winter rye (cover crop)",
+    "category": "cover_crop",
+    "edible": false,
+    "season": "fall_planted",
+    "zone_min": 3,
+    "zone_max": 10,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": null,
+    "fall_plant_days_before_first_frost": 14,
+    "frost_tender": false,
+    "days_to_maturity": 210,
+    "harvest_window_days": 21,
+    "spacing_in": 1,
+    "per_sqft": 16,
+    "container_ok": false,
+    "min_container_gal": null,
+    "indoor_ok": false,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [],
+    "companions": [],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Not on the ASPCA toxic list; avoid letting pets graze seed heads, which can host toxic ergot fungus.",
+    "tip": "Broadcast rye on empty beds in September or early October, then cut or turn it under in spring at least 3 weeks before planting.",
+    "sources": [
+      "https://www.uvm.edu/extension",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": null,
+    "yield_lb_per_plant": null,
+    "retail_price_per_lb": null,
+    "yield_source": "Not applicable (non-edible ornamental/cover crop)"
+  },
+  {
+    "id": "microgreens",
+    "name": "Microgreens (indoor)",
+    "category": "vegetable",
+    "edible": true,
+    "season": "indoor",
+    "zone_min": 3,
+    "zone_max": 11,
+    "sun": [
+      "full",
+      "part"
+    ],
+    "difficulty": "beginner",
+    "planting_method": "direct_sow",
+    "indoor_start_weeks_before_last_frost": null,
+    "spring_plant_offset_days": null,
+    "fall_plant_days_before_first_frost": null,
+    "frost_tender": false,
+    "days_to_maturity": 12,
+    "harvest_window_days": 7,
+    "spacing_in": 1,
+    "per_sqft": 16,
+    "container_ok": true,
+    "min_container_gal": 1,
+    "indoor_ok": true,
+    "sprawling": false,
+    "tall": false,
+    "needs_trellis": false,
+    "goals": [
+      "salad",
+      "kids"
+    ],
+    "companions": [],
+    "pet_toxic": {
+      "cats": false,
+      "dogs": false
+    },
+    "pet_note": "Common microgreen mixes (radish, pea, sunflower, broccoli) are not on the ASPCA toxic list; avoid onion or chive microgreens around pets.",
+    "tip": "Sow seeds thickly on moist potting mix in a shallow tray by a sunny window and snip with scissors when the first true leaves appear.",
+    "sources": [
+      "https://ag.umass.edu/home-lawn-garden",
+      "https://gardening.cals.cornell.edu/"
+    ],
+    "plants_per_person": 1,
+    "yield_lb_per_plant": 0.3,
+    "retail_price_per_lb": 25,
+    "yield_source": "One tray per person; price est. from retail microgreen clamshells"
+  }
+]

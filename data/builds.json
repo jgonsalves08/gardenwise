@@ -1,0 +1,309 @@
+{
+  "price_note": "Estimated US big-box retail prices (Home Depot / Lowe's), as of fall 2025. Prices vary by store and season; use the store links to confirm.",
+  "store_link_templates": {
+    "Home Depot": "https://www.homedepot.com/s/{query}",
+    "Lowe's": "https://www.lowes.com/search?searchTerm={query}"
+  },
+  "builds": [
+    {
+      "id": "raised_bed",
+      "name": "Raised bed (untreated lumber, 10 in tall)",
+      "level": "beginner",
+      "space_types": [
+        "raised_bed"
+      ],
+      "build_weeks_before_planting": 3,
+      "good_for": "Gardeners with a yard or patio who want clean, loose soil, fewer weeds, earlier spring warming, and a barrier against unknown or lead-contaminated ground soil.",
+      "steps": [
+        "Pick a level spot with the most sun.",
+        "Cut boards to length (most stores will cut them for free).",
+        "Screw the corners together with 3 in exterior screws, 3 per corner.",
+        "Lay cardboard on the ground inside the frame to smother grass.",
+        "Fill with raised-bed soil mix and water it in."
+      ],
+      "materials": {
+        "board": {
+          "item": "2×10 untreated lumber, 8 ft",
+          "unit_price": 22.0,
+          "search": "2x10x8 untreated lumber"
+        },
+        "screws": {
+          "item": "3 in exterior deck screws (1 lb box)",
+          "unit_price": 12.0,
+          "search": "3 inch exterior deck screws"
+        },
+        "soil": {
+          "item": "Raised-bed soil mix, 1.5 cu ft bag",
+          "unit_price": 10.0,
+          "search": "raised bed soil 1.5 cu ft"
+        },
+        "bulk_soil": {
+          "item": "Bulk raised-bed soil mix, per cubic yard",
+          "unit_price": 55.0,
+          "search": "bulk raised bed soil cubic yard"
+        },
+        "delivery": {
+          "item": "Bulk soil delivery fee (typical local garden center)",
+          "unit_price": 75.0,
+          "search": "bulk soil delivery"
+        }
+      }
+    },
+    {
+      "id": "container_setup",
+      "name": "Container garden setup",
+      "level": "beginner",
+      "space_types": [
+        "containers",
+        "windowsill"
+      ],
+      "build_weeks_before_planting": 1,
+      "good_for": "Balconies, patios, steps, renters, and windowsills. No digging, movable to follow the sun, and avoids ground soil completely.",
+      "steps": [
+        "Choose pots with drainage holes (fabric grow bags are cheap and light).",
+        "Fill with fresh potting mix, never garden soil.",
+        "Group pots where they get the most sun; use saucers indoors.",
+        "Water when the top inch is dry; containers dry out faster than beds."
+      ],
+      "materials": {
+        "pot_small": {
+          "item": "Pot or grow bag, 1–2 gal (herbs, greens)",
+          "unit_price": 4.0,
+          "search": "2 gallon fabric grow bag"
+        },
+        "pot_medium": {
+          "item": "Pot or grow bag, 3–5 gal (peppers, bush beans)",
+          "unit_price": 6.0,
+          "search": "5 gallon fabric grow bag"
+        },
+        "pot_large": {
+          "item": "Pot or grow bag, 7–10 gal (tomatoes, squash)",
+          "unit_price": 9.0,
+          "search": "10 gallon fabric grow bag"
+        },
+        "mix": {
+          "item": "Potting mix, 1 cu ft bag (~7.5 gal)",
+          "unit_price": 12.0,
+          "search": "potting mix 1 cu ft"
+        },
+        "saucer": {
+          "item": "Drip saucer (indoor/balcony)",
+          "unit_price": 3.0,
+          "search": "plant saucer"
+        }
+      }
+    },
+    {
+      "id": "trellis",
+      "name": "Cattle-panel trellis",
+      "level": "beginner",
+      "space_types": [
+        "raised_bed",
+        "in_ground"
+      ],
+      "build_weeks_before_planting": 1,
+      "good_for": "Climbing or vining crops (pole beans, peas, cucumbers, tomatoes) in a small footprint; saves space by growing up instead of out.",
+      "steps": [
+        "Drive T-posts on the north edge of the bed so the trellis does not shade other plants.",
+        "Stand the cattle panel against the posts and zip-tie it at three heights.",
+        "Plant climbers along the base and guide the first tendrils onto the panel."
+      ],
+      "materials": {
+        "panel": {
+          "item": "Cattle panel, 16 ft × 50 in",
+          "unit_price": 38.0,
+          "search": "cattle panel 16 ft"
+        },
+        "tpost": {
+          "item": "Steel T-post, 6 ft",
+          "unit_price": 7.0,
+          "search": "6 ft steel t-post"
+        },
+        "ties": {
+          "item": "Heavy-duty zip ties (pack)",
+          "unit_price": 6.0,
+          "search": "heavy duty zip ties outdoor"
+        }
+      }
+    },
+    {
+      "id": "cold_frame",
+      "name": "Cold frame (3 × 6 ft)",
+      "level": "intermediate",
+      "space_types": [
+        "raised_bed",
+        "in_ground"
+      ],
+      "build_weeks_before_planting": 2,
+      "good_for": "Extending the season: hardy greens through late fall and early spring, hardening off seedlings, and starting a garden in the off-season.",
+      "steps": [
+        "Build a bottomless box from 2×10 boards, back side one board taller than the front so rain runs off.",
+        "Screw two hinges to the back and attach the clear twin-wall lid.",
+        "Face the slope south. Prop the lid open on sunny days above 50 °F so plants do not cook."
+      ],
+      "materials": {
+        "board": {
+          "item": "2×10 untreated lumber, 8 ft",
+          "unit_price": 22.0,
+          "search": "2x10x8 untreated lumber"
+        },
+        "lid": {
+          "item": "Clear twin-wall polycarbonate sheet, 4 × 8 ft",
+          "unit_price": 65.0,
+          "search": "twin wall polycarbonate sheet 4x8"
+        },
+        "hinges": {
+          "item": "Exterior door hinges (pair)",
+          "unit_price": 9.0,
+          "search": "exterior strap hinge"
+        },
+        "screws": {
+          "item": "3 in exterior deck screws (1 lb box)",
+          "unit_price": 12.0,
+          "search": "3 inch exterior deck screws"
+        }
+      }
+    },
+    {
+      "id": "rain_barrel",
+      "name": "Rain barrel",
+      "level": "beginner",
+      "space_types": [
+        "raised_bed",
+        "in_ground",
+        "containers"
+      ],
+      "build_weeks_before_planting": 2,
+      "good_for": "Anyone with a downspout. Collects free water for summer dry spells; most useful for larger gardens or where a hose is far away.",
+      "steps": [
+        "Set two layers of cinder blocks next to a downspout so the spigot is high enough for a watering can.",
+        "Cut the downspout and install the diverter kit.",
+        "Use the water for soil and roots, not on leafy greens you eat raw (roof runoff is not potable)."
+      ],
+      "materials": {
+        "barrel": {
+          "item": "Rain barrel with spigot, ~50 gal",
+          "unit_price": 95.0,
+          "search": "50 gallon rain barrel"
+        },
+        "diverter": {
+          "item": "Downspout diverter kit",
+          "unit_price": 25.0,
+          "search": "rain barrel downspout diverter"
+        },
+        "block": {
+          "item": "Cinder block 8×8×16 in",
+          "unit_price": 2.5,
+          "search": "8x8x16 cinder block"
+        }
+      }
+    },
+    {
+      "id": "compost_bin",
+      "name": "Wire compost bin",
+      "level": "beginner",
+      "space_types": [
+        "raised_bed",
+        "in_ground"
+      ],
+      "build_weeks_before_planting": 0,
+      "good_for": "Turning leaves, grass clippings and kitchen scraps into free soil amendment; great fall project since leaves are plentiful.",
+      "steps": [
+        "Unroll about 10 ft of welded wire and form a 3 ft wide circle.",
+        "Zip-tie the ends together and set it on bare ground in partial shade.",
+        "Layer browns (leaves) and greens (kitchen scraps) roughly 3:1; keep it as damp as a wrung-out sponge."
+      ],
+      "materials": {
+        "wire": {
+          "item": "Welded wire fencing, 36 in × 25 ft roll",
+          "unit_price": 36.0,
+          "search": "welded wire fence 36 in x 25 ft"
+        },
+        "ties": {
+          "item": "Heavy-duty zip ties (pack)",
+          "unit_price": 6.0,
+          "search": "heavy duty zip ties outdoor"
+        }
+      }
+    },
+    {
+      "id": "drip_irrigation",
+      "name": "Drip irrigation with hose timer",
+      "level": "experienced",
+      "space_types": [
+        "raised_bed",
+        "in_ground"
+      ],
+      "build_weeks_before_planting": 1,
+      "good_for": "Larger gardens, frequent travelers, and anyone who forgets to water. Saves water and keeps leaves dry, which reduces disease.",
+      "steps": [
+        "Connect the timer, backflow preventer and pressure regulator at the spigot.",
+        "Run 1/2 in mainline to the bed and lay emitter lines about 12 in apart.",
+        "Run it for 20 minutes and check that the soil is moist 4 in down; adjust the timer."
+      ],
+      "materials": {
+        "kit": {
+          "item": "Raised-bed drip irrigation kit (covers ~50 sq ft)",
+          "unit_price": 40.0,
+          "search": "raised bed drip irrigation kit"
+        },
+        "timer": {
+          "item": "Digital hose timer",
+          "unit_price": 35.0,
+          "search": "digital hose timer"
+        }
+      }
+    },
+    {
+      "id": "low_tunnel",
+      "name": "Low tunnel (mini hoop house)",
+      "level": "experienced",
+      "space_types": [
+        "raised_bed",
+        "in_ground"
+      ],
+      "build_weeks_before_planting": 2,
+      "good_for": "Season extension over a whole bed: earlier spring plantings, later fall harvests, and protecting crops from frost and pests.",
+      "steps": [
+        "Bend 10 ft lengths of 1/2 in PVC into hoops every 3–4 ft along the bed.",
+        "Slip each end over a rebar stake driven 12 in into the ground.",
+        "Drape greenhouse film or frost cloth over the hoops and clip it; weigh down the edges.",
+        "Vent the ends on sunny days."
+      ],
+      "materials": {
+        "pvc": {
+          "item": "1/2 in PVC conduit, 10 ft",
+          "unit_price": 4.5,
+          "search": "1/2 in pvc conduit 10 ft"
+        },
+        "rebar": {
+          "item": "Rebar stake, 3/8 in × 2 ft",
+          "unit_price": 3.0,
+          "search": "3/8 rebar 2 ft"
+        },
+        "film": {
+          "item": "Greenhouse film / frost cloth, 10 × 25 ft",
+          "unit_price": 32.0,
+          "search": "greenhouse plastic film 10 x 25"
+        },
+        "clips": {
+          "item": "Snap clamps for 1/2 in pipe (pack)",
+          "unit_price": 12.0,
+          "search": "greenhouse snap clamps 1/2 inch"
+        }
+      }
+    }
+  ],
+  "plant_prices": {
+    "note": "Typical garden-center prices; seeds from any seed rack or catalog.",
+    "seed_packet": 4.0,
+    "six_pack": 6.0,
+    "single_transplant": 5.0,
+    "perennial_pot": 8.0,
+    "garlic_lb": 18.0,
+    "garlic_cloves_per_lb": 40,
+    "onion_sets_bag": 4.0,
+    "onion_sets_per_bag": 80,
+    "microgreen_kit": 8.0
+  }
+}

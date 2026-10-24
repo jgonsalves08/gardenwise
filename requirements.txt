@@ -1,0 +1,6 @@
+streamlit>=1.50
+openai>=2.0
+pydantic>=2.7
+python-dotenv>=1.0
+pandas>=2.2
+pytest>=8.0
