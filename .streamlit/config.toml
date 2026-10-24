@@ -12,3 +12,6 @@ runOnSave = false
 
 [browser]
 gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"   # hides Deploy and developer options for visitors

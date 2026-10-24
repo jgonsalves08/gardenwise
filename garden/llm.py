@@ -120,7 +120,7 @@ def call_structured(
     *,
     agent: str,
     instructions: str,
-    user_input: str,
+    user_input: str | list[dict],
     schema: type[T],
     budget: Budget,
     run_id: str = "",
@@ -132,7 +132,8 @@ def call_structured(
     kwargs = dict(
         model=config.MODEL_NAME,
         instructions=instructions,
-        input=user_input,
+        # A list means multimodal content parts (text + images) for one user turn.
+        input=[{"role": "user", "content": user_input}] if isinstance(user_input, list) else user_input,
         text_format=schema,
         max_output_tokens=config.MAX_OUTPUT_TOKENS,
         reasoning={"effort": os.getenv("REASONING_EFFORT", "low")},

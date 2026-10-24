@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import uuid
 from datetime import date
 
 import streamlit as st
@@ -12,6 +13,8 @@ from ..data import locations, location_for_zip
 from ..forms import (AUDIENCE_LABELS, FACINGS, SIZE_PRESETS, SKILL_LABELS, SPACE_LABELS, START_LABELS,
                      SUN_GUESSES, estimate_sun, month_options, start_date_for)
 from ..pipeline import Recommendation, assemble, rec_to_json, recommend
+from ..agents.site_scout import (JUGLONE_SENSITIVE, MAX_PHOTOS, SURFACE_LABEL, SiteFindings,
+                                 prepare_photo, scout)
 from ..safety import clean_place, screen_text
 from ..schemas import GOAL_LABELS, Constraints
 from .. import ui
@@ -138,6 +141,7 @@ def page() -> None:
             max_chars=config.MAX_FREE_TEXT_CHARS, height=80,
             help="Plain words are fine. The assistant may ask up to 2 short follow-up questions.",
         )
+        scout_updates = photo_section(budget)
         go = st.button("🌱 Recommend plants for me", type="primary", width="stretch")
 
 
@@ -213,6 +217,9 @@ def page() -> None:
                 audience=audience, adults=adults, kids=kids, grade_band=grade_band,
                 school_start=school_start, school_end=school_end, summer_care=summer_care,
             )
+            if scout_updates:
+                avoid = list(dict.fromkeys(c.avoid_plants + scout_updates.pop("avoid", [])))[:10]
+                c = c.model_copy(update=scout_updates | {"avoid_plants": avoid})
             st.session_state.understood = None
             st.session_state.rec = None  # hide the previous plan while we work on the new one
             if chat_text.strip():
@@ -320,3 +327,76 @@ def save_box(rec: Recommendation, chosen: list[str], addons: list[str]) -> None:
             st.session_state.saved_run = rec.run_id
             st.session_state.prefill = None
             st.rerun()
+
+
+def photo_section(budget: llm.Budget) -> dict:
+    """Optional photos → Site Scout → the user confirms each finding before it changes the plan."""
+    found = st.session_state.get("scout")
+    with st.expander("📷 Add photos of the spot (optional: helps with sun, surface and hazards)",
+                     expanded=bool(found)):
+        st.caption("Up to 3 photos. Location data (GPS) and all other metadata are removed before anything "
+                   "is sent, and photos are never saved. Nothing changes your plan until you confirm it.")
+        files = st.file_uploader("Photos", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True,
+                                 label_visibility="collapsed", key="scout_files")
+        if files and len(files) > MAX_PHOTOS:
+            st.caption(f"Using the first {MAX_PHOTOS} photos.")
+        if files and st.button("🔍 Scout my photos", key="scout_go"):
+            prepared, errors = [], []
+            for f in files[:MAX_PHOTOS]:
+                try:
+                    prepared.append(prepare_photo(f.getvalue()))
+                except ValueError as e:
+                    errors.append(f"{f.name}: {e}")
+            for e in errors:
+                st.error(e)
+            if prepared:
+                with st.spinner("Looking at your photos…"):
+                    try:
+                        res = scout(prepared, budget)
+                        st.session_state.scout = {"id": uuid.uuid4().hex[:6], "f": res.model_dump(),
+                                                  "n": len(prepared),
+                                                  "gps": sum(p.had_location for p in prepared)}
+                        st.rerun()
+                    except llm.BudgetExceeded as e:
+                        st.error(f"🛑 {e}")
+                    except llm.ContentFiltered:
+                        st.error("🛡️ The AI provider's safety filter blocked these photos.")
+                    except llm.LLMError as e:
+                        st.error(f"Photo check failed: {e}")
+        if not found:
+            return {}
+        f = SiteFindings.model_validate(found["f"])
+        sid = found["id"]
+        if found["gps"]:
+            st.caption(f"🔒 Removed location data from {found['gps']} photo(s).")
+        if f.text_in_image:
+            st.info("🛡️ A photo contained written text. It was treated as part of the picture, not as "
+                    "instructions.")
+        if not f.usable:
+            st.warning(ui.md(f.summary or "These photos don't seem to show a place to garden."))
+            return {}
+        st.markdown(f"**What the Site Scout sees:** {ui.md(f.summary)}")
+        updates: dict = {"site_summary": f.summary}
+        if f.sun != "unclear":
+            if st.checkbox(ui.md(f"☀️ Use **{f.sun} sun** ({f.sun_confidence} confidence: {f.sun_evidence})"),
+                           value=f.sun_confidence != "low", key=f"sc_sun_{sid}"):
+                updates |= {"sun": f.sun, "sun_basis": f"estimated from your photo ({f.sun_confidence} confidence)"}
+        if f.suggested_space != "unclear":
+            if st.checkbox(ui.md(f"📐 Plan for **{f.suggested_space.replace('_', ' ')}** "
+                                 f"(surface looks like {SURFACE_LABEL[f.surface]}"
+                                 + (f"; {f.size_hint}" if f.size_hint else "") + ")"),
+                           value=False, key=f"sc_space_{sid}",
+                           help="Overrides “Where will it grow?” above. Size still comes from the form."):
+                updates["space_type"] = f.suggested_space
+        hazards = []
+        for h in f.hazards:
+            if st.checkbox(ui.md(f"⚠️ {h.kind.replace('_', ' ')}: {h.evidence.rstrip('. ')}. Yes, that's right"),
+                           value=True, key=f"sc_hz_{sid}_{h.kind}"):
+                hazards.append(h.kind)
+        updates["site_hazards"] = hazards
+        if "black_walnut" in hazards:
+            updates["avoid"] = JUGLONE_SENSITIVE
+        if st.button("Clear photo findings", key=f"sc_clear_{sid}", type="tertiary"):
+            st.session_state.scout = None
+            st.rerun()
+        return updates

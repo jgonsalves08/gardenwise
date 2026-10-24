@@ -71,6 +71,8 @@ class Constraints(BaseModel):
     school_end: date | None = None                       # last day before summer break
     summer_care: bool = False                            # someone tends the garden over summer
     beds_ready: bool = False                             # beds/soil already exist (e.g. community plots)
+    site_hazards: list[str] = Field(default_factory=list, max_length=6)  # confirmed from photos
+    site_summary: str = Field(default="", max_length=250)               # Site Scout summary (confirmed)
 
     @property
     def people(self) -> float:

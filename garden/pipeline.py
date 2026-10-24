@@ -94,6 +94,8 @@ def safety_warnings(c: Constraints, chosen: list[Plant]) -> list[str]:
             "houses, city lots, roadsides) have elevated lead. Your state extension lab tests soil for "
             "about $15–$30. Raised beds filled with bagged soil, over cardboard, are the safest option."
         )
+    from .agents.site_scout import HAZARD_TEXT
+    warnings += [HAZARD_TEXT[h] for h in c.site_hazards if h in HAZARD_TEXT]
     pets = [name for name, has in (("cats", c.has_cats), ("dogs", c.has_dogs)) if has]
     for p in chosen:
         hits = [pet for pet in pets if getattr(p.pet_toxic, pet)]

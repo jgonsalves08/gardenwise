@@ -150,6 +150,7 @@ def _profile(c: Constraints, loc: Location, cands: list[Plant], feedback: str) -
         "sun": f"{c.sun} ({c.sun_basis})",
         "pets": [p for p, has in (("cats", c.has_cats), ("dogs", c.has_dogs)) if has] or "none",
         "requested_plants": c.want_plants,
+        "site_from_photos": {"summary": c.site_summary, "hazards": c.site_hazards} if c.site_summary else "none",
         "garden_for": {"me": "one person", "household": f"a household of {c.adults} adults and {c.kids} kids",
                        "school": f"a school garden, grades {c.grade_band}, school year "
                                  f"{c.school_start} to {c.school_end}, summer_care={str(c.summer_care).lower()}",

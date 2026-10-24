@@ -143,7 +143,7 @@ def verification_panel(rec: Recommendation) -> None:
     n_pass = sum(c.status == "pass" for c in r.checks)
     n_warn = sum(c.status == "warn" for c in r.checks)
     n_fail = sum(c.status == "fail" for c in r.checks)
-    title = f"🔎 Verified by code: {n_pass}/{len(r.checks)} checks passed"
+    title = f"🔎 How we checked these plants: {n_pass}/{len(r.checks)} checks passed"
     if n_warn:
         title += f", {n_warn} warning(s)"
     if r.attempts > 1:
