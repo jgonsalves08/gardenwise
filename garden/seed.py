@@ -140,6 +140,8 @@ def _seed_community(user_id: int, today: date) -> None:
     for d in work_days(group, today - timedelta(days=365), months=13):
         if d < today and d.month != 7:     # skipped the July work day (vacations)
             store.set_group_task(grp["id"], user_id, f"workday|{d.isoformat()}", claim=True, done=True)
+    for key in ("shared|build|compost_bin", "shared|build|rain_barrel", "shared|seed-order", "shared|seed-handout"):
+        store.set_group_task(grp["id"], user_id, key, claim=True, done=True)   # done back in the spring
     member = store.create_user(DEMO_MEMBER, DEMO_PASSWORD)
     store.join_group(member["id"], grp["join_code"])
     store.claim_plot(plot_ids["1"], grp["id"], member["id"], member["username"])

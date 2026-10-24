@@ -28,6 +28,7 @@ def page() -> None:
             "Tell us your space, skill and goals. Get the right plants, a dated planting calendar, "
             "a bed layout and a costed shopping list — checked against your local frost dates.")
 
+    ui.welcome_guide()
     pf: dict = st.session_state.get("prefill") or {}
     if pf:
         b1, b2 = st.columns([5, 1], vertical_alignment="center")
@@ -313,7 +314,7 @@ def save_box(rec: Recommendation, chosen: list[str], addons: list[str]) -> None:
     st.markdown("---")
     user = st.session_state.get("user")
     if not user:
-        st.info("💾 **Want to keep this plan?** Log in or create a free account in the sidebar to "
+        st.info("💾 **Want to keep this plan?** Log in or create a free account (top right) to "
                 "save it, tick off tasks as you go, and see what's due each week. Totally optional.")
         return
     saved = st.session_state.get("saved_run")

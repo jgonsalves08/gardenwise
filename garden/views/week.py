@@ -19,6 +19,8 @@ def page() -> None:
     user = st.session_state.user
     today = date.today()
     ui.hero("📋 This week", f"What to do now, as of {today:%A, %B %d}. Tick things off as you go.")
+    ui.page_tip("week", "Everything due in the next two weeks across your saved gardens. Tick tasks as you do them; "
+                        "when something's ready to pick, tap a size to log the harvest (optional).")
 
     community_tasks(user, today)
     gardens = store.list_gardens(user["id"])

@@ -21,7 +21,7 @@ def need_login(what: str) -> bool:
     if st.session_state.get("user"):
         return False
     ui.hero("🌿 " + what, "Log in to save gardens and keep track of them across the season.")
-    st.info("Accounts are optional. Use the sidebar to log in or create one. You can always plan a "
+    st.info("Accounts are optional. Use **👤 Log in / Sign up** at the top right. You can always plan a "
             "garden as a guest from **Plan a garden**.")
     return True
 
@@ -77,6 +77,8 @@ def page() -> None:
         st.session_state.open_garden = None
 
     ui.hero("🌿 My gardens", "Your saved plans: what's growing now, what's coming up, and what you've grown before.")
+    ui.page_tip("gardens", "Open a garden to see its layout, calendar and shopping list, and tick things off. "
+                           "Use ⋯ More to finish, reopen or delete a garden, or start a new one at the same place.")
     st.page_link(st.session_state.pages["plan"], label="➕ Plan a new garden", icon="🌱")
     gardens = store.list_gardens(user["id"])
     if not gardens:

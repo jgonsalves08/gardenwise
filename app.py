@@ -48,9 +48,13 @@ with st.sidebar:
     for key in ("plan", "week", "gardens", "community"):
         st.page_link(pages[key])
     st.divider()
-account.sidebar()
+account.topbar()
 ui.usage_panel(st.session_state.budget)
 st.sidebar.page_link(pages["dashboard"], label="My dashboard", icon="📊")
 st.sidebar.page_link(pages["about"], label="About & credits", icon="ℹ️")
+if st.sidebar.button("❓ How GroundWork works", type="tertiary"):
+    st.session_state.show_guide = True
+    st.session_state.hidden_tips = set()
+    st.switch_page(pages["plan"])
 helper_ui.render()
 nav.run()

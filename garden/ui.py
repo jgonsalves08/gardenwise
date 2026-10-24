@@ -62,6 +62,14 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVert
                     background: #EEF4FB;}
 .region-note {background: #EEF4FB; border: 1px solid #D5E3F3; color: #12243A; border-radius: 10px;
               padding: .45rem .8rem; font-size: .88rem; margin: .2rem 0 .8rem 0;}
+.guide-grid {display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin: .4rem 0 .9rem 0;}
+@media (max-width: 900px) {.guide-grid {grid-template-columns: repeat(2, 1fr);}}
+.guide-step {display: flex; gap: .6rem; background: #F7FAFE; border: 1px solid #E3EBF5; border-radius: 12px;
+             padding: .7rem .8rem; font-size: .92rem;}
+.guide-num {flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; background: #1F5FAD; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-weight: 700;}
+.page-tip {background: #FFFBEA; border: 1px solid #F3E3A4; border-radius: 10px; padding: .45rem .8rem;
+           font-size: .9rem; color: #12243A;}
 .legend-chip {display: inline-block; padding: 4px 10px; border-radius: 999px; margin: 0 6px 6px 0;
               font-size: .85rem; color: #12243A;}
 .month {color: #1F5FAD; margin: 1rem 0 .3rem 0; font-weight: 700;}
@@ -649,3 +657,47 @@ def plan_tabs(rec: Recommendation, plan: Plan, key_prefix: str, addon_default: s
     if cl:
         with tabs[3]:
             harvest_tab(plan, cl)
+
+
+# ---------- onboarding ----------
+GUIDE_STEPS = [
+    ("1", "Tell us about your spot", "Who it's for, where you are, your skill and goals, and your space. "
+                                      "About a minute. Sun, pets, budget and photos are optional."),
+    ("2", "Pick your plants", "We recommend plants that fit, checked against your local frost dates. "
+                              "Tick or untick any of them."),
+    ("3", "Get your plan", "A bed layout, a dated calendar and a costed shopping list, all updated "
+                           "instantly as you change your picks."),
+    ("4", "Save and track (optional)", "Make a free account to save gardens, tick off tasks, log harvests "
+                                       "and join a community garden."),
+]
+
+
+def welcome_guide() -> None:
+    """First-visit guide on the planner. Hidden once dismissed; reopen from the sidebar."""
+    if not st.session_state.get("show_guide", True):
+        return
+    steps = "".join(f'<div class="guide-step"><div class="guide-num">{n}</div><div><b>{html.escape(t)}</b>'
+                    f'<div class="muted">{html.escape(d)}</div></div></div>' for n, t, d in GUIDE_STEPS)
+    with st.container(border=True, key="welcome_guide"):
+        st.markdown(f"#### 👋 New here? Here's how {config.APP_NAME} works")
+        st.markdown(f'<div class="guide-grid">{steps}</div>', unsafe_allow_html=True)
+        c1, c2, c3 = st.columns([1.2, 1.6, 1])
+        c1.markdown("**Just exploring?** Log in at the top right as **demo** (password **garden-demo-2026**) "
+                    "to see gardens already in progress.")
+        c2.markdown("**Prefer to just talk?** Press **💬 Garden helper** (bottom right) and describe your "
+                    "garden in a sentence. It fills in the form for you.")
+        if c3.button("Got it, hide this", type="primary", width="stretch", key="hide_guide"):
+            st.session_state.show_guide = False
+            st.rerun()
+
+
+def page_tip(key: str, text: str) -> None:
+    """One-line 'what this page is for' tip with a dismiss button (remembered for the session)."""
+    hidden: set = st.session_state.setdefault("hidden_tips", set())
+    if key in hidden:
+        return
+    a, b = st.columns([24, 1], vertical_alignment="center")
+    a.markdown(f'<div class="page-tip">💡 {text}</div>', unsafe_allow_html=True)
+    if b.button("✕", key=f"tip_{key}", help="Hide this tip"):
+        hidden.add(key)
+        st.rerun()

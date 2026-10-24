@@ -34,6 +34,8 @@ def page() -> None:
     ui.hero("🏘️ Community gardens",
             "Plan every plot at once, share one compost bin and one seed order, and keep the whole "
             "garden on the same calendar.")
+    ui.page_tip("community", "Organizers: start a garden on the right and share its join code, or import plots "
+                             "from a sign-up sheet. Members: enter the code on the left, then claim a plot.")
     flash = st.session_state.pop("group_flash", None)
     if flash:
         st.success(flash)

@@ -41,6 +41,8 @@ def page() -> None:
     user = st.session_state.user
     today = date.today()
     ui.hero("📊 My dashboard", "What you've planned, planted and picked, across all your gardens.")
+    ui.page_tip("dashboard", "Totals come from tasks you tick and harvests you log. Use the filters to focus on "
+                             "current or past gardens, a date range, a place or a crop.")
 
     all_gardens = store.list_gardens(user["id"])
     groups = store.my_groups(user["id"])
