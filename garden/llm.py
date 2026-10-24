@@ -181,3 +181,38 @@ def call_structured(
             raise ContentFiltered(error)
         raise LLMError(error)
     return parsed
+
+
+def call_with_tools(*, agent: str, instructions: str, input_items: list, tools: list[dict],
+                    budget: Budget, run_id: str = "", cache_key: str | None = None):
+    """One model turn that may request tool calls. Same budget check and usage logging as above."""
+    budget.check()
+    client = get_client()
+    kwargs = dict(model=config.MODEL_NAME, instructions=instructions, input=input_items, tools=tools,
+                  max_output_tokens=config.MAX_OUTPUT_TOKENS,
+                  reasoning={"effort": os.getenv("REASONING_EFFORT", "low")})
+    if cache_key:
+        kwargs["prompt_cache_key"] = cache_key
+    start = time.perf_counter()
+    response, error = None, ""
+    try:
+        response = client.responses.create(**kwargs)
+    except Exception as exc:
+        error = f"{type(exc).__name__}: {str(exc)[:200]}"
+    latency_ms = int((time.perf_counter() - start) * 1000)
+    usage = getattr(response, "usage", None)
+    in_tok = getattr(usage, "input_tokens", 0) or 0
+    out_tok = getattr(usage, "output_tokens", 0) or 0
+    cached = getattr(getattr(usage, "input_tokens_details", None), "cached_tokens", 0) or 0
+    record = CallRecord(ts=datetime.now(timezone.utc).isoformat(timespec="seconds"), session_id=budget.session_id,
+                        run_id=run_id, agent=agent, model=config.MODEL_NAME, input_tokens=in_tok,
+                        cached_tokens=cached, output_tokens=out_tok, latency_ms=latency_ms,
+                        cost_usd=round(request_cost(config.MODEL_NAME, in_tok, cached, out_tok), 8),
+                        ok=not error, note=error)
+    budget.calls.append(record)
+    _log(record)
+    if error:
+        if "content management policy" in error or "content_filter" in error:
+            raise ContentFiltered(error)
+        raise LLMError(error)
+    return response

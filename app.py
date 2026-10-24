@@ -1,4 +1,4 @@
-"""Northeast Garden Planner — Streamlit entry point.
+"""GroundWork — Streamlit entry point.
 
 Run:  streamlit run app.py
 
@@ -11,10 +11,10 @@ import uuid
 
 import streamlit as st
 
-from garden import llm, seed, ui
-from garden.views import account, community, dashboard, gardens, planner, week
+from garden import config, llm, seed, ui
+from garden.views import about, account, community, dashboard, gardens, helper_ui, planner, week
 
-st.set_page_config(page_title="Northeast Garden Planner", page_icon="🌱", layout="wide")
+st.set_page_config(page_title=config.APP_NAME, page_icon="🌱", layout="wide")
 ui.inject_css()
 
 
@@ -35,16 +35,22 @@ pages = {
     "gardens": st.Page(gardens.page, title="My gardens", icon="🌿", url_path="gardens"),
     "community": st.Page(community.page, title="Community gardens", icon="🏘️", url_path="community"),
     "dashboard": st.Page(dashboard.page, title="My dashboard", icon="📊", url_path="dashboard"),
+    "about": st.Page(about.page, title="About & credits", icon="ℹ️", url_path="about"),
 }
 st.session_state.pages = pages
 
 # Custom sidebar order: main pages, then account, AI usage, and the dashboard button under it.
 nav = st.navigation(list(pages.values()), position="hidden")
 with st.sidebar:
+    st.markdown(f'<div class="brand">🌱 {config.APP_NAME}</div>'
+                f'<div class="brand-sub">{config.APP_TAGLINE}</div>', unsafe_allow_html=True)
+    st.markdown('<div class="nav-label">Menu</div>', unsafe_allow_html=True)
     for key in ("plan", "week", "gardens", "community"):
         st.page_link(pages[key])
     st.divider()
 account.sidebar()
 ui.usage_panel(st.session_state.budget)
 st.sidebar.page_link(pages["dashboard"], label="My dashboard", icon="📊")
+st.sidebar.page_link(pages["about"], label="About & credits", icon="ℹ️")
+helper_ui.render()
 nav.run()

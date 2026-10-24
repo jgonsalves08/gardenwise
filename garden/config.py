@@ -24,6 +24,13 @@ for _env in ENV_SEARCH_PATHS:
     if _env.exists():
         load_dotenv(_env, override=False)
 
+# Branding: change the name here and it updates everywhere in the app.
+APP_NAME = "GroundWork"
+APP_TAGLINE = "Garden plans that fit your space, skill, budget and frost dates"
+
+REGION_NOTE = ("GroundWork currently covers the Northeast US only: CT, MA, RI, NH, VT, ME, NY, NJ and PA. "
+               "Frost dates, zones and plant timing for other regions aren't included yet.")
+
 # Course key allows gpt-6-luna only.
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-6-luna")
 PORTKEY_BASE_URL = os.getenv("PORTKEY_BASE_URL", "https://api.portkey.ai/v1").rstrip("/")

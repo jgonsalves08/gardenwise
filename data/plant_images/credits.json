@@ -1,0 +1,425 @@
+{
+  "basil": {
+    "file": "basil.jpg",
+    "article": "Basil",
+    "commons_file": "Ocimum_basilicum_8zz.jpg",
+    "author": "Photo by David J. Stang",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ocimum_basilicum_8zz.jpg"
+  },
+  "bean_pole": {
+    "file": "bean_pole.jpg",
+    "article": "Phaseolus vulgaris",
+    "commons_file": "Snijboon_peulen_Phaseolus_vulgaris.jpg",
+    "author": "Rasbak",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Snijboon_peulen_Phaseolus_vulgaris.jpg"
+  },
+  "bee_balm": {
+    "file": "bee_balm.jpg",
+    "article": "Monarda didyma",
+    "commons_file": "Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg",
+    "author": "Alex Abair",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Monarda_didyma_inflorescence_and_upper_cauline_leaves.jpg"
+  },
+  "arugula": {
+    "file": "arugula.jpg",
+    "article": "Eruca vesicaria",
+    "commons_file": "Eruca_vesicaria_BM010755249.jpg",
+    "author": "Unknown author",
+    "license": "CC0",
+    "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:Eruca_vesicaria_BM010755249.jpg"
+  },
+  "bean_bush": {
+    "file": "bean_bush.jpg",
+    "article": "Phaseolus vulgaris",
+    "commons_file": "Snijboon_peulen_Phaseolus_vulgaris.jpg",
+    "author": "Rasbak",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Snijboon_peulen_Phaseolus_vulgaris.jpg"
+  },
+  "beet": {
+    "file": "beet.jpg",
+    "article": "Beetroot",
+    "commons_file": "Detroitdarkredbeets.png",
+    "author": "BriannaWalther",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Detroitdarkredbeets.png"
+  },
+  "calendula": {
+    "file": "calendula.jpg",
+    "article": "Calendula officinalis",
+    "commons_file": "Calendula_officinalis,_pot_marigold.JPG",
+    "author": "Betty Cai",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Calendula_officinalis,_pot_marigold.JPG"
+  },
+  "carrot": {
+    "file": "carrot.jpg",
+    "article": "Carrot",
+    "commons_file": "Vegetable-Carrot-Bundle-wStalks.jpg",
+    "author": "Evan-Amos",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Vegetable-Carrot-Bundle-wStalks.jpg"
+  },
+  "chamomile": {
+    "file": "chamomile.jpg",
+    "article": "Matricaria chamomilla",
+    "commons_file": "Matricaria_February_2008-1.jpg",
+    "author": "Alvesgaspar",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Matricaria_February_2008-1.jpg"
+  },
+  "chives": {
+    "file": "chives.jpg",
+    "article": "Chives",
+    "commons_file": "Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Allium_schoenoprasum_-_Bombus_lapidarius_-_Tootsi.jpg"
+  },
+  "cilantro": {
+    "file": "cilantro.jpg",
+    "article": "Coriander",
+    "commons_file": "Coriandrum_sativum_-_Köhler–s_Medizinal-Pflanzen-193.jpg",
+    "author": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg"
+  },
+  "coneflower": {
+    "file": "coneflower.jpg",
+    "article": "Echinacea purpurea",
+    "commons_file": "Echinacea_purpurea_Grandview_Prairie.jpg",
+    "author": "Eric Hunt",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Echinacea_purpurea_Grandview_Prairie.jpg"
+  },
+  "corn_sweet": {
+    "file": "corn_sweet.jpg",
+    "article": "Sweet corn",
+    "commons_file": "VegCorn.jpg",
+    "author": "The original Uploader was wstoakLL at English Wikipedia",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:VegCorn.jpg"
+  },
+  "cosmos": {
+    "file": "cosmos.jpg",
+    "article": "Cosmos bipinnatus",
+    "commons_file": "Cosmos_bipinnatus_pink,_Burdwan,_West_Bengal,_India_10_01_2013.jpg",
+    "author": "Joydeep",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Cosmos_bipinnatus_pink,_Burdwan,_West_Bengal,_India_10_01_2013.jpg"
+  },
+  "cucumber_pickling": {
+    "file": "cucumber_pickling.jpg",
+    "article": "Cucumber",
+    "commons_file": "ARS_cucumber.jpg",
+    "author": "Stephen Ausmus, USDA ARS",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:ARS_cucumber.jpg"
+  },
+  "dill": {
+    "file": "dill.jpg",
+    "article": "Dill",
+    "commons_file": "Illustration_Anethum_graveolens_clean.jpg",
+    "author": "Illustration_Anethum_graveolens0.jpg: Prof. Dr. Otto Wilhelm Thomé\nderivative work: Aroche (talk)",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Illustration_Anethum_graveolens_clean.jpg"
+  },
+  "garlic": {
+    "file": "garlic.jpg",
+    "article": "Garlic",
+    "commons_file": "Allium_sativum_Woodwill_1793.jpg",
+    "author": "Unknown",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Allium_sativum_Woodwill_1793.jpg"
+  },
+  "kale": {
+    "file": "kale.jpg",
+    "article": "Kale",
+    "commons_file": "Boerenkool.jpg",
+    "author": "Rasbak",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Boerenkool.jpg"
+  },
+  "lavender": {
+    "file": "lavender.jpg",
+    "article": "Lavandula angustifolia",
+    "commons_file": "Lavandula_angustifolia_-_Köhler–s_Medizinal-Pflanzen-087.jpg",
+    "author": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Lavandula_angustifolia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-087.jpg"
+  },
+  "lemon_balm": {
+    "file": "lemon_balm.jpg",
+    "article": "Lemon balm",
+    "commons_file": "Lemon_balm_plant.jpg",
+    "author": "Amitchell125",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Lemon_balm_plant.jpg"
+  },
+  "lettuce": {
+    "file": "lettuce.jpg",
+    "article": "Lettuce",
+    "commons_file": "Iceberg_lettuce_in_SB.jpg",
+    "author": "en:User:Geographer",
+    "license": "CC BY 1.0",
+    "license_url": "https://creativecommons.org/licenses/by/1.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Iceberg_lettuce_in_SB.jpg"
+  },
+  "marigold": {
+    "file": "marigold.jpg",
+    "article": "Tagetes",
+    "commons_file": "Tagetes_erecta_chendumalli_chedi.jpg",
+    "author": "Ezhuttukari",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tagetes_erecta_chendumalli_chedi.jpg"
+  },
+  "microgreens": {
+    "file": "microgreens.jpg",
+    "article": "Microgreen",
+    "commons_file": "Liping_Kou_observes_microgreens.jpg",
+    "author": "Peggy Greb",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Liping_Kou_observes_microgreens.jpg"
+  },
+  "mint": {
+    "file": "mint.jpg",
+    "article": "Mentha",
+    "commons_file": "Mentha_spicata-IMG_6186.jpg",
+    "author": "C T Johansson",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mentha_spicata-IMG_6186.jpg"
+  },
+  "nasturtium": {
+    "file": "nasturtium.jpg",
+    "article": "Tropaeolum majus",
+    "commons_file": "Tropaeolum_majus_2005_G1.jpg",
+    "author": "George Chernilevsky",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Tropaeolum_majus_2005_G1.jpg"
+  },
+  "onion_sets": {
+    "file": "onion_sets.jpg",
+    "article": "Onion",
+    "commons_file": "Mixed_onions.jpg",
+    "author": "Colin",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Mixed_onions.jpg"
+  },
+  "oregano": {
+    "file": "oregano.jpg",
+    "article": "Oregano",
+    "commons_file": "Origanum_vulgare_-_harilik_pune.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Origanum_vulgare_-_harilik_pune.jpg"
+  },
+  "pea_snap": {
+    "file": "pea_snap.jpg",
+    "article": "Snap pea",
+    "commons_file": "Sugar_Snap_Pea.JPG",
+    "author": "Brianga",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Sugar_Snap_Pea.JPG"
+  },
+  "pepper_bell": {
+    "file": "pepper_bell.jpg",
+    "article": "Bell pepper",
+    "commons_file": "Green-Yellow-Red-Pepper-2009.jpg",
+    "author": "Kham Tran - www.khamtran.com",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Green-Yellow-Red-Pepper-2009.jpg"
+  },
+  "pepper_jalapeno": {
+    "file": "pepper_jalapeno.jpg",
+    "article": "Jalapeño",
+    "commons_file": "Immature_jalapeno_capsicum_annuum_var_annuum.jpeg",
+    "author": "Unknown",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Immature_jalapeno_capsicum_annuum_var_annuum.jpeg"
+  },
+  "potato": {
+    "file": "potato.jpg",
+    "article": "Potato",
+    "commons_file": "Patates.jpg",
+    "author": "Scott Bauer, USDA ARS",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Patates.jpg"
+  },
+  "pumpkin": {
+    "file": "pumpkin.jpg",
+    "article": "Pumpkin",
+    "commons_file": "FrenchMarketPumpkinsB.jpg",
+    "author": "Infrogmation of New Orleans",
+    "license": "CC BY-SA 3.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:FrenchMarketPumpkinsB.jpg"
+  },
+  "radish": {
+    "file": "radish.jpg",
+    "article": "Radish",
+    "commons_file": "Radish_3371103037_4ab07db0bf_o.jpg",
+    "author": "Self, en:User:Jengod",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Radish_3371103037_4ab07db0bf_o.jpg"
+  },
+  "scallion": {
+    "file": "scallion.jpg",
+    "article": "Scallion",
+    "commons_file": "CSA-Red-Spring-Onions.jpg",
+    "author": "Evan-Amos",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:CSA-Red-Spring-Onions.jpg"
+  },
+  "spinach": {
+    "file": "spinach.jpg",
+    "article": "Spinach",
+    "commons_file": "Spinacia_oleracea_Spinazie_bloeiend.jpg",
+    "author": "Rasbak",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Spinacia_oleracea_Spinazie_bloeiend.jpg"
+  },
+  "squash_butternut": {
+    "file": "squash_butternut.jpg",
+    "article": "Butternut squash",
+    "commons_file": "Cucurbita_moschata_Butternut_2012_G2.jpg",
+    "author": "George Chernilevsky",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Cucurbita_moschata_Butternut_2012_G2.jpg"
+  },
+  "strawberry": {
+    "file": "strawberry.jpg",
+    "article": "Garden strawberry",
+    "commons_file": "Garden_strawberry_(Fragaria_×_ananassa)_single2.jpg",
+    "author": "Ivar Leidus",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Garden_strawberry_(Fragaria_%C3%97_ananassa)_single2.jpg"
+  },
+  "swiss_chard": {
+    "file": "swiss_chard.jpg",
+    "article": "Chard",
+    "commons_file": "Chard_(Beta_vulgaris_var_cicla).jpg",
+    "author": "Neelix at English Wikipedia",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Chard_(Beta_vulgaris_var_cicla).jpg"
+  },
+  "thyme": {
+    "file": "thyme.jpg",
+    "article": "Thymus vulgaris",
+    "commons_file": "Thymus_vulgaris1.JPG",
+    "author": "Henry Brisse (upload by user:Abalg)",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Thymus_vulgaris1.JPG"
+  },
+  "tomatillo": {
+    "file": "tomatillo.jpg",
+    "article": "Tomatillo",
+    "commons_file": "Tomatillo.jpg",
+    "author": "Unknown",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Tomatillo.jpg"
+  },
+  "tomato_cherry": {
+    "file": "tomato_cherry.jpg",
+    "article": "Cherry tomato",
+    "commons_file": "Tomates_cerises_Luc_Viatour.jpg",
+    "author": "Luc Viatour",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Tomates_cerises_Luc_Viatour.jpg"
+  },
+  "tomato_paste": {
+    "file": "tomato_paste.jpg",
+    "article": "Roma tomato",
+    "commons_file": "TomateTrossRomanaTyp.jpg",
+    "author": "Goldlocki",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:TomateTrossRomanaTyp.jpg"
+  },
+  "tomato_slicing": {
+    "file": "tomato_slicing.jpg",
+    "article": "Tomato",
+    "commons_file": "Tomato_je.jpg",
+    "author": "Softeis",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Tomato_je.jpg"
+  },
+  "winter_rye": {
+    "file": "winter_rye.jpg",
+    "article": "Rye",
+    "commons_file": "Ear_of_rye.jpg",
+    "author": "LSDSL",
+    "license": "CC BY-SA 3.0",
+    "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+    "source": "https://commons.wikimedia.org/wiki/File:Ear_of_rye.jpg"
+  },
+  "zinnia": {
+    "file": "zinnia.jpg",
+    "article": "Zinnia",
+    "commons_file": "Zinnia_single_layer_and_12_Petals_2.jpg",
+    "author": "শক্তিশেল",
+    "license": "CC BY-SA 4.0",
+    "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Zinnia_single_layer_and_12_Petals_2.jpg"
+  },
+  "zucchini": {
+    "file": "zucchini.jpg",
+    "article": "Zucchini",
+    "commons_file": "CSA-Striped-Zucchini.jpg",
+    "author": "Evan-Amos",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:CSA-Striped-Zucchini.jpg"
+  },
+  "sunflower": {
+    "file": "sunflower.jpg",
+    "article": "Sunflower seed",
+    "commons_file": "Sunflower_Seeds_Kaldari.jpg",
+    "author": "Kaldari",
+    "license": "Public domain",
+    "license_url": "",
+    "source": "https://commons.wikimedia.org/wiki/File:Sunflower_Seeds_Kaldari.jpg"
+  }
+}

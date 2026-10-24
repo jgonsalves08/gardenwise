@@ -15,9 +15,38 @@ from .pipeline import Plan, Recommendation, shop_key, task_key
 
 CSS = """
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+html, body, p, li, label, h1, h2, h3, h4, input, textarea, button,
+[data-testid="stMarkdownContainer"], [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
+    font-family: 'Inter', system-ui, sans-serif;}
+[data-testid="stIconMaterial"], .material-symbols-rounded {font-family: 'Material Symbols Rounded' !important;}
 .block-container {padding-top: 1.5rem; max-width: 1200px;}
-.hero {background: linear-gradient(135deg, #1F5FAD 0%, #3B82C4 100%); color: white;
-       padding: 1.6rem 2rem; border-radius: 16px; margin-bottom: 1.2rem;}
+h1, h2, h3, h4 {color: #12243A; letter-spacing: -0.01em;}
+h2 {font-weight: 700; margin-top: 1.2rem;}
+/* sidebar */
+[data-testid="stSidebar"] {background: #F5F9FE; border-right: 1px solid #E3EBF5;}
+.brand {font-size: 1.15rem; font-weight: 700; color: #1F5FAD; line-height: 1.2; margin: .2rem 0 .1rem 0;}
+.brand-sub {font-size: .8rem; color: #5A6B80; margin-bottom: .9rem;}
+.nav-label {font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+            color: #5A6B80; margin: .3rem 0 .2rem .2rem;}
+[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"] {border-radius: 10px; padding: .35rem .6rem;}
+[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {background: #E6EFFA;}
+/* cards, tiles, controls */
+[data-testid="stVerticalBlockBorderWrapper"] {border-radius: 14px;}
+div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVerticalBlock"]) {
+    box-shadow: 0 1px 3px rgba(18,36,58,.05);}
+[data-testid="stMetric"] {background: #FFFFFF; border: 1px solid #E3EBF5; border-radius: 12px;
+                          padding: .6rem .9rem;}
+[data-testid="stMetricValue"] {color: #1F5FAD; font-weight: 700;}
+.stButton > button, .stDownloadButton > button, [data-testid="stFormSubmitButton"] > button {
+    border-radius: 10px; font-weight: 600;}
+.stTabs [data-baseweb="tab-list"] {gap: .4rem;}
+.stTabs [data-baseweb="tab"] {font-weight: 600; padding: .4rem .8rem; border-radius: 10px 10px 0 0;}
+[data-testid="stExpander"] details {border-radius: 12px;}
+.hero {background: radial-gradient(circle at 85% 20%, rgba(255,255,255,.18) 0, transparent 40%),
+                   linear-gradient(135deg, #1F5FAD 0%, #3B82C4 100%);
+       color: white; padding: 1.6rem 2rem; border-radius: 18px; margin-bottom: 1.2rem;
+       box-shadow: 0 6px 18px rgba(31,95,173,.18);}
 .hero h1 {color: white; margin: 0 0 .3rem 0; font-size: 2.1rem;}
 .hero p {margin: 0; opacity: .92; font-size: 1.05rem;}
 .badge {display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: .78rem;
@@ -26,14 +55,79 @@ CSS = """
 .badge.done {background: #E6F4EA; color: #1E7B3A; border-color: #BFE3D0;}
 .muted {color: #5A6B80; font-size: .9rem;}
 .grid {border-collapse: collapse; margin: .4rem 0 1rem 0;}
-.grid td {width: 42px; height: 42px; text-align: center; font-size: .72rem; font-weight: 600;
-          border: 1px solid #FFFFFF; color: #12243A;}
+.grid td {width: 44px; height: 44px; text-align: center; font-size: 1.25rem; line-height: 1;
+          border: 2px solid #FFFFFF; border-radius: 6px;}
+.plant-photo {border-radius: 12px; object-fit: cover; border: 1px solid #E3EBF5; display: block;}
+.plant-photo-empty {display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
+                    background: #EEF4FB;}
+.region-note {background: #EEF4FB; border: 1px solid #D5E3F3; color: #12243A; border-radius: 10px;
+              padding: .45rem .8rem; font-size: .88rem; margin: .2rem 0 .8rem 0;}
+.legend-chip {display: inline-block; padding: 4px 10px; border-radius: 999px; margin: 0 6px 6px 0;
+              font-size: .85rem; color: #12243A;}
 .month {color: #1F5FAD; margin: 1rem 0 .3rem 0; font-weight: 700;}
+.cal {width: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; margin-bottom: .8rem;}
+.cal th {color: #5A6B80; font-size: .8rem; font-weight: 600; text-align: left; padding: 2px 6px;}
+.cal td {vertical-align: top; height: 92px; background: #F7FAFE; border: 1px solid #E3EBF5;
+         border-radius: 8px; padding: 4px 6px; overflow: hidden;}
+.cal td.cal-empty {background: transparent; border: none;}
+.cal td.cal-today {border: 2px solid #1F5FAD; background: #EEF4FB;}
+.cal-day {font-size: .78rem; font-weight: 700; color: #12243A; margin-bottom: 2px;}
+.cal-chip {font-size: .72rem; background: #FFFFFF; border: 1px solid #D5E3F3; border-radius: 6px;
+           padding: 1px 5px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+.cal-chip.cal-done {text-decoration: line-through; color: #8A99AD; background: #F0F3F7;}
+.cal-title {text-align: center; font-size: 1.3rem; font-weight: 700; color: #1F5FAD;}
 .task {padding: .25rem 0 .25rem .6rem; border-left: 3px solid #D5E3F3; margin-left: .2rem;}
 .shop td, .shop th {padding: 4px 10px; border-bottom: 1px solid #EEF4FB; font-size: .9rem;}
 .shop th {text-align: left; color: #1F5FAD;}
 </style>
 """
+
+PLANT_ICONS = {
+    "arugula": "🥬", "basil": "🌿", "bean_bush": "🫘", "bean_pole": "🫘", "bee_balm": "🌺", "beet": "🟣",
+    "calendula": "🌼", "carrot": "🥕", "chamomile": "🌼", "chives": "🌱", "cilantro": "🌿", "coneflower": "🌸",
+    "corn_sweet": "🌽", "cosmos": "🌸", "cucumber_pickling": "🥒", "dill": "🌿", "garlic": "🧄", "kale": "🥬",
+    "lavender": "💜", "lemon_balm": "🍋", "lettuce": "🥬", "marigold": "🌼", "microgreens": "🌱", "mint": "🌿",
+    "nasturtium": "🏵️", "onion_sets": "🧅", "oregano": "🌿", "parsley": "🌿", "pea_snap": "🫛",
+    "pepper_bell": "🫑", "pepper_jalapeno": "🌶️", "potato": "🥔", "pumpkin": "🎃", "radish": "🔴",
+    "scallion": "🧅", "spinach": "🥬", "squash_butternut": "🎃", "strawberry": "🍓", "sunflower": "🌻",
+    "swiss_chard": "🥬", "thyme": "🌿", "tomatillo": "🟢", "tomato_cherry": "🍅", "tomato_paste": "🍅",
+    "tomato_slicing": "🍅", "winter_rye": "🌾", "zinnia": "🌺", "zucchini": "🥒",
+}
+
+
+def plant_icon(pid: str) -> str:
+    return PLANT_ICONS.get(pid, "🌱")
+
+
+@st.cache_data(show_spinner=False)
+def photo_credits() -> dict:
+    import json
+    p = config.DATA_DIR / "plant_images" / "credits.json"
+    return json.loads(p.read_text(encoding="utf-8")) if p.exists() else {}
+
+
+@st.cache_data(show_spinner=False)
+def plant_photo_url(pid: str) -> str | None:
+    """Local photo as a data URL (photos ship with the repo; the app never fetches from the web)."""
+    import base64
+    p = config.DATA_DIR / "plant_images" / f"{pid}.jpg"
+    if not p.exists():
+        return None
+    return "data:image/jpeg;base64," + base64.b64encode(p.read_bytes()).decode()
+
+
+def plant_photo_html(pid: str, size: int = 92) -> str:
+    url = plant_photo_url(pid)
+    name = html.escape(plants()[pid].name)
+    if not url:
+        return (f'<div class="plant-photo plant-photo-empty" style="width:{size}px;height:{size}px">'
+                f'{plant_icon(pid)}</div>')
+    cr = photo_credits().get(pid, {})
+    credit = html.escape(f"Photo: {cr.get('author', 'Wikimedia Commons')} · {cr.get('license', '')} "
+                         "· Wikimedia Commons")
+    return (f'<img class="plant-photo" src="{url}" alt="{name}" title="{credit}" '
+            f'style="width:{size}px;height:{size}px">')
+
 
 GRID_COLORS = ["#CFE2F7", "#BFE3D0", "#FCE3B6", "#F5C9C9", "#DCD3F2", "#C9EEF2", "#F2E6C9", "#D9EBC5"]
 TASK_ICONS = {"prep": "🧪", "build": "🔨", "buy": "🛒", "start_indoors": "🌡️", "plant": "🌱",
@@ -173,8 +267,10 @@ def plant_chooser(rec: Recommendation, plan: Plan, key_prefix: str, chosen_defau
     for i, pk in enumerate(options):
         p = plants()[pk.plant_id]
         with cols[i % 2].container(border=True):
+            ph, txt = st.columns([1, 3.2])
+            ph.markdown(plant_photo_html(p.id), unsafe_allow_html=True)
             label = f"**{p.name}**" + ("" if p.id in picked_ids else "  ·  *also a good fit*")
-            st.checkbox(label, key=f"{key_prefix}_pick_{p.id}", value=p.id in chosen_default)
+            txt.checkbox(label, key=f"{key_prefix}_pick_{p.id}", value=p.id in chosen_default)
             pets = [k for k, v in p.pet_toxic.model_dump().items() if v]
             badges = f'<span class="badge">{p.difficulty}</span>'
             if p.id in alloc:
@@ -197,7 +293,7 @@ def plant_chooser(rec: Recommendation, plan: Plan, key_prefix: str, chosen_defau
                          f'{s.harvest_end:%b %d}</div>')
             else:
                 body += '<div class="muted">Not in your plan — tick the box to add it.</div>'
-            st.markdown(body, unsafe_allow_html=True)
+            txt.markdown(body, unsafe_allow_html=True)
 
 
 def chosen_from_state(rec: Recommendation, key_prefix: str, chosen_default: set[str]) -> list[str]:
@@ -206,28 +302,99 @@ def chosen_from_state(rec: Recommendation, key_prefix: str, chosen_default: set[
 
 
 # ---------- calendar ----------
-def calendar_view(plan: Plan, cl: Checklist | None = None) -> None:
+def _task_line(t, cl: Checklist | None, seen: set[str]) -> None:
+    if cl and task_key(t) in seen:
+        return  # identical task listed twice: show it once
+    seen.add(task_key(t))
+    if cl:
+        check_box(cl, task_key(t), md(f"{TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}"),
+                  help=t.detail or None)
+    else:
+        detail = f' <span class="muted">— {html.escape(t.detail)}</span>' if t.detail else ""
+        st.markdown(f'<div class="task">{TASK_ICONS[t.kind]} <b>{t.when:%b %d}</b> · '
+                    f'{html.escape(t.title)}{detail}</div>'.replace("$", "&#36;"), unsafe_allow_html=True)
+
+
+def _month_grid(year: int, month: int, tasks: list, cl: Checklist | None) -> str:
+    import calendar as pycal
+    from datetime import date as _date
+
+    today = _date.today()
+    by_day: dict[int, list] = defaultdict(list)
+    for t in tasks:
+        if t.when.year == year and t.when.month == month:
+            by_day[t.when.day].append(t)
+    head = "".join(f"<th>{d}</th>" for d in ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"))
+    rows = []
+    for week in pycal.Calendar(firstweekday=6).monthdayscalendar(year, month):
+        cells = []
+        for day in week:
+            if day == 0:
+                cells.append('<td class="cal-empty"></td>')
+                continue
+            cls = "cal-today" if _date(year, month, day) == today else ""
+            chips = ""
+            for t in by_day.get(day, []):
+                done = cl is not None and task_key(t) in cl.done
+                chips += (f'<div class="cal-chip{" cal-done" if done else ""}" title="{html.escape(t.title)}">'
+                          f'{TASK_ICONS[t.kind]} {html.escape(t.title)}</div>')
+            cells.append(f'<td class="{cls}"><div class="cal-day">{day}</div>{chips}</td>')
+        rows.append("<tr>" + "".join(cells) + "</tr>")
+    return f'<table class="cal"><tr>{head}</tr>{"".join(rows)}</table>'
+
+
+def calendar_view(plan: Plan, cl: Checklist | None = None, key_prefix: str = "cal") -> None:
+    from datetime import date as _date
+
     if cl:
         n_done = sum(task_key(t) in cl.done for t in plan.tasks)
         st.progress(n_done / max(1, len(plan.tasks)), text=f"{n_done} of {len(plan.tasks)} tasks done")
+    mode = st.segmented_control("View", ["📆 Month", "📋 List"], default="📆 Month",
+                                key=f"{key_prefix}_calmode", label_visibility="collapsed") or "📆 Month"
     seen: set[str] = set()
-    by_month: dict[str, list] = defaultdict(list)
-    for t in plan.tasks:
-        by_month[t.when.strftime("%B %Y")].append(t)
-    for month, tasks in by_month.items():
-        st.markdown(f'<div class="month">{month}</div>', unsafe_allow_html=True)
-        for t in tasks:
-            if cl and task_key(t) in seen:
-                continue  # identical task listed twice: show it once
-            seen.add(task_key(t))
-            if cl:
-                check_box(cl, task_key(t), md(f"{TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}"),
-                          help=t.detail or None)
-            else:
-                detail = f' <span class="muted">— {html.escape(t.detail)}</span>' if t.detail else ""
-                st.markdown(f'<div class="task">{TASK_ICONS[t.kind]} <b>{t.when:%b %d}</b> · '
-                            f'{html.escape(t.title)}{detail}</div>'.replace("$", "&#36;"),
-                            unsafe_allow_html=True)
+    if mode == "📋 List":
+        by_month: dict[str, list] = defaultdict(list)
+        for t in plan.tasks:
+            by_month[t.when.strftime("%B %Y")].append(t)
+        for month, tasks in by_month.items():
+            st.markdown(f'<div class="month">{month}</div>', unsafe_allow_html=True)
+            for t in tasks:
+                _task_line(t, cl, seen)
+        return
+
+    # Month view: every month from the first task to the last, opening on this month if it has tasks.
+    if not plan.tasks:
+        st.caption("No tasks yet.")
+        return
+    first, last = plan.tasks[0].when.replace(day=1), plan.tasks[-1].when.replace(day=1)
+    months, m = [], first
+    while m <= last:
+        months.append(m)
+        m = _date(m.year + (m.month == 12), m.month % 12 + 1, 1)
+    this_month = _date.today().replace(day=1)
+    upcoming = [mo for mo in months if mo >= this_month]
+    idx_key = f"{key_prefix}_calidx"
+    if idx_key not in st.session_state:
+        st.session_state[idx_key] = months.index(upcoming[0]) if upcoming else 0
+    idx = min(st.session_state[idx_key], len(months) - 1)
+
+    c1, c2, c3 = st.columns([1, 3, 1], vertical_alignment="center")
+    if c1.button("◀ Previous", key=f"{key_prefix}_prev", disabled=idx == 0, width="stretch"):
+        st.session_state[idx_key] = idx - 1
+        st.rerun()
+    c2.markdown(f'<div class="cal-title">{months[idx]:%B %Y}</div>', unsafe_allow_html=True)
+    if c3.button("Next ▶", key=f"{key_prefix}_next", disabled=idx == len(months) - 1, width="stretch"):
+        st.session_state[idx_key] = idx + 1
+        st.rerun()
+    month = months[idx]
+    st.markdown(_month_grid(month.year, month.month, plan.tasks, cl), unsafe_allow_html=True)
+    month_tasks = [t for t in plan.tasks if t.when.year == month.year and t.when.month == month.month]
+    if month_tasks:
+        st.markdown(f"**This month's tasks**" + (" — tick them off here" if cl else ""))
+        for t in month_tasks:
+            _task_line(t, cl, seen)
+    else:
+        st.caption("Nothing scheduled this month. Use ◀ ▶ to look ahead.")
 
 
 # ---------- layout ----------
@@ -245,12 +412,13 @@ def layout_view(plan: Plan) -> None:
         for row in plan.grid:
             tds = "".join(
                 f'<td style="background:{color[cid]}" title="{html.escape(db[cid].name)}">'
-                f'{html.escape(db[cid].name.split()[0][:6])}</td>' if cid else
-                '<td style="background:#F4F7FB"></td>' for cid in row)
+                f'{plant_icon(cid)}</td>' if cid else
+                '<td style="background:#F4F7FB" title="open space"></td>' for cid in row)
             rows.append(f"<tr>{tds}</tr>")
         st.markdown(f'<table class="grid">{"".join(rows)}</table>', unsafe_allow_html=True)
-        legend = " ".join(f'<span class="badge" style="background:{color[a.plant_id]}">'
-                          f'{html.escape(db[a.plant_id].name)} × {a.count}</span>'
+        legend = " ".join(f'<span class="legend-chip" style="background:{color[a.plant_id]}">'
+                          f'{plant_icon(a.plant_id)} <b>{html.escape(db[a.plant_id].name)}</b> × {a.count}'
+                          f'<span class="muted"> · {a.squares} sq ft</span></span>'
                           for a in plan.allocations if a.count)
         st.markdown(legend, unsafe_allow_html=True)
         if c.space_type == "in_ground":
@@ -470,12 +638,12 @@ def plan_tabs(rec: Recommendation, plan: Plan, key_prefix: str, addon_default: s
               cl: Checklist | None = None) -> None:
     dismissible_alerts(plan.warnings, key_prefix, cl)
     harvest_panel(plan)
-    names = ["📅 Calendar", "🗺️ Layout", "🛒 Shopping list & budget"] + (["🧺 Harvest log"] if cl else [])
+    names = ["🗺️ Layout", "📅 Calendar", "🛒 Shopping list & budget"] + (["🧺 Harvest log"] if cl else [])
     tabs = st.tabs(names)
     with tabs[0]:
-        calendar_view(plan, cl)
-    with tabs[1]:
         layout_view(plan)
+    with tabs[1]:
+        calendar_view(plan, cl, key_prefix)
     with tabs[2]:
         shopping_view(rec, plan, key_prefix, addon_default, cl)
     if cl:

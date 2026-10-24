@@ -24,16 +24,20 @@ BUDGET_SLIDER_MAX = 1500
 
 def page() -> None:
     budget: llm.Budget = st.session_state.budget
-    ui.hero("🌱 Northeast Garden Planner",
+    ui.hero(f"🌱 {config.APP_NAME}",
             "Tell us your space, skill and goals. Get the right plants, a dated planting calendar, "
             "a bed layout and a costed shopping list — checked against your local frost dates.")
 
     pf: dict = st.session_state.get("prefill") or {}
     if pf:
         b1, b2 = st.columns([5, 1], vertical_alignment="center")
-        b1.info(f"🏷️ New garden at **{pf.get('place') or locations()[pf['location_id']].name}** — location, "
-                f"skill, pets and budget copied from “{pf.get('from_name', 'your garden')}”. "
-                "Change anything you like (for example sun and space for a different spot).")
+        if pf.get("from_helper"):
+            b1.info("💬 The garden helper filled in this form from your chat. Check it over, change anything, "
+                    "then press **Recommend plants**.")
+        else:
+            b1.info(f"🏷️ New garden at **{pf.get('place') or locations()[pf['location_id']].name}** — location, "
+                    f"skill, pets and budget copied from “{pf.get('from_name', 'your garden')}”. "
+                    "Change anything you like (for example sun and space for a different spot).")
         if b2.button("Clear", key="clear_prefill"):
             st.session_state.prefill = None
             st.rerun()
@@ -46,6 +50,7 @@ def page() -> None:
 
     with st.container(border=True):
         st.subheader("1 · About you and your garden")
+        st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
         audience = st.segmented_control(
             "👥 Who is this garden for?", list(AUDIENCE_LABELS), format_func=AUDIENCE_LABELS.get,
             default=pf.get("audience", "me"), key="audience")
@@ -86,7 +91,8 @@ def page() -> None:
                     loc_id = zl.id
                     st.caption(f"Using frost data for **{zl.label}**.")
                 else:
-                    st.caption("That ZIP isn't in our Northeast list; using the dropdown location.")
+                    st.caption("That ZIP is outside the Northeast states GroundWork covers (CT, MA, RI, NH, "
+                               "VT, ME, NY, NJ, PA), so the dropdown location is used instead.")
             place_raw = st.text_input(
                 "🏷️ Place nickname (optional)", value=pf.get("place", ""), max_chars=40,
                 placeholder="e.g. Home, Home – side yard, Lincoln School",
@@ -97,33 +103,39 @@ def page() -> None:
                              index=list(SKILL_LABELS).index(pf.get("skill_level", "beginner")))
             goals = st.pills("🎯 What do you want to grow for? (pick 1–4)", list(GOAL_LABELS),
                              format_func=GOAL_LABELS.get, selection_mode="multi",
-                             default=["salad"])
+                             default=pf.get("goals", ["salad"]))
         with b:
             start_mode = st.radio("📅 When do you want to start?", list(START_LABELS),
-                                  format_func=START_LABELS.get, horizontal=True)
+                                  format_func=START_LABELS.get, horizontal=True,
+                                  index=list(START_LABELS).index(pf.get("start_mode", "now")))
             month_choice = None
             if start_mode == "month":
                 month_choice = st.selectbox("Month", month_options(today),
                                             format_func=lambda d: d.strftime("%B %Y"), index=4)
             space_type = st.radio("📐 Where will it grow?", list(SPACE_LABELS),
-                                  format_func=SPACE_LABELS.get, horizontal=True, index=1)
+                                  format_func=SPACE_LABELS.get, horizontal=True,
+                                  index=list(SPACE_LABELS).index(pf.get("space_type", "raised_bed")))
             width = length = 4.0
             n_cont = 4
             if space_type in SIZE_PRESETS:
                 presets = list(SIZE_PRESETS[space_type]) + ["Custom size"]
-                size = st.selectbox("How much room?", presets, index=1)
+                has_size = "width_ft" in pf or "length_ft" in pf
+                size = st.selectbox("How much room?", presets, index=len(presets) - 1 if has_size else 1)
                 if size == "Custom size":
                     w1, w2 = st.columns(2)
-                    width = w1.number_input("Width (ft)", 1.0, 50.0, 4.0, 0.5)
-                    length = w2.number_input("Length (ft)", 1.0, 50.0, 8.0, 0.5)
+                    width = w1.number_input("Width (ft)", 1.0, 50.0, float(pf.get("width_ft", 4.0)), 0.5)
+                    length = w2.number_input("Length (ft)", 1.0, 50.0, float(pf.get("length_ft", 8.0)), 0.5)
                 else:
                     width, length = SIZE_PRESETS[space_type][size]
             else:
-                n_cont = st.slider("How many pots?", 1, 20, 4 if space_type == "containers" else 3)
+                n_cont = st.slider("How many pots?", 1, 20,
+                                   pf.get("num_containers", 4 if space_type == "containers" else 3))
 
             st.markdown("**☀️ How sunny is the spot?** *(optional — a rough answer is fine)*")
             s1, s2 = st.columns(2)
-            sun_guess = s1.selectbox("Rough guess", ["—"] + list(SUN_GUESSES))
+            sun_opts = ["—"] + list(SUN_GUESSES)
+            pf_sun = {v: k for k, v in SUN_GUESSES.items()}.get(pf.get("sun", ""), "—")
+            sun_guess = s1.selectbox("Rough guess", sun_opts, index=sun_opts.index(pf_sun))
             facing = s2.selectbox("…or which way it faces", ["—"] + FACINGS + ["Not sure"])
             blocked = st.checkbox("Trees or buildings block it for part of the day", value=False)
             p1, p2 = st.columns(2)
