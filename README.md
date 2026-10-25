@@ -116,6 +116,7 @@ pytest tests/test_core.py          # 34 offline tests: data, calendar, verifier,
 pytest tests/test_injection.py     # 14 attacks (10 need the API key); writes results/injection_results.md
 python scripts/cost_benchmark.py   # 10 plans cold vs warm cache; writes results/cost_*.{csv,md}
 python scripts/compare_baseline.py # Gardenwise vs a plain prompt, same checks; writes results/baseline_*.{csv,md}
+python scripts/effort_ab.py        # reasoning effort low vs medium, 40 plans; writes results/effort_*.{csv,md}
 python scripts/take_screenshots.py # app must be running; saves screenshots/ for every persona
 ```
 
@@ -124,6 +125,8 @@ Latest results (see `results/`):
   injection, text inside photos, unconfirmed writes, budget drain, addresses, role escalation).
 - **Cost:** ~$0.00042 per plan with prompt caching (37% less than cold), ~$0.00013 per helper message;
   about **$29/month for 10,000 active users**; a 40-plot community garden plans for about 2 cents.
+- **Reasoning effort:** low vs medium on the same 10 profiles (40 plans): same quality (100% pass, every
+  plant checked), medium cost ~25% more and ran several times slower, so Gardenwise uses low.
 - **vs. a plain prompt (same model):** plants passing every check 72% → **100%**; plans with zero problems
   0/10 → **10/10**; lead-in-soil warning 2/10 → **10/10**.
 

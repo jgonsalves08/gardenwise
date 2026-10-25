@@ -1,7 +1,8 @@
 """Build the self-contained report.html and slides.html from docs/*_src.html.
 
 Run from the repo folder:   python scripts/build_docs.py  [--github https://github.com/you/repo]
-- Embeds every screenshot (as compressed JPEG data URIs) so the files open anywhere, offline.
+- Embeds every screenshot (as compressed JPEG data URIs) and reveal.js (docs/vendor/) so the files open
+  anywhere, offline.
 - Fills tables and headline numbers from results/*.md and results/*.csv, so re-running the
   benchmarks and then this script keeps the report honest.
 """
@@ -136,14 +137,32 @@ DIAGRAM = """
 </svg>"""
 
 
+def inline_vendor(html: str) -> str:
+    """Swap the reveal.js CDN tags for the copies in docs/vendor/, so the slides work offline."""
+    vendor = DOCS / "vendor"
+    for name in ("reveal.css", "white.css", "reveal.js"):
+        url = re.search(rf'"(https://cdn[^"]+/{re.escape(name)})"', html)
+        if not url or not (vendor / name).exists():
+            continue
+        code = (vendor / name).read_text(encoding="utf-8")
+        if name.endswith(".css"):
+            code = re.sub(r"@import url\([^)]*\);?", "", code)   # theme web-font; we set our own fonts
+            html = re.sub(rf'<link[^>]+{re.escape(url.group(1))}"\s*/?>', lambda m: f"<style>{code}</style>", html)
+        else:
+            code = code.replace("</script", "<\\/script")
+            html = html.replace(f'<script src="{url.group(1)}"></script>', f"<script>{code}</script>")
+    return html
+
+
 def build(src: str, out: Path, github: str) -> None:
-    html = (DOCS / src).read_text(encoding="utf-8")
+    html = inline_vendor((DOCS / src).read_text(encoding="utf-8"))
     cost_tables = md_tables(RES / "cost_summary.md")
     repl = numbers() | {
         "GITHUB_URL": f'<a href="{github}">{github}</a>' if github else "<i>[add the GitHub URL after publishing]</i>",
         "DIAGRAM": DIAGRAM,
         "table:cost": cost_tables[0], "table:scale": cost_tables[1],
         "table:baseline": md_tables(RES / "baseline_summary.md")[0],
+        "table:effort": md_tables(RES / "effort_summary.md")[0],
         "table:injection": md_tables(RES / "injection_results.md")[0],
     }
     for k, v in repl.items():

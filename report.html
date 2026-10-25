@@ -53,6 +53,7 @@
 <!-- 1. Title + links -->
 <h1>🌱 Gardenwise</h1>
 <p class="sub">Garden plans that fit your space, skill, budget and frost dates — for first-time gardeners, households, schools and community gardens.</p>
+<h2 style="margin-top:18px">1. Title and links</h2>
 <div class="meta">
   <b>Author:</b> Justin Gonsalves · AI Foundations, Yale SOM · Fall 2026<br>
   <b>GitHub repo:</b> <i>[add the GitHub URL after publishing]</i><br>
@@ -101,20 +102,25 @@ garden XRF screening, GSA 2006 Annual Meeting abstract; ASPCA Toxic and Non-Toxi
 I built, so here is an honest comparison.</p>
 <table>
   <tr><th>Feature</th><th>ChatGPT (plain prompt)</th><th>GrowVeg</th><th>Garden Planner Pro</th><th>Seedtime</th><th>Good Ground</th><th>Gardenwise</th></tr>
-  <tr><td>Recommends what to grow from your goals &amp; skill</td><td class="p">yes, unchecked</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="p">partly</td><td class="y">yes</td></tr>
+  <tr><td>Recommends what to grow from your goals &amp; skill</td><td class="p">yes, unchecked</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="p">by zone &amp; season only</td><td class="y">yes</td></tr>
   <tr><td>Frost-date planting calendar</td><td class="p">approximate</td><td class="y">yes</td><td class="y">yes</td><td class="y">yes</td><td class="p">zone-based</td><td class="y">yes, editable</td></tr>
   <tr><td>Every AI pick verified by code</td><td class="n">no</td><td class="p">n/a</td><td class="p">n/a</td><td class="p">n/a</td><td class="n">no</td><td class="y">yes (~35 checks)</td></tr>
   <tr><td>Budget range + costed materials list</td><td class="p">rough guess</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td></tr>
-  <tr><td>Lead-in-soil &amp; pet-toxicity warnings</td><td class="p">sometimes</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="p">pets only</td><td class="y">yes</td></tr>
-  <tr><td>Household sizing (how much you'll eat)</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="p">partly</td><td class="n">no</td><td class="y">yes</td></tr>
+  <tr><td>Lead-in-soil &amp; pet-toxicity warnings</td><td class="p">sometimes</td><td class="n">no</td><td class="p">pet-safe filter</td><td class="n">no</td><td class="p">pets only</td><td class="y">yes</td></tr>
+  <tr><td>Household sizing (how much you'll eat)</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td></tr>
   <tr><td>School mode (harvest during school year)</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td></tr>
   <tr><td>Community gardens (join codes, roles, CSV import, cost split)</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td></tr>
-  <tr><td>Season tracking, harvest log, crop rotation</td><td class="n">no</td><td class="p">partly</td><td class="y">yes</td><td class="y">yes</td><td class="p">partly</td><td class="y">yes</td></tr>
+  <tr><td>Season tracking, harvest log, crop rotation</td><td class="n">no</td><td class="p">rotation warnings</td><td class="y">yes</td><td class="p">harvest log (paid)</td><td class="p">care reminders</td><td class="y">yes</td></tr>
   <tr><td>Plant / pest photo ID</td><td class="p">yes</td><td class="n">no</td><td class="n">no</td><td class="n">no</td><td class="y">yes</td><td class="p">site photos only</td></tr>
 </table>
-<p class="small">Competitor features are from their public store listings and websites (October 2026) and may be incomplete.
-"Good Ground – Garden Planner" is the closest competitor: it auto-plans layouts from USDA zone, bed size and sun, and checks
-pet, child and allergen safety; it also identifies plants and pests from photos, which Gardenwise does not.</p>
+<p class="small">Competitor features were checked against each product's own store listing or website in October 2026 and may be
+incomplete: <a href="https://www.growveg.com/guides/using-the-garden-planner-to-make-the-most-of-your-garden/">GrowVeg Garden Planner guide</a>;
+<a href="https://apps.apple.com/app/id1539031278">Garden Planner Pro: Grow Food (App Store)</a>;
+<a href="https://seedtime.us/">Seedtime</a>;
+<a href="https://apps.apple.com/us/app/good-ground-garden-planner/id6759971964">Good Ground – Garden Planner (App Store)</a>.
+Good Ground is the closest competitor: its auto-planner lays out beds from USDA zone, bed size, sun and companion planting, and it
+checks pet, child and allergen safety; it also identifies plants, pests and diseases from photos, which Gardenwise does not.
+None of the four mentions lead in soil, a budget, or group/community features.</p>
 <h3>What Gardenwise does differently, and why it matters</h3>
 <ol>
   <li><b>It starts from the beginner's question</b> ("what should I even grow?") instead of assuming you already know. Goals like
@@ -224,7 +230,7 @@ which uses tools to reach the same code.</p>
 inexpensive ($0.10 per million input tokens, $0.01 cached, $0.50 output). It supports everything I needed: structured JSON output,
 function calling (the helper) and image input (the Site Scout). I run it at <b>low reasoning effort</b>, because each task is narrow and the
 code verifier catches mistakes. If a picks list fails, the verifier sends it back once instead of paying for heavier reasoning on
-every call.</p>
+every call. A 40-plan A/B test against medium effort found no quality difference (Section 5).</p>
 
 <h3>One real run, step by step</h3>
 <p>A first-time gardener in <b>Chicago</b> (zone 6b) with a 4×8 raised bed, goals <i>salad</i> and <i>salsa</i>, budget $100–$400,
@@ -288,10 +294,16 @@ At these prices, hosting and staff time cost far more than the AI does.</p>
       sized cap for each community CSV batch.</li>
 </ol>
 <h3>Did cost cutting hurt performance?</h3>
-<p>Not measurably. In the benchmark, cold and warm runs produced the same quality: <b>100% of plans passed the verifier on the first try
-in both modes</b>, while caching cut the cost per plan by about a third. A plain one-prompt plan from the same model is slightly cheaper
-(it skips the build advisor) but much less reliable (Section 7). I did <i>not</i> A/B-test higher reasoning effort, so I can't claim it
-wouldn't help. Because the verifier already catches the errors that matter, I chose the cheaper setting.</p>
+<p>I tested both cost cuts directly. <b>Caching:</b> cold and warm runs produced the same quality (100% of plans passed the verifier on
+the first try in both modes), while caching cut the cost per plan by 37%. <b>Low reasoning effort:</b> <code>scripts/effort_ab.py</code>
+planned the same 10 profiles twice each at <i>low</i> and at <i>medium</i> effort (40 plans, order alternated so neither setting got a
+warmer cache) and scored them with the same code checks:</p>
+<table><tr><th></th><th>Low (what Gardenwise uses)</th><th>Medium</th></tr><tr><td><b>Cost per plan</b></td><td><b>$0.00045</b></td><td><b>$0.00056</b></td></tr><tr><td>Output tokens per plan (incl. reasoning)</td><td>536</td><td>752</td></tr><tr><td>Seconds per plan</td><td>0.9</td><td>3.8</td></tr><tr><td>Verifier passed on first try</td><td>100%</td><td>100%</td></tr><tr><td>Final plan passed verification</td><td>100%</td><td>100%</td></tr><tr><td>Plants passing the independent checks</td><td>70/70</td><td>72/72</td></tr><tr><td>Plans covering every goal asked for</td><td>100%</td><td>100%</td></tr></table>
+<p>Medium effort cost about 25% more per plan and was several times slower, with no measurable gain: every plan passed at both settings,
+and both settings chose largely the same plants (77% overlap). That supports running at low effort and letting the code verifier catch
+mistakes. A plain one-prompt plan from the same model is slightly cheaper still (it skips the build advisor) but much less reliable
+(Section 7). <span class="small">Caveat: 20 plans per setting is a small sample, and these checks measure validity, not taste; a
+higher setting might write better reasons or pick more interesting plants, which these checks don't score.</span></p>
 
 <!-- 6. Safety -->
 <h2>6. Safety</h2>
