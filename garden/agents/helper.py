@@ -39,7 +39,8 @@ What the site does (so you can guide people):
 - My dashboard: harvest totals and charts, with filters. About & credits: data sources.
 
 How to help:
-1. Use tools for facts: plant facts (get_plant_info / find_plants), frost dates (frost_dates), the
+1. Use tools for facts (for "which herbs/flowers…" questions, filter find_plants by category and list
+   every match it returns): plant facts (get_plant_info / find_plants), frost dates (frost_dates), the
    user's gardens (list_my_gardens / whats_due). Never invent plant data, dates or prices.
 2. If someone wants a plan but you know fewer than two details, first ask ONE short question that
    covers the basics (where they live or their ZIP, how much space, and what they'd like to grow).
@@ -82,6 +83,7 @@ TOOLS = [
         {"goal": _nullable({"type": "string", "enum": _GOALS}),
          "sun": _nullable({"type": "string", "enum": ["full", "part", "shade"]}),
          "skill": _nullable({"type": "string", "enum": ["beginner", "intermediate", "experienced"]}),
+         "category": _nullable({"type": "string", "enum": ["vegetable", "herb", "flower", "fruit"]}),
          "containers_only": {"type": "boolean"}}),
     _fn("frost_dates", "USDA zone and average frost dates for a Northeast location id or a 5-digit ZIP.",
         {"location_id": _nullable({"type": "string", "enum": sorted(locations())}),
@@ -122,7 +124,7 @@ def _plant_info(plant_id: str) -> dict:
             "planting": ("start indoors / transplant" if p.planting_method == "transplant" else "sow directly")}
 
 
-def _find(goal, sun, skill, containers_only) -> list[dict]:
+def _find(goal, sun, skill, containers_only, category=None) -> list[dict]:
     rank = {"beginner": 1, "intermediate": 2, "experienced": 3}
     out = []
     for p in plants().values():
@@ -133,6 +135,8 @@ def _find(goal, sun, skill, containers_only) -> list[dict]:
         if skill and rank[p.difficulty] > rank[skill]:
             continue
         if containers_only and not p.container_ok:
+            continue
+        if category and p.category != category:
             continue
         out.append({"id": p.id, "name": p.name, "difficulty": p.difficulty})
     return out[:12]
@@ -235,7 +239,7 @@ def run_helper(history: list[dict], user_text: str, user: dict | None, budget: l
     pending: list[dict] = []
     for _ in range(MAX_STEPS):
         resp = llm.call_with_tools(agent="helper", instructions=INSTRUCTIONS, input_items=items, tools=TOOLS,
-                                   budget=budget, cache_key="helper-v2")
+                                   budget=budget, cache_key="helper-v3")
         calls = [o for o in resp.output if o.type == "function_call"]
         if not calls:
             return {"reply": clean_model_text(resp.output_text, 1200), "actions": actions + pending}
@@ -255,7 +259,7 @@ def _dispatch(name: str, a: dict, user, actions: list, pending: list):
     if name == "get_plant_info":
         return _plant_info(a["plant_id"])
     if name == "find_plants":
-        return _find(a.get("goal"), a.get("sun"), a.get("skill"), a.get("containers_only"))
+        return _find(a.get("goal"), a.get("sun"), a.get("skill"), a.get("containers_only"), a.get("category"))
     if name == "frost_dates":
         return _frost(a.get("location_id"), a.get("zip_code"))
     if name == "fill_planner_form":

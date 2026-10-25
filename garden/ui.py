@@ -15,88 +15,134 @@ from .pipeline import Plan, Recommendation, shop_key, task_key
 
 CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-html, body, p, li, label, h1, h2, h3, h4, input, textarea, button,
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap');
+html, body, p, li, label, input, textarea, button,
 [data-testid="stMarkdownContainer"], [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {
     font-family: 'Inter', system-ui, sans-serif;}
+h1, h2, h3, .hero h1, .cal-title, .step-title {font-family: 'Fraunces', Georgia, serif !important;}
 [data-testid="stIconMaterial"], .material-symbols-rounded {font-family: 'Material Symbols Rounded' !important;}
-.block-container {padding-top: 1.5rem; max-width: 1200px;}
-h1, h2, h3, h4 {color: #12243A; letter-spacing: -0.01em;}
-h2 {font-weight: 700; margin-top: 1.2rem;}
+/* page: warm paper background with a faint leafy wash */
+[data-testid="stAppViewContainer"] {
+    background:
+      radial-gradient(1200px 500px at 100% -10%, rgba(78,154,94,.10), transparent 60%),
+      radial-gradient(900px 400px at -10% 110%, rgba(196,154,92,.08), transparent 60%),
+      #FBFAF5;}
+[data-testid="stHeader"] {background: transparent;}
+.block-container {padding-top: 1.5rem; max-width: 1180px;}
+h1, h2, h3, h4 {color: #1E2A22; letter-spacing: -0.01em;}
+h2 {font-weight: 700; margin-top: 1.4rem;}
+h3 {font-weight: 700; margin-top: 1rem;}
+h3::after {content: ""; display: block; width: 42px; height: 3px; border-radius: 3px; margin-top: .35rem;
+           background: linear-gradient(90deg, #2F6B3F, #9BC27E);}
 /* sidebar */
-[data-testid="stSidebar"] {background: #F5F9FE; border-right: 1px solid #E3EBF5;}
-.brand {font-size: 1.15rem; font-weight: 700; color: #1F5FAD; line-height: 1.2; margin: .2rem 0 .1rem 0;}
-.brand-sub {font-size: .8rem; color: #5A6B80; margin-bottom: .9rem;}
+[data-testid="stSidebar"] {background: linear-gradient(180deg, #EEF5EA 0%, #F6F9F2 100%);
+                           border-right: 1px solid #E3EDE0;}
+.brand-sub {font-size: .8rem; color: #5C6B5F; margin: -.2rem 0 .9rem .2rem;}
 .nav-label {font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
-            color: #5A6B80; margin: .3rem 0 .2rem .2rem;}
+            color: #5C6B5F; margin: .3rem 0 .2rem .2rem;}
 [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"] {border-radius: 10px; padding: .35rem .6rem;}
-[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {background: #E6EFFA;}
-/* cards, tiles, controls */
-[data-testid="stVerticalBlockBorderWrapper"] {border-radius: 14px;}
+[data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {background: #E2EFDE;}
+/* cards: white, softly raised on the cream page */
+[data-testid="stVerticalBlockBorderWrapper"] {border-radius: 16px;}
 div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVerticalBlock"]) {
-    box-shadow: 0 1px 3px rgba(18,36,58,.05);}
-[data-testid="stMetric"] {background: #FFFFFF; border: 1px solid #E3EBF5; border-radius: 12px;
-                          padding: .6rem .9rem;}
-[data-testid="stMetricValue"] {color: #1F5FAD; font-weight: 700;}
+    background: #FFFFFF; border-color: #E3EDE0 !important;
+    box-shadow: 0 1px 2px rgba(30,42,34,.04), 0 8px 24px rgba(30,42,34,.05);}
+[data-testid="stMetric"] {background: #FFFFFF; border: 1px solid #E3EDE0; border-radius: 14px;
+                          padding: .7rem 1rem; box-shadow: 0 4px 14px rgba(30,42,34,.04);}
+[data-testid="stMetricValue"] {color: #2F6B3F; font-weight: 700;}
 .stButton > button, .stDownloadButton > button, [data-testid="stFormSubmitButton"] > button {
-    border-radius: 10px; font-weight: 600;}
-.stTabs [data-baseweb="tab-list"] {gap: .4rem;}
-.stTabs [data-baseweb="tab"] {font-weight: 600; padding: .4rem .8rem; border-radius: 10px 10px 0 0;}
-[data-testid="stExpander"] details {border-radius: 12px;}
-.hero {background: radial-gradient(circle at 85% 20%, rgba(255,255,255,.18) 0, transparent 40%),
-                   linear-gradient(135deg, #1F5FAD 0%, #3B82C4 100%);
-       color: white; padding: 1.6rem 2rem; border-radius: 18px; margin-bottom: 1.2rem;
-       box-shadow: 0 6px 18px rgba(31,95,173,.18);}
-.hero h1 {color: white; margin: 0 0 .3rem 0; font-size: 2.1rem;}
-.hero p {margin: 0; opacity: .92; font-size: 1.05rem;}
+    border-radius: 12px; font-weight: 600; transition: transform .08s ease, box-shadow .15s ease;}
+.stButton > button[kind="primary"], [data-testid="stFormSubmitButton"] > button[kind="primary"] {
+    background: linear-gradient(135deg, #2F6B3F, #3F8650); border: none;
+    box-shadow: 0 4px 12px rgba(47,107,63,.25);}
+.stButton > button:hover {transform: translateY(-1px);}
+.stTabs [data-baseweb="tab-list"] {gap: .4rem; border-bottom: 1px solid #E3EDE0;}
+.stTabs [data-baseweb="tab"] {font-weight: 600; padding: .45rem .9rem; border-radius: 12px 12px 0 0;}
+.stTabs [aria-selected="true"] {background: #EEF6EC;}
+[data-testid="stExpander"] details {border-radius: 14px; background: #FFFFFF;}
+/* hero banner with drawn leaves (pure CSS/SVG, no images) */
+.hero {position: relative; overflow: hidden;
+       background:
+         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='180' viewBox='0 0 260 180'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.22' stroke-width='3'%3E%3Cpath d='M30 170 C 90 120, 120 60, 230 20'/%3E%3Cpath fill='%23ffffff' fill-opacity='.10' d='M95 118 C 70 80, 95 50, 140 48 C 135 90, 120 110, 95 118 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='.10' d='M150 80 C 160 40, 200 30, 228 40 C 210 75, 185 88, 150 80 Z'/%3E%3Cpath fill='%23ffffff' fill-opacity='.08' d='M70 140 C 40 130, 30 100, 45 80 C 70 95, 78 120, 70 140 Z'/%3E%3C/g%3E%3C/svg%3E") no-repeat right -10px bottom -10px,
+         radial-gradient(circle at 85% 15%, rgba(255,255,255,.16) 0, transparent 45%),
+         linear-gradient(135deg, #24553A 0%, #2F6B3F 45%, #5C9E5F 100%);
+       color: white; padding: 1.7rem 2.1rem; border-radius: 22px; margin-bottom: 1.2rem;
+       box-shadow: 0 14px 34px rgba(47,107,63,.22);}
+.hero h1 {color: white; margin: 0 0 .35rem 0; font-size: 2.2rem;}
+.hero p {margin: 0; opacity: .94; font-size: 1.05rem; max-width: 780px;}
 .badge {display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: .78rem;
-        margin-right: 4px; background: #EEF4FB; color: #1F5FAD; border: 1px solid #D5E3F3;}
+        margin-right: 4px; background: #EEF6EC; color: #2F6B3F; border: 1px solid #D6E6D3;}
 .badge.warn {background: #FFF4E5; color: #9A5B00; border-color: #F5D9A8;}
 .badge.done {background: #E6F4EA; color: #1E7B3A; border-color: #BFE3D0;}
-.muted {color: #5A6B80; font-size: .9rem;}
+.muted {color: #5C6B5F; font-size: .9rem;}
 .grid {border-collapse: collapse; margin: .4rem 0 1rem 0;}
 .grid td {width: 44px; height: 44px; text-align: center; font-size: 1.25rem; line-height: 1;
           border: 2px solid #FFFFFF; border-radius: 6px;}
-.plant-photo {border-radius: 12px; object-fit: cover; border: 1px solid #E3EBF5; display: block;}
+.plant-photo {border-radius: 12px; object-fit: cover; border: 1px solid #E3EDE0; display: block;}
 .plant-photo-empty {display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
-                    background: #EEF4FB;}
-.region-note {background: #EEF4FB; border: 1px solid #D5E3F3; color: #12243A; border-radius: 10px;
+                    background: #EEF6EC;}
+.region-note {background: #EEF6EC; border: 1px solid #D6E6D3; color: #1E2A22; border-radius: 10px;
               padding: .45rem .8rem; font-size: .88rem; margin: .2rem 0 .8rem 0;}
 .guide-grid {display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin: .4rem 0 .9rem 0;}
 @media (max-width: 900px) {.guide-grid {grid-template-columns: repeat(2, 1fr);}}
-.guide-step {display: flex; gap: .6rem; background: #F7FAFE; border: 1px solid #E3EBF5; border-radius: 12px;
+.guide-step {display: flex; gap: .6rem; background: #F8FBF6; border: 1px solid #E3EDE0; border-radius: 12px;
              padding: .7rem .8rem; font-size: .92rem;}
-.guide-num {flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; background: #1F5FAD; color: #fff;
+.guide-num {flex: 0 0 auto; width: 28px; height: 28px; border-radius: 50%; background: #2F6B3F; color: #fff;
             display: flex; align-items: center; justify-content: center; font-weight: 700;}
 .page-tip {background: #FFFBEA; border: 1px solid #F3E3A4; border-radius: 10px; padding: .45rem .8rem;
-           font-size: .9rem; color: #12243A;}
+           font-size: .9rem; color: #1E2A22;}
 .st-key-brand_link a {padding: .2rem .2rem !important;}
-.st-key-brand_link a p, .st-key-brand_link a span {font-size: 1.2rem !important; font-weight: 800 !important;
-    color: #1F5FAD !important;}
+.st-key-brand_link a p {font-family: 'Fraunces', Georgia, serif !important; font-size: 1.35rem !important;
+    font-weight: 700 !important; color: #2F6B3F !important;}
 .home-hero {padding: 2.2rem 2.2rem;}
 .home-hero h1 {font-size: 2.4rem;}
 .home-hero p {font-size: 1.12rem; max-width: 760px;}
 .aud-icon {font-size: 1.8rem; margin-bottom: .2rem;}
 .aud-desc {min-height: 3.2rem; margin: .2rem 0 .6rem 0;}
-.why-card {background: #FFFFFF; border: 1px solid #E3EBF5; border-radius: 12px; padding: .8rem .9rem;
+.why-card {background: #FFFFFF; border: 1px solid #E3EDE0; border-radius: 12px; padding: .8rem .9rem;
            font-size: .92rem;}
+/* pills / segmented buttons wrap onto new lines instead of scrolling sideways */
+[data-testid="stButtonGroup"] > div {flex-wrap: wrap !important; overflow-x: visible !important; row-gap: .35rem;}
+/* planning form steps */
+.step-head {display: flex; gap: .85rem; align-items: flex-start; margin-bottom: .6rem;}
+.step-num {flex: 0 0 auto; width: 38px; height: 38px; border-radius: 50%; color: #fff; font-weight: 700;
+           display: flex; align-items: center; justify-content: center; font-size: 1.05rem;
+           background: linear-gradient(135deg, #2F6B3F, #5C9E5F); box-shadow: 0 4px 10px rgba(47,107,63,.25);}
+.step-kicker {font-size: .72rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #6E8B67;}
+.step-title {font-size: 1.25rem; font-weight: 700; color: #1E2A22; line-height: 1.25;}
+.step-optional {font-family: 'Inter', sans-serif; font-size: .7rem; font-weight: 600; color: #6E8B67;
+                background: #EEF6EC; border: 1px solid #D6E6D3; border-radius: 999px; padding: 1px 8px;
+                vertical-align: middle;}
+[class*="st-key-step_"] {border-left: 4px solid #9BC27E !important;}
+.st-key-go_recommend button {font-size: 1.1rem; padding: .8rem 1rem;}
+/* dismiss ✕ inside alerts and tips */
+[class*="st-key-alert_"], [class*="st-key-tipbox_"] {position: relative; gap: 0 !important;}
+[class*="st-key-alert_"] [data-testid="stAlert"] {padding-right: 2.6rem;}
+[class*="st-key-tipbox_"] .page-tip {padding-right: 2.6rem;}
+[class*="st-key-alert_"] > [data-testid="stElementContainer"]:has(.stButton),
+[class*="st-key-tipbox_"] > [data-testid="stElementContainer"]:has(.stButton) {
+    position: absolute !important; top: .55rem; right: .6rem; width: auto !important; z-index: 2; margin: 0;}
+[class*="st-key-alert_"] .stButton button, [class*="st-key-tipbox_"] .stButton button {
+    width: 28px; height: 28px; min-height: 28px; padding: 0; border-radius: 50%;
+    border: 1px solid rgba(30,42,34,.15); background: rgba(255,255,255,.75); font-size: .8rem; line-height: 1;}
+[class*="st-key-tipbox_"] > [data-testid="stElementContainer"]:has(.stButton) {top: .3rem;}
 .legend-chip {display: inline-block; padding: 4px 10px; border-radius: 999px; margin: 0 6px 6px 0;
-              font-size: .85rem; color: #12243A;}
-.month {color: #1F5FAD; margin: 1rem 0 .3rem 0; font-weight: 700;}
+              font-size: .85rem; color: #1E2A22;}
+.month {color: #2F6B3F; margin: 1rem 0 .3rem 0; font-weight: 700;}
 .cal {width: 100%; border-collapse: separate; border-spacing: 4px; table-layout: fixed; margin-bottom: .8rem;}
-.cal th {color: #5A6B80; font-size: .8rem; font-weight: 600; text-align: left; padding: 2px 6px;}
-.cal td {vertical-align: top; height: 92px; background: #F7FAFE; border: 1px solid #E3EBF5;
+.cal th {color: #5C6B5F; font-size: .8rem; font-weight: 600; text-align: left; padding: 2px 6px;}
+.cal td {vertical-align: top; height: 92px; background: #F8FBF6; border: 1px solid #E3EDE0;
          border-radius: 8px; padding: 4px 6px; overflow: hidden;}
 .cal td.cal-empty {background: transparent; border: none;}
-.cal td.cal-today {border: 2px solid #1F5FAD; background: #EEF4FB;}
-.cal-day {font-size: .78rem; font-weight: 700; color: #12243A; margin-bottom: 2px;}
-.cal-chip {font-size: .72rem; background: #FFFFFF; border: 1px solid #D5E3F3; border-radius: 6px;
+.cal td.cal-today {border: 2px solid #2F6B3F; background: #EEF6EC;}
+.cal-day {font-size: .78rem; font-weight: 700; color: #1E2A22; margin-bottom: 2px;}
+.cal-chip {font-size: .72rem; background: #FFFFFF; border: 1px solid #D6E6D3; border-radius: 6px;
            padding: 1px 5px; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
 .cal-chip.cal-done {text-decoration: line-through; color: #8A99AD; background: #F0F3F7;}
-.cal-title {text-align: center; font-size: 1.3rem; font-weight: 700; color: #1F5FAD;}
-.task {padding: .25rem 0 .25rem .6rem; border-left: 3px solid #D5E3F3; margin-left: .2rem;}
-.shop td, .shop th {padding: 4px 10px; border-bottom: 1px solid #EEF4FB; font-size: .9rem;}
-.shop th {text-align: left; color: #1F5FAD;}
+.cal-title {text-align: center; font-size: 1.3rem; font-weight: 700; color: #2F6B3F;}
+.task {padding: .25rem 0 .25rem .6rem; border-left: 3px solid #D6E6D3; margin-left: .2rem;}
+.shop td, .shop th {padding: 4px 10px; border-bottom: 1px solid #EEF6EC; font-size: .9rem;}
+.shop th {text-align: left; color: #2F6B3F;}
 </style>
 """
 
@@ -147,7 +193,7 @@ def plant_photo_html(pid: str, size: int = 92) -> str:
             f'style="width:{size}px;height:{size}px">')
 
 
-GRID_COLORS = ["#CFE2F7", "#BFE3D0", "#FCE3B6", "#F5C9C9", "#DCD3F2", "#C9EEF2", "#F2E6C9", "#D9EBC5"]
+GRID_COLORS = ["#CFE3F2", "#BFE3D0", "#FCE3B6", "#F5C9C9", "#DCD3F2", "#C9EEF2", "#F2E6C9", "#D9EBC5"]
 TASK_ICONS = {"prep": "🧪", "build": "🔨", "buy": "🛒", "start_indoors": "🌡️", "plant": "🌱",
               "harvest": "🧺", "now": "⭐", "care": "💧"}
 METHOD_LABEL = {"buy_transplants": "buy transplants", "start_indoors": "start from seed indoors",
@@ -431,7 +477,7 @@ def layout_view(plan: Plan) -> None:
             tds = "".join(
                 f'<td style="background:{color[cid]}" title="{html.escape(db[cid].name)}">'
                 f'{plant_icon(cid)}</td>' if cid else
-                '<td style="background:#F4F7FB" title="open space"></td>' for cid in row)
+                '<td style="background:#F3F6F0" title="open space"></td>' for cid in row)
             rows.append(f"<tr>{tds}</tr>")
         st.markdown(f'<table class="grid">{"".join(rows)}</table>', unsafe_allow_html=True)
         legend = " ".join(f'<span class="legend-chip" style="background:{color[a.plant_id]}">'
@@ -548,10 +594,10 @@ def dismissible_alerts(warnings: list[str], scope: str, cl: Checklist | None = N
         if is_dismissed(aid):
             hidden += 1
             continue
-        box, btn = st.columns([24, 1], vertical_alignment="center")
-        box.warning(md(w))
-        btn.button("✕", key=f"dismiss_{scope}_{aid}", help="Dismiss this alert",
-                   on_click=dismiss, args=(aid,))
+        with st.container(key=f"alert_{scope}_{aid}"):   # ✕ sits inside the alert's top-right corner
+            st.warning(md(w))
+            st.button("✕", key=f"dismiss_{scope}_{aid}", help="Dismiss this alert",
+                      on_click=dismiss, args=(aid,))
     if hidden:
         st.button(f"Show {hidden} dismissed alert(s)", key=f"restore_{scope}", type="tertiary",
                   on_click=restore_all)
@@ -706,8 +752,17 @@ def page_tip(key: str, text: str) -> None:
     hidden: set = st.session_state.setdefault("hidden_tips", set())
     if key in hidden:
         return
-    a, b = st.columns([24, 1], vertical_alignment="center")
-    a.markdown(f'<div class="page-tip">💡 {text}</div>', unsafe_allow_html=True)
-    if b.button("✕", key=f"tip_{key}", help="Hide this tip"):
-        hidden.add(key)
-        st.rerun()
+    with st.container(key=f"tipbox_{key}"):
+        st.markdown(f'<div class="page-tip">💡 {text}</div>', unsafe_allow_html=True)
+        if st.button("✕", key=f"tip_{key}", help="Hide this tip"):
+            hidden.add(key)
+            st.rerun()
+
+
+def step_header(n: int, total: int, title: str, hint: str = "", optional: bool = False) -> None:
+    """Numbered section header for the planning form."""
+    tag = '<span class="step-optional">Optional</span>' if optional else ""
+    st.markdown(f'<div class="step-head"><div class="step-num">{n}</div><div>'
+                f'<div class="step-kicker">Step {n} of {total}</div>'
+                f'<div class="step-title">{html.escape(title)} {tag}</div>'
+                f'<div class="muted">{html.escape(hint)}</div></div></div>', unsafe_allow_html=True)

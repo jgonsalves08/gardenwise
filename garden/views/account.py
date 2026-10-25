@@ -10,7 +10,7 @@ TOPBAR_CSS = """
 <style>
 .st-key-account_bar {position: fixed; top: .55rem; right: 1.2rem; z-index: 1000001; width: auto !important;}
 .st-key-account_bar button {border-radius: 999px !important; font-weight: 600; background: #FFFFFF;
-    border: 1px solid #D5E3F3; box-shadow: 0 2px 8px rgba(18,36,58,.08);}
+    border: 1px solid #D6E6D3; box-shadow: 0 2px 8px rgba(30,42,34,.08);}
 </style>
 """
 

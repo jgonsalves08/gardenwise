@@ -50,8 +50,8 @@ def page() -> None:
     if c1.button("🌱 Plan my garden", type="primary", width="stretch"):
         _go_plan()
     if c2.button("💬 Ask the garden helper", width="stretch"):
-        from .helper_ui import helper_dialog
-        helper_dialog()
+        from .helper_ui import open_helper
+        open_helper()
     c3.caption("Takes about a minute. No account needed to plan; sign up (top right) only if you want "
                "to save and track your garden.")
 

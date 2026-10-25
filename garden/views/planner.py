@@ -50,12 +50,15 @@ def page() -> None:
     locs = locations()
     loc_ids = sorted(locs, key=lambda i: (locs[i].state, locs[i].name))
 
-    with st.container(border=True):
-        st.subheader("1 · About you and your garden")
-        st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
+    TOTAL = 7
+
+    # Step 1 · who it's for
+    with st.container(border=True, key="step_1"):
+        ui.step_header(1, TOTAL, "Who is this garden for?",
+                       "This changes how much we plan for and which extras you see.")
         audience = st.segmented_control(
-            "👥 Who is this garden for?", list(AUDIENCE_LABELS), format_func=AUDIENCE_LABELS.get,
-            default=pf.get("audience", "me"), key="audience")
+            "Who is this garden for?", list(AUDIENCE_LABELS), format_func=AUDIENCE_LABELS.get,
+            default=pf.get("audience", "me"), key="audience", label_visibility="collapsed")
         audience = audience or "me"
         adults, kids, grade_band, summer_care = 1, 0, None, False
         school_start = school_end = None
@@ -73,7 +76,7 @@ def page() -> None:
         if audience == "school":
             s1, s2, s3 = st.columns(3)
             grade_band = s1.selectbox("Grade band", ["K-2", "3-5", "6-8", "9-12"], index=1)
-            yr = today.year if today.month < 7 else today.year
+            yr = today.year
             school_start = s2.date_input("School year starts", date(yr, 9, 1) if today.month >= 7
                                          else date(yr - 1, 9, 1))
             school_end = s3.date_input("Last day before summer", date(school_start.year + 1, 6, 15))
@@ -81,44 +84,62 @@ def page() -> None:
                                       "harvest over the summer", value=False)
             st.caption("Without summer care, the plan favors crops that are harvested while school is in "
                        "session, and each plant comes with a classroom tie-in.")
-        a, b = st.columns(2)
-        with a:
-            loc_id = st.selectbox("📍 Nearest location", loc_ids, format_func=lambda i: locs[i].label,
-                                  index=loc_ids.index(pf.get("location_id", "new_haven_ct")))
-            zip_code = st.text_input("…or your ZIP code (optional, not saved)", max_chars=5,
-                                     placeholder="e.g. 06511")
-            if zip_code:
-                zl = location_for_zip(zip_code)
-                if zl:
-                    loc_id = zl.id
-                    st.caption(f"Using frost data for **{zl.label}**.")
-                else:
-                    st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
-                               "VT, ME, NY, NJ, PA), so the dropdown location is used instead.")
-            place_raw = st.text_input(
-                "🏷️ Place nickname (optional)", value=pf.get("place", ""), max_chars=40,
-                placeholder="e.g. Home, Home – side yard, Lincoln School",
-                help="Groups gardens at the same place, so shared things like a compost bin "
-                     "aren't suggested twice. Please don't enter a street address.")
-            skill = st.radio("🧑‍🌾 Gardening experience", list(SKILL_LABELS),
-                             format_func=SKILL_LABELS.get, horizontal=False,
-                             index=list(SKILL_LABELS).index(pf.get("skill_level", "beginner")))
-            goals = st.pills("🎯 What do you want to grow for? (pick 1–4)", list(GOAL_LABELS),
+
+    # Step 2 · where
+    with st.container(border=True, key="step_2"):
+        ui.step_header(2, TOTAL, "Where is it?", "We use this for your frost dates and growing zone.")
+        st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
+        l1, l2, l3 = st.columns([1.3, 1, 1.3])
+        loc_id = l1.selectbox("Nearest location", loc_ids, format_func=lambda i: locs[i].label,
+                              index=loc_ids.index(pf.get("location_id", "new_haven_ct")))
+        zip_code = l2.text_input("…or ZIP code (not saved)", max_chars=5, placeholder="e.g. 06511")
+        place_raw = l3.text_input(
+            "Place nickname (optional)", value=pf.get("place", ""), max_chars=40,
+            placeholder="e.g. Home – side yard",
+            help="Groups gardens at the same place, so shared things like a compost bin "
+                 "aren't suggested twice. Please don't enter a street address.")
+        if zip_code:
+            zl = location_for_zip(zip_code)
+            if zl:
+                loc_id = zl.id
+                st.caption(f"Using frost data for **{zl.label}**.")
+            else:
+                st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
+                           "VT, ME, NY, NJ, PA), so the dropdown location is used instead.")
+
+    # Step 3 · you and your goals
+    with st.container(border=True, key="step_3"):
+        ui.step_header(3, TOTAL, "About you", "Your experience and what you'd like to grow for.")
+        g1, g2 = st.columns([1, 2])
+        skill = g1.radio("Gardening experience", list(SKILL_LABELS), format_func=SKILL_LABELS.get,
+                         index=list(SKILL_LABELS).index(pf.get("skill_level", "beginner")))
+        with g2:
+            goals = st.pills("What do you want to grow for? (pick 1–4)", list(GOAL_LABELS),
                              format_func=GOAL_LABELS.get, selection_mode="multi",
                              default=pf.get("goals", ["salad"]))
-        with b:
-            start_mode = st.radio("📅 When do you want to start?", list(START_LABELS),
-                                  format_func=START_LABELS.get, horizontal=True,
-                                  index=list(START_LABELS).index(pf.get("start_mode", "now")))
-            month_choice = None
-            if start_mode == "month":
-                month_choice = st.selectbox("Month", month_options(today),
-                                            format_func=lambda d: d.strftime("%B %Y"), index=4)
-            space_type = st.radio("📐 Where will it grow?", list(SPACE_LABELS),
-                                  format_func=SPACE_LABELS.get, horizontal=True,
-                                  index=list(SPACE_LABELS).index(pf.get("space_type", "raised_bed")))
-            width = length = 4.0
-            n_cont = 4
+
+    # Step 4 · when
+    with st.container(border=True, key="step_4"):
+        ui.step_header(4, TOTAL, "When do you want to start?",
+                       "We'll schedule every task from this date, even if it's the off-season.")
+        start_mode = st.radio("When do you want to start?", list(START_LABELS), format_func=START_LABELS.get,
+                              horizontal=True, label_visibility="collapsed",
+                              index=list(START_LABELS).index(pf.get("start_mode", "now")))
+        month_choice = None
+        if start_mode == "month":
+            month_choice = st.selectbox("Month", month_options(today),
+                                        format_func=lambda d: d.strftime("%B %Y"), index=4)
+
+    # Step 5 · space
+    with st.container(border=True, key="step_5"):
+        ui.step_header(5, TOTAL, "Your space", "Where it will grow, how much room you have, and roughly how sunny.")
+        space_type = st.radio("Where will it grow?", list(SPACE_LABELS), format_func=SPACE_LABELS.get,
+                              horizontal=True,
+                              index=list(SPACE_LABELS).index(pf.get("space_type", "raised_bed")))
+        width = length = 4.0
+        n_cont = 4
+        r1, r2 = st.columns(2)
+        with r1:
             if space_type in SIZE_PRESETS:
                 presets = list(SIZE_PRESETS[space_type]) + ["Custom size"]
                 has_size = "width_ft" in pf or "length_ft" in pf
@@ -132,31 +153,41 @@ def page() -> None:
             else:
                 n_cont = st.slider("How many pots?", 1, 20,
                                    pf.get("num_containers", 4 if space_type == "containers" else 3))
-
-            st.markdown("**☀️ How sunny is the spot?** *(optional — a rough answer is fine)*")
+        with r2:
+            st.markdown("**☀️ How sunny is the spot?** <span class='muted'>(optional, a rough answer is fine)</span>",
+                        unsafe_allow_html=True)
             s1, s2 = st.columns(2)
             sun_opts = ["—"] + list(SUN_GUESSES)
             pf_sun = {v: k for k, v in SUN_GUESSES.items()}.get(pf.get("sun", ""), "—")
             sun_guess = s1.selectbox("Rough guess", sun_opts, index=sun_opts.index(pf_sun))
             facing = s2.selectbox("…or which way it faces", ["—"] + FACINGS + ["Not sure"])
             blocked = st.checkbox("Trees or buildings block it for part of the day", value=False)
-            p1, p2 = st.columns(2)
-            has_cats = p1.checkbox("🐈 I have cats", value=pf.get("has_cats", False))
-            has_dogs = p2.checkbox("🐕 I have dogs", value=pf.get("has_dogs", False))
 
-        budget_range = st.slider(
-            "💵 Budget range for this season (plants, seeds and materials)",
+    # Step 6 · pets and budget
+    with st.container(border=True, key="step_6"):
+        ui.step_header(6, TOTAL, "Pets and budget", "We'll flag plants that are toxic to pets and keep costs in range.")
+        p1, p2, p3 = st.columns([1, 1, 3])
+        has_cats = p1.checkbox("🐈 I have cats", value=pf.get("has_cats", False))
+        has_dogs = p2.checkbox("🐕 I have dogs", value=pf.get("has_dogs", False))
+        budget_range = p3.slider(
+            "Budget range for this season (plants, seeds and materials)",
             min_value=0, max_value=BUDGET_SLIDER_MAX, value=pf.get("budget", (100, 400)), step=25, format="$%d",
             help=f"Drag both ends. Setting the top to ${BUDGET_SLIDER_MAX:,} means no upper limit.",
         )
+
+    # Step 7 · anything else (optional)
+    with st.container(border=True, key="step_7"):
+        ui.step_header(7, TOTAL, "Anything else?", "Tell us in your own words, or add photos of the spot.",
+                       optional=True)
         chat_text = st.text_area(
-            "💬 Anything else we should know? (optional)",
+            "Anything else we should know?", label_visibility="collapsed",
             placeholder="e.g. “I want to make hot sauce for my brother, and I killed basil last year.”",
             max_chars=config.MAX_FREE_TEXT_CHARS, height=80,
             help="Plain words are fine. The assistant may ask up to 2 short follow-up questions.",
         )
         scout_updates = photo_section(budget)
-        go = st.button("🌱 Recommend plants for me", type="primary", width="stretch")
+
+    go = st.button("🌱 Recommend plants for me", type="primary", width="stretch", key="go_recommend")
 
 
     def do_recommend(c: Constraints) -> None:
@@ -284,7 +315,7 @@ def results(budget: llm.Budget) -> None:
             owned |= set(grp["settings"].get("shared_builds", []))
     plan = assemble(rec, chosen, addons, owned=owned)
 
-    st.subheader(f"2 · Your garden in {loc.name}, {loc.state}" + (f" · {c.place}" if c.place else ""))
+    st.subheader(f"🌿 Your garden plan for {loc.name}, {loc.state}" + (f" · {c.place}" if c.place else ""))
     ui.location_header(loc, plan.total)
     st.caption(ui.md(f"Sun: **{c.sun}** ({c.sun_basis}) · Start: **{c.start_date:%b %d, %Y}** · "
                      f"Soil: {loc.soil_note}"))

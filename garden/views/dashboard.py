@@ -15,21 +15,21 @@ from ..data import plants
 from ..pipeline import task_key
 from .gardens import load_plan, need_login
 
-BLUE = "#1F5FAD"          # app primary; single-series charts need no legend
-INK_MUTED = "#5A6B80"
-GRID = "#E3EBF5"
+GREEN = "#2F6B3F"         # app primary; single-series charts need no legend
+INK_MUTED = "#5C6B5F"
+GRID = "#E3EDE0"
 
 
 def _bar(df: pd.DataFrame, x: str, y: str, x_title: str, y_title: str, horizontal: bool,
          tooltip: list, fmt: str = ",.1f") -> alt.Chart:
     axis_q = alt.Axis(format=fmt, gridColor=GRID, labelColor=INK_MUTED, titleColor=INK_MUTED)
     if horizontal:
-        enc = dict(y=alt.Y(f"{y}:N", sort="-x", title=None, axis=alt.Axis(labelColor="#12243A", labelLimit=260)),
+        enc = dict(y=alt.Y(f"{y}:N", sort="-x", title=None, axis=alt.Axis(labelColor="#1E2A22", labelLimit=260)),
                    x=alt.X(f"{x}:Q", title=x_title, axis=axis_q))
     else:
-        enc = dict(x=alt.X(f"{x}:O", title=None, sort=None, axis=alt.Axis(labelAngle=0, labelColor="#12243A")),
+        enc = dict(x=alt.X(f"{x}:O", title=None, sort=None, axis=alt.Axis(labelAngle=0, labelColor="#1E2A22")),
                    y=alt.Y(f"{y}:Q", title=y_title, axis=axis_q))
-    return (alt.Chart(df).mark_bar(color=BLUE, cornerRadiusEnd=4)
+    return (alt.Chart(df).mark_bar(color=GREEN, cornerRadiusEnd=4)
             .encode(**enc, tooltip=tooltip)
             .properties(height=max(160, 34 * len(df)) if horizontal else 260)
             .configure_view(strokeWidth=0))
