@@ -411,7 +411,7 @@ def settings(g: dict, rec, user: dict) -> None:
             loc_id = zl.id
             l2.caption(f"Using frost data for **{zl.label}**.")
         else:
-            l2.caption("Not in our Northeast list; using the dropdown.")
+            l2.caption("ZIP not found; using the dropdown.")
     p1, p2 = st.columns(2)
     place_raw = p1.text_input("Place nickname", value=c.place, max_chars=40, key=f"place_{gid}",
                               placeholder="e.g. Home – south side",
@@ -440,6 +440,10 @@ def settings(g: dict, rec, user: dict) -> None:
             return
         if new_name != g["name"]:
             store.rename_plot(user["id"], g["plot_id"], new_name)   # every season keeps the garden's name
+        if not locations()[loc_id].supported:
+            st.error(f"🌴 {locations()[loc_id].label} has limited support (hot climate), so it can't be used "
+                     "for a garden yet.")
+            return
         if (loc_id, sun, place) != (c.location_id, c.sun, c.place):
             # Site changed: update constraints and re-run the (free, code-only) verifier.
             fresh = store.get_garden(gid, user["id"])

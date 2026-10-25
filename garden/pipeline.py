@@ -90,7 +90,7 @@ def safety_warnings(c: Constraints, chosen: list[Plant]) -> list[str]:
     warnings = []
     if any(p.edible for p in chosen) and c.space_type in ("in_ground", "raised_bed"):
         warnings.append(
-            "🧪 **Test your soil for lead before growing food.** Many Northeast yards (older painted "
+            "🧪 **Test your soil for lead before growing food.** Many US yards (older painted "
             "houses, city lots, roadsides) have elevated lead. Your state extension lab tests soil for "
             "about $15–$30. Raised beds filled with bagged soil, over cardboard, are the safest option."
         )
@@ -109,6 +109,8 @@ def recommend(c: Constraints, budget: llm.Budget) -> Recommendation:
     """Selector → Verifier (one retry with feedback, then repair) → Build advisor."""
     run_id = uuid.uuid4().hex[:8]
     loc = locations()[c.location_id]
+    if not loc.supported:   # enforced here too, not just by the disabled button
+        raise ValueError(f"Planning isn't available yet for {loc.name}, {loc.state}: {loc.support_reason}")
     db = plants()
 
     selection, cands = select_plants(c, loc, budget, run_id=run_id)

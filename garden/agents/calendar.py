@@ -146,7 +146,7 @@ def prep_tasks(schedules: list[PlantSchedule], start: date, has_edibles: bool,
         tasks.append(Task(when=max(start, first_out - timedelta(weeks=6)), kind="prep",
                           title="Test soil for lead (and pH)",
                           detail="Send a sample to your state's extension soil lab (about $15–$30). "
-                                 "Older Northeast homes and city lots often have lead in the soil; "
+                                 "Older homes, city lots and busy roadsides often have lead in the soil; "
                                  "use raised beds or containers with bagged soil if the level is elevated."))
     for name, weeks in builds:
         tasks.append(Task(when=max(start, first_out - timedelta(weeks=weeks or 0)),

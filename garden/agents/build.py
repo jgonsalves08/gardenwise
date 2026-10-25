@@ -162,7 +162,7 @@ def default_builds(c: Constraints, chosen: list[Plant]) -> list[str]:
 # It sees code-computed prices and must answer with build IDs only.
 # ---------------------------------------------------------------------------
 
-ADVISOR_INSTRUCTIONS = """You are the Build Advisor in a Northeast US home-garden app.
+ADVISOR_INSTRUCTIONS = """You are the Build Advisor in a US home-garden app.
 You get a gardener's situation, the plants they chose, and a list of OPTIONAL builds with
 prices that were already computed by code. Choose 0 to 2 builds that would genuinely help
 THIS gardener, and say why in one plain sentence each (under 25 words, no links or markup).

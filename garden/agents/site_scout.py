@@ -54,7 +54,7 @@ class SiteFindings(BaseModel):
     summary: str = Field(max_length=250)
 
 
-INSTRUCTIONS = """You are the Site Scout for a Northeast US home-garden app. You look at 1–3 photos of
+INSTRUCTIONS = """You are the Site Scout for a US home-garden app. You look at 1–3 photos of
 the spot where someone wants to garden and report ONLY what is visible, as strict JSON.
 
 Rules:

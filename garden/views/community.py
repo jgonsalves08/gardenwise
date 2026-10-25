@@ -122,6 +122,10 @@ def create_form(user: dict) -> None:
             return
         if zip_code and location_for_zip(zip_code):
             loc_id = location_for_zip(zip_code).id
+        if not locations()[loc_id].supported:
+            st.error(f"🌴 {locations()[loc_id].label}: hot-climate locations have limited support for now, so "
+                     "community planning is turned off there.")
+            return
         settings = {"location_id": loc_id, "place": place, "start_date": start.isoformat(),
                     "space_type": space, "plot_w": w, "plot_l": l,
                     "plot_budget": int(plot_budget) or None, "shared_builds": shared,

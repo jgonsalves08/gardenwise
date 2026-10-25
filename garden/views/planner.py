@@ -108,8 +108,8 @@ def page() -> None:
         loc_id = l1.selectbox(
             "Nearest reference city", loc_ids, format_func=lambda i: locs[i].label, index=None,
             placeholder="Choose the closest city…", key="loc_select",
-            help="Gardenwise uses frost dates and zones for 18 reference cities across the Northeast. Pick the "
-                 "one closest to you (or most like your climate), or enter your ZIP and we'll pick it for you.")
+            help="Gardenwise uses frost dates and zones for reference cities in every contiguous state. Pick "
+                 "the one closest to you (or most like your climate), or enter your ZIP and we'll pick it for you.")
         l2.text_input("…or ZIP code (not saved)", max_chars=5, placeholder="e.g. 06511", key="zip_input",
                       on_change=_zip_to_location)
         place_raw = l3.text_input(
@@ -119,10 +119,15 @@ def page() -> None:
                  "aren't suggested twice. Please don't enter a street address.")
         note = st.session_state.get("zip_note")
         if note == "outside":
-            st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
-                       "VT, ME, NY, NJ, PA). Please choose the closest city from the list instead.")
+            st.caption("We couldn't match that ZIP (Gardenwise covers the contiguous US, not Alaska, Hawaii "
+                       "or territories). Please choose the closest city from the list instead.")
         elif note:
             st.caption(f"📍 Your ZIP is closest to **{note}**, so we'll use its frost dates.")
+        limited = bool(loc_id) and not locs[loc_id].supported
+        if limited:
+            reason = locs[loc_id].support_reason or "Frost is rare, so summer heat (not frost) sets the season."
+            reason = reason if reason.endswith(".") else reason + "."
+            st.warning(config.LIMITED_NOTE.format(city=f"{locs[loc_id].name}, {locs[loc_id].state}", reason=reason))
 
     # Step 3 · you and your goals
     with st.container(border=True, key="step_3"):
@@ -204,7 +209,8 @@ def page() -> None:
         )
         scout_updates = photo_section(budget)
 
-    go = st.button("🌱 Recommend plants for me", type="primary", width="stretch", key="go_recommend")
+    go = st.button("🌱 Recommend plants for me", type="primary", width="stretch", key="go_recommend",
+                   disabled=limited, help="Planning isn't available yet for hot-climate locations." if limited else None)
 
 
     def do_recommend(c: Constraints) -> None:
@@ -261,7 +267,7 @@ def page() -> None:
     if go:
         place, place_err = clean_place(place_raw)
         if not loc_id:
-            st.error("📍 Please choose your nearest city in Step 2 (or enter a Northeast ZIP code).")
+            st.error("📍 Please choose your nearest city in Step 2 (or enter your ZIP code).")
         elif place_err:
             st.error(place_err)
         elif not goals:

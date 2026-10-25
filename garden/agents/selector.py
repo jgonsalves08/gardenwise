@@ -27,7 +27,7 @@ from .calendar import plantable_within, schedule_plant
 
 SOON_WEEKS = 8
 
-INSTRUCTIONS = """You are the Selector agent in a Northeast US garden planner.
+INSTRUCTIONS = """You are the Selector agent in a US home-garden planner (contiguous US, frost-season climates).
 Your only job: choose 3 to 6 plants for one gardener from the CANDIDATES list you are given.
 
 Rules (follow all of them):

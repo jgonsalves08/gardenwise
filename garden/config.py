@@ -28,8 +28,14 @@ for _env in ENV_SEARCH_PATHS:
 APP_NAME = "Gardenwise"
 APP_TAGLINE = "Garden plans that fit your space, skill, budget and frost dates"
 
-REGION_NOTE = ("Gardenwise currently covers the Northeast US only: CT, MA, RI, NH, VT, ME, NY, NJ and PA. "
-               "Frost dates, zones and plant timing for other regions aren't included yet.")
+REGION_NOTE = ("Gardenwise covers the contiguous US wherever winters bring frost (roughly USDA zones 3–8, "
+               "plus mild-winter places like Seattle and Portland). Hot-climate areas (most of zones 9–11: Florida, "
+               "the Gulf Coast and South Texas, the low deserts, coastal Southern California) have limited support "
+               "for now, because their main growing season is set by summer heat, not frost.")
+LIMITED_NOTE = ("🌴 **Limited support for {city}.** Gardenwise builds every date from your average frost dates, "
+                "but this climate works differently. {reason} A frost-based calendar would give misleading dates, "
+                "so planning is turned off here for now. Your county's Cooperative Extension office publishes local "
+                "planting calendars, and hot-climate support is on our roadmap.")
 
 # Course key allows gpt-6-luna only.
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-6-luna")

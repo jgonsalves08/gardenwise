@@ -19,7 +19,7 @@ from ..data import plants
 from ..safety import clean_model_text, wrap_user_text
 from ..schemas import GOAL_LABELS, Constraints, Goal
 
-INSTRUCTIONS = """You are the Intake agent for a Northeast US home-garden app.
+INSTRUCTIONS = """You are the Intake agent for a US home-garden app.
 You read a gardener's form answers and their optional chat messages, and output strict JSON
 that updates their garden constraints. You never plan the garden yourself.
 

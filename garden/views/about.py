@@ -16,7 +16,7 @@ def page() -> None:
     st.markdown(f"""
 ### Where the numbers come from
 - **Frost dates and zones:** USDA Plant Hardiness Zone Map (2023), NOAA 1991–2020 climate normals and
-  Old Farmer's Almanac averages for 18 Northeast locations. Frost dates are 50/50 averages, and low spots
+  Old Farmer's Almanac averages for reference cities in every contiguous state. Frost dates are 50/50 averages, and low spots
   can run colder.
 - **Plant timing, spacing and yields:** state extension services (Cornell, UMass, UConn, Penn State, UNH,
   UVM, UMaine, Rutgers, UMN).

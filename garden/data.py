@@ -18,22 +18,33 @@ class Location(BaseModel):
     state: str
     zone: str
     zone_num: int
-    last_frost: str   # MM-DD
-    first_frost: str  # MM-DD
+    last_frost: str | None    # MM-DD; None where frost is rare/absent
+    first_frost: str | None   # MM-DD
     annual_rain_in: int
     soil_note: str
     zip_prefixes: list[str]
     source: str
+    region: str = "Northeast"
+    support: str = "full"     # "full" = frost-defined season; "limited" = hot climates (most of zones 9–11)
+    support_reason: str = ""
+
+    @property
+    def supported(self) -> bool:
+        return self.support == "full" and bool(self.last_frost and self.first_frost)
 
     @property
     def label(self) -> str:
-        return f"{self.name}, {self.state} (zone {self.zone})"
+        return f"{self.name}, {self.state} (zone {self.zone})" + ("" if self.supported else " · limited support")
 
     def last_frost_on(self, year: int) -> date:
+        if not self.last_frost:
+            raise ValueError(f"{self.label} has no average frost dates (limited support).")
         m, d = map(int, self.last_frost.split("-"))
         return date(year, m, d)
 
     def first_frost_on(self, year: int) -> date:
+        if not self.first_frost:
+            raise ValueError(f"{self.label} has no average frost dates (limited support).")
         m, d = map(int, self.first_frost.split("-"))
         return date(year, m, d)
 
@@ -103,8 +114,9 @@ def location_for_zip(zip_code: str) -> Location | None:
     z = (zip_code or "").strip()
     if len(z) != 5 or not z.isdigit():
         return None
-    prefix = z[:3]
-    for loc in locations().values():
-        if prefix in loc.zip_prefixes:
-            return loc
-    return None
+    return _zip_index().get(z[:3])
+
+
+@lru_cache(maxsize=1)
+def _zip_index() -> dict[str, Location]:
+    return {pre: loc for loc in locations().values() for pre in loc.zip_prefixes}

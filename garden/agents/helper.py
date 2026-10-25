@@ -26,7 +26,10 @@ PAGES = {"plan": "Plan a garden", "week": "This week", "gardens": "My gardens",
          "community": "Community gardens", "dashboard": "My dashboard", "about": "About & credits"}
 
 INSTRUCTIONS = """You are the Garden Helper inside Gardenwise, a garden-planning website for the
-Northeast US (CT, MA, RI, NH, VT, ME, NY, NJ, PA only). Be warm, brief (2–5 sentences) and practical.
+contiguous United States. Full support where winters bring frost (roughly USDA zones 3–8); hot climates
+(most of zones 9–11: Florida, Gulf Coast, South Texas, low deserts, coastal SoCal) have limited support,
+so planning is turned off there and you should point people to their county Cooperative Extension office.
+Be warm, brief (2–5 sentences) and practical.
 
 What the site does (so you can guide people):
 - Plan a garden: a form (who it's for, location/ZIP, skill, goals, start timing, space, optional sun,
@@ -89,7 +92,7 @@ TOOLS = [
          "skill": _nullable({"type": "string", "enum": ["beginner", "intermediate", "experienced"]}),
          "category": _nullable({"type": "string", "enum": ["vegetable", "herb", "flower", "fruit"]}),
          "containers_only": {"type": "boolean"}}),
-    _fn("frost_dates", "USDA zone and average frost dates for a Northeast location id or a 5-digit ZIP.",
+    _fn("frost_dates", "USDA zone and average frost dates for a US reference-city id or a 5-digit ZIP.",
         {"location_id": _nullable({"type": "string", "enum": sorted(locations())}),
          "zip_code": _nullable({"type": "string"})}),
     _fn("fill_planner_form", "Pre-fill the Plan a garden form. Use null for anything unknown.",
@@ -155,7 +158,10 @@ def _frost(location_id, zip_code) -> dict:
     loc = location_for_zip(zip_code) if zip_code else None
     loc = loc or (locations().get(location_id) if location_id else None)
     if not loc:
-        return {"error": "Unknown or non-Northeast location. Gardenwise covers CT, MA, RI, NH, VT, ME, NY, NJ, PA."}
+        return {"error": "Unknown location. Gardenwise covers the contiguous US (not Alaska, Hawaii or territories)."}
+    if not loc.supported:
+        return {"location": loc.label, "zone": loc.zone, "support": "limited", "why": loc.support_reason,
+                "note": "Gardenwise can't plan here yet; suggest the county Cooperative Extension office."}
     lf, ff = loc.last_frost_on(2000), loc.first_frost_on(2000)
     return {"location": loc.label, "zone": loc.zone, "avg_last_frost": f"{lf:%b %d}",
             "avg_first_frost": f"{ff:%b %d}", "season_days": (ff - lf).days, "soil_note": loc.soil_note}
@@ -316,7 +322,7 @@ def run_helper(history: list[dict], user_text: str, user: dict | None, budget: l
     pending: list[dict] = []
     for _ in range(MAX_STEPS):
         resp = llm.call_with_tools(agent="helper", instructions=INSTRUCTIONS, input_items=items, tools=TOOLS,
-                                   budget=budget, cache_key="helper-v5")
+                                   budget=budget, cache_key="helper-v6")
         calls = [o for o in resp.output if o.type == "function_call"]
         if not calls:
             return {"reply": clean_model_text(resp.output_text, 1200), "actions": actions + pending}
