@@ -78,8 +78,6 @@ def page() -> None:
     st.markdown(f'<div class="guide-grid">{why}</div>', unsafe_allow_html=True)
 
     st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
-    st.caption("Just looking around? Log in at the top right as **demo** (password **garden-demo-2026**) to see "
-               "gardens already in progress, including a community garden.")
 
 
 def welcome_back(user: dict) -> None:

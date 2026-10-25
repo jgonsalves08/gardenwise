@@ -126,6 +126,9 @@ h3::after {content: ""; display: block; width: 42px; height: 3px; border-radius:
                 vertical-align: middle;}
 [class*="st-key-step_"] {border-left: 4px solid #9BC27E !important;}
 .st-key-go_recommend button {font-size: 1.1rem; padding: .8rem 1rem;}
+/* info boxes in the garden palette instead of Streamlit's default blue */
+[data-testid="stAlertContentInfo"] {color: #1E3A27 !important;}
+div[data-testid="stAlert"]:has([data-testid="stAlertContentInfo"]) > div {background: #E8F2E4 !important;}
 /* dismiss ✕ inside alerts and tips */
 [class*="st-key-alert_"], [class*="st-key-tipbox_"] {position: relative; gap: 0 !important;}
 [class*="st-key-alert_"] [data-testid="stAlert"] {padding-right: 2.6rem;}
@@ -825,8 +828,8 @@ def welcome_guide() -> None:
         st.markdown(f"#### 👋 New here? Here's how {config.APP_NAME} works")
         st.markdown(f'<div class="guide-grid">{steps}</div>', unsafe_allow_html=True)
         c1, c2, c3 = st.columns([1.2, 1.6, 1])
-        c1.markdown("**Just exploring?** Log in at the top right as **demo** (password **garden-demo-2026**) "
-                    "to see gardens already in progress.")
+        c1.markdown("**Want to keep your plan?** Make a free account at the top right (no email needed) "
+                    "to save gardens and track them all season.")
         c2.markdown("**Prefer to just talk?** Press **💬 Garden helper** (bottom right) and describe your "
                     "garden in a sentence. It fills in the form for you.")
         if c3.button("Got it, hide this", type="primary", width="stretch", key="hide_guide"):

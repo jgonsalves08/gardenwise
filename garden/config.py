@@ -53,6 +53,10 @@ SHOP_PRICE_NOTE = (f"Estimated, as of {PRICES_AS_OF}: typical Home Depot, Lowe's
 GROCERY_PRICE_NOTE = (f"Estimated, as of {PRICES_AS_OF}: pounds × average US retail prices "
                       "(USDA ERS Fruit and Vegetable Prices; herb prices are rougher estimates).")
 
+# Sample accounts for testing (local copies only). Turn off for any public deployment:
+#   GARDENWISE_TEST_ACCOUNTS=0
+SEED_TEST_ACCOUNTS = os.getenv("GARDENWISE_TEST_ACCOUNTS", "1") == "1"
+
 # Guardrails
 MAX_FREE_TEXT_CHARS = 500          # per chat message
 MAX_CHAT_FOLLOWUPS = 2             # intake may ask at most 2 clarifying questions

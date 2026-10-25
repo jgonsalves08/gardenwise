@@ -1,0 +1,21 @@
+mode,profile,calls,input_tokens,cached_tokens,output_tokens,cost_usd,seconds,verifier_first_try,verifier_ok,picks
+cold,"Beginner salad bed, New Haven CT",2,3612,0,439,0.000581,6.52,True,True,4
+cold,"Salsa household of 4, Atlanta GA",2,3900,0,825,0.000803,7.39,True,True,5
+cold,"Balcony herbs, Chicago IL",3,4728,0,673,0.000809,9.52,True,True,3
+cold,"School garden gr. 3-5, Minneapolis MN",2,3798,0,653,0.000706,7.0,True,True,4
+cold,"Pollinator strip, Denver CO",2,3617,0,509,0.000616,5.64,True,True,4
+cold,"Pickling bed, Seattle WA",3,5230,0,503,0.000774,6.96,True,True,3
+cold,"Three Sisters, Kansas City MO",2,4028,0,492,0.000649,6.21,True,True,3
+cold,"Shady yard greens, Portland OR",2,3326,0,241,0.000453,3.75,True,True,3
+cold,"Herbal tea garden, Nashville TN",2,3525,0,481,0.000593,6.58,True,True,4
+cold,"Kids' garden, Salt Lake City UT",3,4963,0,603,0.000798,7.91,True,True,3
+warm,"Beginner salad bed, New Haven CT",2,3563,2494,385,0.000324,1.66,True,True,4
+warm,"Salsa household of 4, Atlanta GA",2,3840,2494,651,0.000485,6.74,True,True,4
+warm,"Balcony herbs, Chicago IL",3,4656,3552,625,0.000458,9.3,True,True,3
+warm,"School garden gr. 3-5, Minneapolis MN",2,3750,2494,592,0.000447,6.19,True,True,4
+warm,"Pollinator strip, Denver CO",2,3569,2494,492,0.000378,5.21,True,True,4
+warm,"Pickling bed, Seattle WA",3,5142,3552,569,0.000479,7.41,True,True,3
+warm,"Three Sisters, Kansas City MO",2,3992,2494,617,0.000483,6.5,True,True,3
+warm,"Shady yard greens, Portland OR",2,3291,2494,377,0.000293,4.49,True,True,4
+warm,"Herbal tea garden, Nashville TN",2,3477,2494,480,0.000363,6.99,True,True,3
+warm,"Kids' garden, Salt Lake City UT",3,4894,3552,718,0.000529,8.87,True,True,3

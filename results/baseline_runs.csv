@@ -1,0 +1,21 @@
+profile,system,plants,plants_ok,pet_warning_ok,lead_warning_ok,ai_cost_usd,problems
+"Beginner salad bed, New Haven CT",Plain prompt,4,3,True,False,0.000295,Spinach: too hard for skill level
+"Beginner salad bed, New Haven CT",Gardenwise,4,4,True,True,0.000324,
+"Salsa household of 4, Atlanta GA",Plain prompt,6,6,True,False,0.000382,
+"Salsa household of 4, Atlanta GA",Gardenwise,4,4,True,True,0.000485,
+"Balcony herbs, Chicago IL",Plain prompt,5,2,True,True,0.000291,Basil: needs more sun; Parsley: too hard for skill level; Oregano: needs more sun
+"Balcony herbs, Chicago IL",Gardenwise,3,3,True,True,0.000343,
+"School garden gr. 3-5, Minneapolis MN",Plain prompt,4,3,True,False,0.000373,Spinach: too hard for skill level
+"School garden gr. 3-5, Minneapolis MN",Gardenwise,4,4,True,True,0.000447,
+"Pollinator strip, Denver CO",Plain prompt,6,4,True,False,0.000344,plant not identifiable; Purple coneflower (Echinacea): too hard for skill level
+"Pollinator strip, Denver CO",Gardenwise,4,4,True,True,0.000378,
+"Pickling bed, Seattle WA",Plain prompt,3,3,True,False,0.000269,
+"Pickling bed, Seattle WA",Gardenwise,3,3,True,True,0.000389,
+"Three Sisters, Kansas City MO",Plain prompt,3,2,True,False,0.000265,plant not identifiable
+"Three Sisters, Kansas City MO",Gardenwise,3,3,True,True,0.000483,
+"Shady yard greens, Portland OR",Plain prompt,4,3,True,False,0.000271,Spinach: too hard for skill level
+"Shady yard greens, Portland OR",Gardenwise,4,4,True,True,0.000293,
+"Herbal tea garden, Nashville TN",Plain prompt,5,3,True,True,0.000354,German chamomile: too hard for skill level; Lavender (English): too hard for skill level
+"Herbal tea garden, Nashville TN",Gardenwise,3,3,True,True,0.000363,
+"Kids' garden, Salt Lake City UT",Plain prompt,6,4,True,False,0.000382,Spinach: too hard for skill level; Carrot: too hard for skill level
+"Kids' garden, Salt Lake City UT",Gardenwise,3,3,True,True,0.00033,

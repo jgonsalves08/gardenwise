@@ -171,6 +171,7 @@ def authenticate(username: str, password: str) -> dict:
             locked = (datetime.now(timezone.utc) + LOCKOUT).isoformat() if fails >= MAX_FAILED else None
             db.execute("UPDATE users SET failed_attempts = ?, locked_until = ? WHERE id = ?",
                        (0 if locked else fails, locked, row["id"]))
+            db.commit()   # save the failed attempt before raising (otherwise the lockout never triggers)
             raise AuthError("Wrong username or password.")
         db.execute("UPDATE users SET failed_attempts = 0, locked_until = NULL WHERE id = ?", (row["id"],))
         return {"id": row["id"], "username": row["username"]}

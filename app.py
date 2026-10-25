@@ -11,7 +11,7 @@ import uuid
 
 import streamlit as st
 
-from garden import config, llm, seed, ui
+from garden import config, llm, seeds_people, ui
 from garden.views import about, account, community, dashboard, gardens, helper_ui, home, planner, week
 
 st.set_page_config(page_title=config.APP_NAME, page_icon="🌱", layout="wide")
@@ -21,7 +21,8 @@ ui.reset_cards()
 
 @st.cache_resource
 def _seed_once() -> bool:
-    seed.ensure_demo()
+    if config.SEED_TEST_ACCOUNTS:   # local test accounts; disabled for public deployments
+        seeds_people.ensure_people()
     return True
 
 

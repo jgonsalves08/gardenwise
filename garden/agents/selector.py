@@ -115,6 +115,10 @@ def candidates(c: Constraints, loc: Location) -> list[Plant]:
             continue
         if p.category == "cover_crop" and c.space_type != "in_ground" and c.space_type != "raised_bed":
             continue
+        try:   # short mountain seasons: drop crops that can't ripen before frost at all
+            schedule_plant(p, loc, c.start_date, c.skill_level)
+        except ValueError:
+            continue
         out.append(p)
     return out
 

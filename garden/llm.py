@@ -25,6 +25,10 @@ from . import config
 T = TypeVar("T", bound=BaseModel)
 
 
+# Benchmarks set this to a unique string to force a cache miss ("cold" run). Empty in normal use.
+INSTRUCTION_PREFIX = ""
+
+
 class BudgetExceeded(RuntimeError):
     """Raised before a call that would go over the session's token or call cap."""
 
@@ -131,7 +135,7 @@ def call_structured(
     client = get_client()
     kwargs = dict(
         model=config.MODEL_NAME,
-        instructions=instructions,
+        instructions=INSTRUCTION_PREFIX + instructions,
         # A list means multimodal content parts (text + images) for one user turn.
         input=[{"role": "user", "content": user_input}] if isinstance(user_input, list) else user_input,
         text_format=schema,
@@ -188,7 +192,7 @@ def call_with_tools(*, agent: str, instructions: str, input_items: list, tools: 
     """One model turn that may request tool calls. Same budget check and usage logging as above."""
     budget.check()
     client = get_client()
-    kwargs = dict(model=config.MODEL_NAME, instructions=instructions, input=input_items, tools=tools,
+    kwargs = dict(model=config.MODEL_NAME, instructions=INSTRUCTION_PREFIX + instructions, input=input_items, tools=tools,
                   max_output_tokens=config.MAX_OUTPUT_TOKENS,
                   reasoning={"effort": os.getenv("REASONING_EFFORT", "low")})
     if cache_key:

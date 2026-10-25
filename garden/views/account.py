@@ -50,5 +50,4 @@ def topbar() -> None:
                     st.rerun()
                 except store.AuthError as e:
                     st.error(str(e))
-            st.caption("Just looking? Try a demo account (password **garden-demo-2026**): "
-                       "**demo** (organizes a community garden) or **demo_member** (a regular member).")
+            st.caption("Passwords are stored only as salted, slow hashes, never in plain text.")
