@@ -212,15 +212,53 @@ def next_season_button(g: dict, rec, user: dict, key: str, primary: bool = False
         st.switch_page(st.session_state.pages["plan"])
 
 
+def open_tasks(g: dict, user: dict) -> list:
+    _rec, plan = load_plan(g, user["id"])
+    done = store.get_checks(g["id"])
+    return [t for t in plan.tasks if task_key(t) not in done]
+
+
+def finish_season(g: dict, user: dict, mark_done: bool, plan_next: bool = False, rec=None) -> None:
+    if mark_done:
+        store.set_checks_bulk(g["id"], user["id"], [task_key(t) for t in open_tasks(g, user)])
+    store.set_dates(g["id"], user["id"], g["start_date"], max(date.today(), g["start_date"]))
+    st.session_state.garden_flash = f"Finished the {store.season_label(g)} of “{g['name']}”."
+    if plan_next and rec is not None:
+        st.session_state.prefill = next_season_prefill(store.get_garden(g["id"], user["id"]), rec, user)
+        st.session_state.rec = None
+        st.switch_page(st.session_state.pages["plan"])
+    st.session_state.open_garden = None
+    st.rerun()
+
+
+@st.dialog("Finish this season?")
+def finish_dialog(g: dict, user: dict, plan_next: bool = False) -> None:
+    rec = rec_from_json(g["rec"])
+    left = open_tasks(g, user)
+    if not left:
+        st.markdown("All tasks are ticked off. 🎉")
+        if st.button("✅ Finish season", type="primary", width="stretch"):
+            finish_season(g, user, mark_done=False, plan_next=plan_next, rec=rec)
+        return
+    st.markdown(f"**{len(left)} task(s) aren't ticked off yet**, for example:")
+    for t in left[:5]:
+        st.markdown(ui.md(f"- {ui.TASK_ICONS[t.kind]} {t.when:%b %d} · {t.title}"))
+    st.caption("Did you do them and just not tick them? Mark them done. If you skipped them, leave them: "
+               "they'll show as skipped in this season's history, which keeps your harvest stats honest.")
+    if st.button("✅ I did them: mark all done and finish", type="primary", width="stretch"):
+        finish_season(g, user, mark_done=True, plan_next=plan_next, rec=rec)
+    if st.button("⏭️ Finish and keep them as skipped", width="stretch"):
+        finish_season(g, user, mark_done=False, plan_next=plan_next, rec=rec)
+    if st.button("Cancel", type="tertiary", width="stretch"):
+        st.rerun()
+
+
 def lifecycle_buttons(g: dict, status: str, user: dict, key: str) -> None:
     today = date.today()
     if status == "current":
         if st.button("✅ Mark as finished", key=f"{key}_finish", width="stretch",
-                     help="Moves it to My past gardens with today as the end date."):
-            store.set_dates(g["id"], user["id"], g["start_date"], max(today, g["start_date"]))
-            st.session_state.garden_flash = f"“{g['name']}” moved to your past gardens."
-            st.session_state.open_garden = None
-            st.rerun()
+                     help="Moves this season to your history. You'll choose what to do with any unticked tasks."):
+            finish_dialog(g, user)
     elif status == "future":
         if st.button("▶️ Start it today", key=f"{key}_start", width="stretch",
                      help="Sets the start date to today; the calendar re-anchors to it."):
@@ -266,7 +304,8 @@ def detail(g: dict, user: dict) -> None:
     c = rec.constraints
     loc = locations()[c.location_id]
     status = store.garden_status(g)
-    cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]), loc=loc)
+    cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]), loc=loc,
+                      past=status == "past")
 
     if st.button("← All gardens"):
         st.session_state.open_garden = None
@@ -309,6 +348,7 @@ def detail(g: dict, user: dict) -> None:
             st.rerun()
 
     ui.plan_tabs(rec, plan, f"g{g['id']}", set(g["addons"]), cl)
+    ui.export_row(plan, g["name"], store.season_label(g), cl.done, key=f"exp_{g['id']}")
 
     if len(seasons) > 1:
         season_history(seasons, g)
@@ -326,14 +366,9 @@ def finish_prompt(g: dict, rec, plan, loc, user: dict) -> None:
                     "and every harvest window is over. Wrap it up to keep it as history?")
         a, b, c = st.columns(3)
         if a.button("✅ Finish season", key=f"fin_now_{g['id']}", width="stretch"):
-            store.set_dates(g["id"], user["id"], g["start_date"], max(date.today(), g["start_date"]))
-            st.session_state.garden_flash = f"Finished the {store.season_label(g)} of “{g['name']}”."
-            st.rerun()
+            finish_dialog(g, user)
         if b.button("🔁 Finish & plan next season", key=f"fin_next_{g['id']}", type="primary", width="stretch"):
-            store.set_dates(g["id"], user["id"], g["start_date"], max(date.today(), g["start_date"]))
-            st.session_state.prefill = next_season_prefill(store.get_garden(g["id"], user["id"]), rec, user)
-            st.session_state.rec = None
-            st.switch_page(st.session_state.pages["plan"])
+            finish_dialog(g, user, plan_next=True)
         if c.button("Not yet", key=f"fin_no_{g['id']}", width="stretch"):
             dismissed.add(g["id"])
             st.rerun()

@@ -299,8 +299,14 @@ def costs_tab(group: dict, views: list[cm.PlotView]) -> None:
                         "Share of shared builds": p["shared_share"], "Total": p["total"]} for p in r.per_plot])
     st.table(df.set_index("Plot").map(ui.est))
     st.caption(config.SHOP_PRICE_NOTE)
-    st.download_button("⬇️ Download cost split (CSV)", df.to_csv(index=False).encode(),
-                       file_name="cost_split.csv", mime="text/csv")
+    from .. import exports
+    d1, d2 = st.columns(2)
+    d1.download_button("📄 Grant-ready budget (Excel)", exports.community_budget(group, r),
+                       file_name="community-garden-budget.xlsx", width="stretch",
+                       mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                       help="Summary, pooled order, shared builds and cost per plot, for grant applications.")
+    d2.download_button("⬇️ Cost split (CSV)", df.to_csv(index=False).encode(),
+                       file_name="cost_split.csv", mime="text/csv", width="stretch")
 
 
 ROLE_HELP = ("**Organizer:** everything, including deleting the garden and choosing admins. "

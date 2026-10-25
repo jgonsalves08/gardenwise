@@ -6,3 +6,4 @@ pandas>=2.2
 pytest>=8.0
 pillow>=10.0
 certifi>=2024.0
+openpyxl>=3.1

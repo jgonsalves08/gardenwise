@@ -218,6 +218,7 @@ class Checklist:
     owner_id: int
     done: dict[str, str]
     loc: Location | None = None
+    past: bool = False          # finished season: unticked tasks show as skipped
 
 
 _card_counter = {"n": 0}
@@ -412,6 +413,8 @@ def _task_line(t, cl: Checklist | None, seen: set[str]) -> None:
     if cl:
         key = task_key(t)
         moved = f" *(moved from {t.recommended:%b %d})*" if t.recommended else ""
+        if cl.past and key not in cl.done:
+            moved += " · *skipped*"
         a, b = st.columns([14, 1.4], vertical_alignment="center")
         with a:
             check_box(cl, key, md(f"{TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}{moved}"),
@@ -469,12 +472,34 @@ def _month_grid(year: int, month: int, tasks: list, cl: Checklist | None) -> str
 task_line = _task_line   # used by This week too
 
 
+def bulk_complete(plan: Plan, cl: Checklist, where) -> None:
+    """Catch-up button for people who did the work but didn't tick each task."""
+    from datetime import date as _date
+    open_t = [t for t in plan.tasks if task_key(t) not in cl.done]
+    if not open_t:
+        where.markdown('<span class="badge done">all done ✓</span>', unsafe_allow_html=True)
+        return
+    due = [t for t in open_t if t.when <= _date.today()]
+    with where.popover("✅ Mark done…", width="stretch"):
+        st.caption("Catch up in one click. Harvest tasks count as harvested on your dashboard, so only include "
+                   "them if you really picked something.")
+        if st.button(f"Everything due by today ({len(due)})", key=f"bulk_due_{cl.garden_id}",
+                     disabled=not due, width="stretch", type="primary"):
+            store.set_checks_bulk(cl.garden_id, cl.owner_id, [task_key(t) for t in due])
+            st.rerun()
+        if st.button(f"All remaining tasks ({len(open_t)})", key=f"bulk_all_{cl.garden_id}", width="stretch"):
+            store.set_checks_bulk(cl.garden_id, cl.owner_id, [task_key(t) for t in open_t])
+            st.rerun()
+
+
 def calendar_view(plan: Plan, cl: Checklist | None = None, key_prefix: str = "cal") -> None:
     from datetime import date as _date
 
     if cl:
         n_done = sum(task_key(t) in cl.done for t in plan.tasks)
-        st.progress(n_done / max(1, len(plan.tasks)), text=f"{n_done} of {len(plan.tasks)} tasks done")
+        p1, p2 = st.columns([4, 1.3], vertical_alignment="center")
+        p1.progress(n_done / max(1, len(plan.tasks)), text=f"{n_done} of {len(plan.tasks)} tasks done")
+        bulk_complete(plan, cl, p2)
     mode = st.segmented_control("View", ["📆 Month", "📋 List"], default="📆 Month",
                                 key=f"{key_prefix}_calmode", label_visibility="collapsed") or "📆 Month"
     seen: set[str] = set()
@@ -828,3 +853,27 @@ def step_header(n: int, total: int, title: str, hint: str = "", optional: bool =
                 f'<div class="step-kicker">Step {n} of {total}</div>'
                 f'<div class="step-title">{html.escape(title)} {tag}</div>'
                 f'<div class="muted">{html.escape(hint)}</div></div></div>', unsafe_allow_html=True)
+
+
+def export_row(plan: Plan, garden_name: str, season: str = "", done: dict | None = None, key: str = "exp") -> None:
+    """Take the plan out of the app: calendar file, printable page, budget sheet (all code, no AI)."""
+    from . import exports
+    import re as _re
+
+    slug = _re.sub(r"[^a-z0-9]+", "-", garden_name.lower()).strip("-") or "garden"
+    with st.container(border=True, key=card_key()):
+        st.markdown("#### ⬇️ Take your plan with you")
+        c1, c2, c3 = st.columns(3)
+        c1.download_button("📅 Add to my calendar (.ics)", exports.to_ics(plan, garden_name, done),
+                           file_name=f"{slug}-calendar.ics", mime="text/calendar", width="stretch",
+                           key=f"{key}_ics", help="Import into Google, Apple or Outlook Calendar. "
+                                                  "Each task gets a reminder at 9am the day before.")
+        c2.download_button("🖨️ Printable plan", exports.printable_html(plan, garden_name, season, done, PLANT_ICONS),
+                           file_name=f"{slug}-plan.html", mime="text/html", width="stretch", key=f"{key}_print",
+                           help="Opens in your browser with a Print button; choose 'Save as PDF' to keep a copy.")
+        c3.download_button("📄 Budget sheet (Excel)", exports.garden_budget(plan, garden_name, season),
+                           file_name=f"{slug}-budget.xlsx",
+                           mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                           width="stretch", key=f"{key}_xlsx",
+                           help="Line items, quantities and estimated costs, ready for a grant application.")
+        st.caption("Google Calendar: Settings → Import & export → Import. Apple Calendar: File → Import.")

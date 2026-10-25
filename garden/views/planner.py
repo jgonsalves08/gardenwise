@@ -359,6 +359,7 @@ def results(budget: llm.Budget) -> None:
         st.warning("Tick at least one plant to see your calendar, layout and shopping list.")
         return
     ui.plan_tabs(rec, plan, prefix, advised)
+    ui.export_row(plan, (c.place + " garden") if c.place else f"{loc.name} garden", key=f"exp_{rec.run_id}")
     save_box(rec, plan.chosen_ids, addons)
 
 

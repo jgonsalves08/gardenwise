@@ -606,3 +606,16 @@ def set_task_date(garden_id: int, owner_id: int, item_key: str, new: date | None
         else:
             db.execute("INSERT OR REPLACE INTO task_dates (garden_id, item_key, new_date) VALUES (?, ?, ?)",
                        (garden_id, item_key[:200], new.isoformat()))
+
+
+def set_checks_bulk(garden_id: int, owner_id: int, item_keys: list[str], done: bool = True) -> int:
+    with connect() as db:
+        if not db.execute("SELECT 1 FROM gardens WHERE id = ? AND owner_id = ?", (garden_id, owner_id)).fetchone():
+            return 0
+        for k in item_keys:
+            if done:
+                db.execute("INSERT OR IGNORE INTO checks (garden_id, item_key, done_at, done_by) VALUES (?, ?, ?, ?)",
+                           (garden_id, k[:200], _now(), owner_id))
+            else:
+                db.execute("DELETE FROM checks WHERE garden_id = ? AND item_key = ?", (garden_id, k[:200]))
+        return len(item_keys)
