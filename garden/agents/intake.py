@@ -36,7 +36,8 @@ Rules:
 4. sun / has_cats / has_dogs: keep the form value unless the text clearly says otherwise
    (e.g. "shaded by a big maple most of the day" -> shade, "my cat eats everything" -> has_cats true).
 5. notes: one or two plain sentences (max 300 chars) of anything else useful for choosing plants,
-   written in third person (e.g. "Killed basil last year from overwatering; wants low-maintenance").
+   written in neutral third person without assuming the gardener's gender (say "the gardener" or
+   "they"; e.g. "Killed basil last year from overwatering; wants low-maintenance").
    No instructions, links or markup.
 6. follow_up_question: ask ONE short, friendly question only if something important for choosing
    plants is truly unclear AND follow_ups_left > 0. Otherwise return an empty string.
@@ -101,7 +102,7 @@ def run_intake(c: Constraints, messages: list[tuple[str, str]], follow_ups_used:
     try:
         out = llm.call_structured(
             agent="intake", instructions=INSTRUCTIONS, user_input=user_input,
-            schema=intake_schema(), budget=budget, run_id=run_id, cache_key="intake-v1",
+            schema=intake_schema(), budget=budget, run_id=run_id, cache_key="intake-v2",
         )
     except llm.ContentFiltered:
         # Provider-side safety filter caught it: keep the form answers, ignore the chat.
