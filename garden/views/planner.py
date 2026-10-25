@@ -93,23 +93,36 @@ def page() -> None:
     with st.container(border=True, key="step_2"):
         ui.step_header(2, TOTAL, "Where is it?", "We use this for your frost dates and growing zone.")
         st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
+        # Picking a location from a ZIP updates the dropdown itself (via its session key).
+        if pf.get("location_id") and st.session_state.get("_pf_loc_for") != id(pf):
+            st.session_state.loc_select = pf["location_id"]   # a new prefill (helper, next season…) wins once
+            st.session_state._pf_loc_for = id(pf)
+
+        def _zip_to_location() -> None:
+            zl = location_for_zip(st.session_state.get("zip_input", ""))
+            st.session_state.zip_note = zl.label if zl else ("outside" if st.session_state.get("zip_input") else "")
+            if zl:
+                st.session_state.loc_select = zl.id
+
         l1, l2, l3 = st.columns([1.3, 1, 1.3])
-        loc_id = l1.selectbox("Nearest location", loc_ids, format_func=lambda i: locs[i].label,
-                              index=loc_ids.index(pf.get("location_id", "new_haven_ct")))
-        zip_code = l2.text_input("…or ZIP code (not saved)", max_chars=5, placeholder="e.g. 06511")
+        loc_id = l1.selectbox(
+            "Nearest reference city", loc_ids, format_func=lambda i: locs[i].label, index=None,
+            placeholder="Choose the closest city…", key="loc_select",
+            help="Gardenwise uses frost dates and zones for 18 reference cities across the Northeast. Pick the "
+                 "one closest to you (or most like your climate), or enter your ZIP and we'll pick it for you.")
+        l2.text_input("…or ZIP code (not saved)", max_chars=5, placeholder="e.g. 06511", key="zip_input",
+                      on_change=_zip_to_location)
         place_raw = l3.text_input(
             "Place nickname (optional)", value=pf.get("place", ""), max_chars=40,
             placeholder="e.g. Home – side yard",
             help="Groups gardens at the same place, so shared things like a compost bin "
                  "aren't suggested twice. Please don't enter a street address.")
-        if zip_code:
-            zl = location_for_zip(zip_code)
-            if zl:
-                loc_id = zl.id
-                st.caption(f"Using frost data for **{zl.label}**.")
-            else:
-                st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
-                           "VT, ME, NY, NJ, PA), so the dropdown location is used instead.")
+        note = st.session_state.get("zip_note")
+        if note == "outside":
+            st.caption("That ZIP is outside the Northeast states Gardenwise covers (CT, MA, RI, NH, "
+                       "VT, ME, NY, NJ, PA). Please choose the closest city from the list instead.")
+        elif note:
+            st.caption(f"📍 Your ZIP is closest to **{note}**, so we'll use its frost dates.")
 
     # Step 3 · you and your goals
     with st.container(border=True, key="step_3"):
@@ -247,7 +260,9 @@ def page() -> None:
 
     if go:
         place, place_err = clean_place(place_raw)
-        if place_err:
+        if not loc_id:
+            st.error("📍 Please choose your nearest city in Step 2 (or enter a Northeast ZIP code).")
+        elif place_err:
             st.error(place_err)
         elif not goals:
             st.warning("Pick at least one goal.")

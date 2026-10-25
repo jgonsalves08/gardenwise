@@ -127,6 +127,9 @@ def plot_card(p: dict, status: str, user: dict) -> None:
     badges += f'<span class="badge">🗂️ {n} season{"s" if n != 1 else ""}</span>'
     if p["latest"]["id"] != g["id"]:
         badges += f'<span class="badge">next: {store.season_label(p["latest"])}</span>'
+    grp = community_of(g, user)
+    if grp:
+        badges += f'<span class="badge community">🏘️ Community plot · {html.escape(grp["name"])}</span>'
     st.markdown(f"{badges} <span class='muted'>{store.season_label(g)} · {date_line(g)}</span>",
                 unsafe_allow_html=True)
     st.caption(f"{loc.label} · {', '.join(x.name for x in plan.plants)}")
@@ -138,11 +141,27 @@ def plot_card(p: dict, status: str, user: dict) -> None:
         st.session_state.open_garden = g["id"]
         st.rerun()
     with b2.popover("⋯ More", width="stretch"):
-        lifecycle_buttons(g, status, user, key=f"card_{g['id']}")
-        next_season_button(g, rec, user, key=f"card_{g['id']}")
-        new_garden_here(g, rec, key=f"card_{g['id']}")
-        st.markdown("---")
-        delete_control(g, user, key=f"card_{g['id']}", whole_plot=True)
+        if grp:
+            open_community_button(grp, key=f"card_{g['id']}")
+            st.caption("This plot belongs to a community garden. Its organizers manage seasons and removal.")
+        else:
+            lifecycle_buttons(g, status, user, key=f"card_{g['id']}")
+            next_season_button(g, rec, user, key=f"card_{g['id']}")
+            new_garden_here(g, rec, key=f"card_{g['id']}")
+            st.markdown("---")
+            delete_control(g, user, key=f"card_{g['id']}", whole_plot=True)
+
+
+def community_of(g: dict, user: dict) -> dict | None:
+    """The community garden this plot belongs to (if the user is a member of it)."""
+    return store.get_group(g["group_id"], user["id"]) if g.get("group_id") else None
+
+
+def open_community_button(grp: dict, key: str) -> None:
+    if st.button(f"🏘️ Open {grp['name']}", key=f"{key}_grp", width="stretch"):
+        st.session_state.open_group = grp["id"]
+        st.session_state.open_garden = None
+        st.switch_page(st.session_state.pages["community"])
 
 
 def season_looks_done(g: dict, plan, loc) -> bool:
@@ -256,13 +275,20 @@ def detail(g: dict, user: dict) -> None:
         if pick and pick != g["id"]:
             st.session_state.open_garden = pick
             st.rerun()
+    grp = community_of(g, user)
     top1, top2, top3 = st.columns([2.2, 1, 1])
     top1.markdown(f"{STATUS_BADGE[status]}", unsafe_allow_html=True)
-    with top2:
-        lifecycle_buttons(g, status, user, key=f"detail_{g['id']}")
-    with top3:
-        if g["id"] == seasons[-1]["id"]:
-            next_season_button(g, rec, user, key=f"detail_{g['id']}")
+    if grp:
+        top1.markdown(f"🏘️ **Your plot in {html.escape(grp['name'])}.** Shared work days, the pooled shopping "
+                      "list and the cost split live on the community garden's page.")
+        with top3:
+            open_community_button(grp, key=f"detail_{g['id']}")
+    else:
+        with top2:
+            lifecycle_buttons(g, status, user, key=f"detail_{g['id']}")
+        with top3:
+            if g["id"] == seasons[-1]["id"]:
+                next_season_button(g, rec, user, key=f"detail_{g['id']}")
     finish_prompt(g, rec, plan, loc, user)
     ui.location_header(loc, plan.total)
     ui.verification_panel(rec)
@@ -336,7 +362,7 @@ def settings(g: dict, rec, user: dict) -> None:
 
     st.markdown("**📍 Where is it?**")
     l1, l2 = st.columns(2)
-    loc_id = l1.selectbox("Nearest location", loc_ids, index=loc_ids.index(c.location_id),
+    loc_id = l1.selectbox("Nearest reference city", loc_ids, index=loc_ids.index(c.location_id),
                           format_func=lambda i: locs[i].label, key=f"loc_{gid}")
     zip_code = l2.text_input("…or ZIP code (not saved)", max_chars=5, key=f"zip_{gid}")
     if zip_code:
@@ -387,8 +413,9 @@ def settings(g: dict, rec, user: dict) -> None:
                                     {p.id for p in candidates(new_c, new_loc)})
             store.update_rec(gid, user["id"], rec_to_json(new_rec))
         st.rerun()
-    st.markdown("---")
-    delete_control(g, user, key=f"detail_{gid}")
+    if not g.get("group_id"):   # community plots are removed by the garden's organizers
+        st.markdown("---")
+        delete_control(g, user, key=f"detail_{gid}")
 
 
 def misfit_banner(g: dict, rec, user: dict) -> None:

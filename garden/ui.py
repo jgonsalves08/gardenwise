@@ -73,6 +73,7 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVert
 .badge {display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: .78rem;
         margin-right: 4px; background: #EEF6EC; color: #2F6B3F; border: 1px solid #D6E6D3;}
 .badge.warn {background: #FFF4E5; color: #9A5B00; border-color: #F5D9A8;}
+.badge.community {background: #FFF7E6; color: #8A5A00; border-color: #F1DDB0;}
 .badge.done {background: #E6F4EA; color: #1E7B3A; border-color: #BFE3D0;}
 .muted {color: #5C6B5F; font-size: .9rem;}
 .grid {border-collapse: collapse; margin: .4rem 0 1rem 0;}
@@ -91,6 +92,11 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVert
             display: flex; align-items: center; justify-content: center; font-weight: 700;}
 .page-tip {background: #FFFBEA; border: 1px solid #F3E3A4; border-radius: 10px; padding: .45rem .8rem;
            font-size: .9rem; color: #1E2A22;}
+[class*="st-key-navbtn_"] button {justify-content: flex-start !important; padding: .4rem .65rem !important;
+    border-radius: 10px !important; color: #1E2A22 !important; font-weight: 500 !important; min-height: 0 !important;}
+[class*="st-key-navbtn_"] button:hover {background: #E2EFDE !important;}
+[class*="st-key-navbtn_"][class*="_on"] button {background: #DCEBD6 !important; font-weight: 700 !important;}
+[class*="st-key-navbtn_"] {gap: 0 !important;}
 .st-key-brand_link a {padding: .2rem .2rem !important;}
 .st-key-brand_link a p {font-family: 'Fraunces', Georgia, serif !important; font-size: 1.35rem !important;
     font-weight: 700 !important; color: #2F6B3F !important;}
