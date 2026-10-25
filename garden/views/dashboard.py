@@ -92,7 +92,7 @@ STATUS_LABELS = {"current": "🌱 Current", "future": "🗓️ Future", "past": 
 def filter_bar(gardens: list[dict], groups: list[dict], today: date) -> Filters:
     """Filters live in one row above the charts; everything defaults to 'show all'."""
     n = st.session_state.setdefault("dash_gen", 0)   # bumping this gives every filter a fresh widget
-    with st.container(border=True):
+    with st.container(border=True, key=ui.card_key()):
         c1, c2, c3, c4 = st.columns([2.2, 1.6, 2, 0.9], vertical_alignment="bottom")
         statuses = c1.pills("Gardens", list(STATUS_LABELS), format_func=STATUS_LABELS.get,
                             selection_mode="multi", default=list(STATUS_LABELS), key=f"dash_status_{n}")

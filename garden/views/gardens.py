@@ -31,7 +31,12 @@ def need_login(what: str) -> bool:
 def load_plan(g: dict, owner_id: int | None = None):
     rec = rec_from_json(g["rec"])
     owned = store.builds_at_place(owner_id, rec.constraints.place, exclude_id=g["id"]) if owner_id else set()
-    return rec, assemble(rec, g["chosen"], g["addons"], owned=owned)
+    plan = assemble(rec, g["chosen"], g["addons"], owned=owned)
+    moved = store.get_task_dates(g["id"])
+    if moved:   # the gardener's own dates replace the recommended ones (and remember them)
+        plan.tasks = sorted((t.model_copy(update={"when": moved[task_key(t)], "recommended": t.when})
+                             if task_key(t) in moved else t for t in plan.tasks), key=lambda t: t.when)
+    return rec, plan
 
 
 def progress_badges(plan, done: dict[str, str]) -> str:
@@ -110,7 +115,7 @@ def page() -> None:
         st.caption(blurb)
         cols = st.columns(2)
         for i, p in enumerate(group):
-            with cols[i % 2].container(border=True):
+            with cols[i % 2].container(border=True, key=ui.card_key()):
                 plot_card(p, status, user)
 
 
@@ -261,7 +266,7 @@ def detail(g: dict, user: dict) -> None:
     c = rec.constraints
     loc = locations()[c.location_id]
     status = store.garden_status(g)
-    cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]))
+    cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]), loc=loc)
 
     if st.button("← All gardens"):
         st.session_state.open_garden = None
@@ -430,7 +435,7 @@ def misfit_banner(g: dict, rec, user: dict) -> None:
     bad = sorted(plants()[i].name for i in report.bad_ids if i in plants())
     reasons = [ch.detail for ch in report.checks if ch.status == "fail"
                and ch.name.split(":")[0] in bad and "candidate" not in ch.name][:4]
-    with st.container(border=True):
+    with st.container(border=True, key=ui.card_key()):
         st.warning("⚠️ **Some plants may not suit this garden's current settings:** "
                    + ui.md(", ".join(bad) or "see the checks above") + ".\n\n"
                    + ui.md(" ".join(reasons)))

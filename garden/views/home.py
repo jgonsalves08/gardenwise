@@ -63,7 +63,7 @@ def page() -> None:
     st.markdown("### Who it's for")
     cols = st.columns(4)
     for col, (icon, title, desc, key) in zip(cols, AUDIENCES):
-        with col.container(border=True):
+        with col.container(border=True, key=ui.card_key()):
             st.markdown(f'<div class="aud-icon">{icon}</div><b>{title}</b>'
                         f'<div class="muted aud-desc">{desc}</div>', unsafe_allow_html=True)
             if key == "community":
@@ -94,7 +94,7 @@ def welcome_back(user: dict) -> None:
         _rec, plan = load_plan(g, user["id"])
         done = store.get_checks(g["id"])
         due += sum(1 for t in plan.tasks if task_key(t) not in done and t.when <= today + timedelta(days=14))
-    with st.container(border=True):
+    with st.container(border=True, key=ui.card_key()):
         a, b, c = st.columns([2.4, 1, 1], vertical_alignment="center")
         a.markdown(f"**Welcome back, {html.escape(user['username'])}!** You have **{len(gardens)}** active "
                    f"garden(s) and **{due}** task(s) due in the next two weeks.")

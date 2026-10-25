@@ -5,6 +5,7 @@ from __future__ import annotations
 import html
 from collections import defaultdict
 from dataclasses import dataclass
+from datetime import timedelta
 
 import pandas as pd
 import streamlit as st
@@ -26,7 +27,7 @@ h1, h2, h3, .hero h1, .cal-title, .step-title {font-family: 'Fraunces', Georgia,
     background:
       radial-gradient(1200px 500px at 100% -10%, rgba(78,154,94,.10), transparent 60%),
       radial-gradient(900px 400px at -10% 110%, rgba(196,154,92,.08), transparent 60%),
-      #FBFAF5;}
+      #F3F2E8;}
 [data-testid="stHeader"] {background: transparent;}
 .block-container {padding-top: 1.5rem; max-width: 1180px;}
 h1, h2, h3, h4 {color: #1E2A22; letter-spacing: -0.01em;}
@@ -42,11 +43,13 @@ h3::after {content: ""; display: block; width: 42px; height: 3px; border-radius:
             color: #5C6B5F; margin: .3rem 0 .2rem .2rem;}
 [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"] {border-radius: 10px; padding: .35rem .6rem;}
 [data-testid="stSidebar"] a[data-testid="stPageLink-NavLink"]:hover {background: #E2EFDE;}
-/* cards: white, softly raised on the cream page */
-[data-testid="stVerticalBlockBorderWrapper"] {border-radius: 16px;}
-div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVerticalBlock"]) {
-    background: #FFFFFF; border-color: #E3EDE0 !important;
-    box-shadow: 0 1px 2px rgba(30,42,34,.04), 0 8px 24px rgba(30,42,34,.05);}
+/* cards: white and raised off the page */
+[class*="st-key-card_"], [class*="st-key-step_"], .st-key-welcome_guide, [class*="st-key-finish_"] {
+    background: #FFFFFF !important; border: 1px solid #E1E9DC !important; border-radius: 18px !important;
+    box-shadow: 0 1px 2px rgba(30,42,34,.06), 0 10px 28px rgba(30,42,34,.10) !important;
+    transition: transform .15s ease, box-shadow .15s ease;}
+[data-testid="stColumn"] > div > [class*="st-key-card_"]:hover {
+    transform: translateY(-3px); box-shadow: 0 2px 4px rgba(30,42,34,.06), 0 16px 34px rgba(30,42,34,.14) !important;}
 [data-testid="stMetric"] {background: #FFFFFF; border: 1px solid #E3EDE0; border-radius: 14px;
                           padding: .7rem 1rem; box-shadow: 0 4px 14px rgba(30,42,34,.04);}
 [data-testid="stMetricValue"] {color: #2F6B3F; font-weight: 700;}
@@ -94,6 +97,8 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(> div > [data-testid="stVert
            font-size: .9rem; color: #1E2A22;}
 [class*="st-key-navbtn_"] button {justify-content: flex-start !important; padding: .4rem .65rem !important;
     border-radius: 10px !important; color: #1E2A22 !important; font-weight: 500 !important; min-height: 0 !important;}
+[class*="st-key-navbtn_"] button > div, [class*="st-key-navbtn_"] button p {justify-content: flex-start !important;
+    text-align: left !important; width: 100%;}
 [class*="st-key-navbtn_"] button:hover {background: #E2EFDE !important;}
 [class*="st-key-navbtn_"][class*="_on"] button {background: #DCEBD6 !important; font-weight: 700 !important;}
 [class*="st-key-navbtn_"] {gap: 0 !important;}
@@ -208,10 +213,24 @@ METHOD_LABEL = {"buy_transplants": "buy transplants", "start_indoors": "start fr
 
 @dataclass
 class Checklist:
-    """Present when viewing a saved garden: tasks and shopping items become tickable."""
+    """Present when viewing a saved garden: tasks and shopping items become tickable (and movable)."""
     garden_id: int
     owner_id: int
     done: dict[str, str]
+    loc: Location | None = None
+
+
+_card_counter = {"n": 0}
+
+
+def card_key() -> str:
+    """Stable per-run key for bordered cards, so CSS can style them on any Streamlit version."""
+    _card_counter["n"] += 1
+    return f"card_{_card_counter['n']}"
+
+
+def reset_cards() -> None:
+    _card_counter["n"] = 0
 
 
 def inject_css() -> None:
@@ -336,7 +355,7 @@ def plant_chooser(rec: Recommendation, plan: Plan, key_prefix: str, chosen_defau
     options = list(rec.picks) + list(rec.alternates)
     for i, pk in enumerate(options):
         p = plants()[pk.plant_id]
-        with cols[i % 2].container(border=True):
+        with cols[i % 2].container(border=True, key=card_key()):
             ph, txt = st.columns([1, 3.2])
             ph.markdown(plant_photo_html(p.id), unsafe_allow_html=True)
             label = f"**{p.name}**" + ("" if p.id in picked_ids else "  ·  *also a good fit*")
@@ -372,13 +391,47 @@ def chosen_from_state(rec: Recommendation, key_prefix: str, chosen_default: set[
 
 
 # ---------- calendar ----------
+def _date_warning(t, new, loc: Location | None) -> str:
+    """Code check when someone moves a task: frost-tender plantings before the last frost, etc."""
+    if loc is None or t.plant_id not in plants():
+        return ""
+    p = plants()[t.plant_id]
+    lf = loc.last_frost_on(new.year)
+    if t.kind == "plant" and p.frost_tender and new < lf:
+        return (f"⚠️ That's before your average last frost ({lf:%b %d}). Frost can kill {p.name.lower()}; "
+                "cover it or wait if a cold night is forecast.")
+    if t.kind == "plant" and p.frost_tender and new > loc.first_frost_on(new.year) - timedelta(days=p.days_to_maturity):
+        return f"⚠️ That's late: {p.name.lower()} may not ripen before your first fall frost."
+    return ""
+
+
 def _task_line(t, cl: Checklist | None, seen: set[str]) -> None:
     if cl and task_key(t) in seen:
         return  # identical task listed twice: show it once
     seen.add(task_key(t))
     if cl:
-        check_box(cl, task_key(t), md(f"{TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}"),
-                  help=t.detail or None)
+        key = task_key(t)
+        moved = f" *(moved from {t.recommended:%b %d})*" if t.recommended else ""
+        a, b = st.columns([14, 1.4], vertical_alignment="center")
+        with a:
+            check_box(cl, key, md(f"{TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}{moved}"),
+                      help=t.detail or None)
+        with b.popover("📅", help="Change this task's date"):
+            st.markdown(f"**{md(t.title)}**")
+            st.caption(f"Recommended: {(t.recommended or t.when):%b %d, %Y}")
+            new = st.date_input("New date", value=t.when, key=f"td_{cl.garden_id}_{key}")
+            warn = _date_warning(t, new, cl.loc)
+            if warn:
+                st.warning(md(warn))
+            c1, c2 = st.columns(2)
+            if c1.button("Save", key=f"tds_{cl.garden_id}_{key}", type="primary", width="stretch"):
+                store.set_task_date(cl.garden_id, cl.owner_id, key, None if new == (t.recommended or t.when) and
+                                    t.recommended else new)
+                st.rerun()
+            if t.recommended and c2.button("Reset", key=f"tdr_{cl.garden_id}_{key}", width="stretch",
+                                           help="Go back to Gardenwise's recommended date"):
+                store.set_task_date(cl.garden_id, cl.owner_id, key, None)
+                st.rerun()
     else:
         detail = f' <span class="muted">— {html.escape(t.detail)}</span>' if t.detail else ""
         st.markdown(f'<div class="task">{TASK_ICONS[t.kind]} <b>{t.when:%b %d}</b> · '
@@ -411,6 +464,9 @@ def _month_grid(year: int, month: int, tasks: list, cl: Checklist | None) -> str
             cells.append(f'<td class="{cls}"><div class="cal-day">{day}</div>{chips}</td>')
         rows.append("<tr>" + "".join(cells) + "</tr>")
     return f'<table class="cal"><tr>{head}</tr>{"".join(rows)}</table>'
+
+
+task_line = _task_line   # used by This week too
 
 
 def calendar_view(plan: Plan, cl: Checklist | None = None, key_prefix: str = "cal") -> None:
@@ -615,7 +671,7 @@ def harvest_panel(plan: Plan) -> None:
     lb, value = plan.expected_harvest()
     if not lb and not plan.coverage:
         return
-    with st.container(border=True):
+    with st.container(border=True, key=card_key()):
         cols = st.columns(2)
         cols[0].metric("Expected harvest", f"~{lb:,.0f} lb",
                        help="Typical home-garden yields per plant (extension guides). Weather, pests "

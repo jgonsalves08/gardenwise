@@ -35,28 +35,29 @@ def page() -> None:
     anything = False
     for g in gardens:
         rec, plan = load_plan(g)
-        cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]))
+        from ..data import locations
+        cl = ui.Checklist(garden_id=g["id"], owner_id=user["id"], done=store.get_checks(g["id"]),
+                          loc=locations()[rec.constraints.location_id])
+        seen: set[str] = set()
         open_tasks = [t for t in plan.tasks if task_key(t) not in cl.done]
         overdue = [t for t in open_tasks if t.when < today]
         soon = [t for t in open_tasks if today <= t.when <= today + timedelta(days=HORIZON_DAYS)]
         harvesting = [s for s in plan.schedules if s.harvest_start <= today <= s.harvest_end]
         nxt = next((t for t in open_tasks if t.when > today + timedelta(days=HORIZON_DAYS)), None)
 
-        with st.container(border=True):
+        with st.container(border=True, key=ui.card_key()):
             future = store.garden_status(g) == "future"
             st.markdown(f"### {g['name']}" + (" · *starts " + f"{g['start_date']:%b %d}*" if future else ""))
             if overdue:
                 anything = True
                 st.markdown("**⏰ Overdue**")
                 for t in overdue:
-                    ui.check_box(cl, task_key(t), ui.md(f"{ui.TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}"),
-                                 help=t.detail or None)
+                    ui.task_line(t, cl, seen)
             if soon:
                 anything = True
                 st.markdown(f"**📅 Next {HORIZON_DAYS} days**")
                 for t in soon:
-                    ui.check_box(cl, task_key(t), ui.md(f"{ui.TASK_ICONS[t.kind]} **{t.when:%b %d}** · {t.title}"),
-                                 help=t.detail or None)
+                    ui.task_line(t, cl, seen)
             if harvesting:
                 anything = True
                 st.markdown("**🧺 Ready to pick now** <span class='muted'>(optional: tap a size to log it)</span>",
@@ -83,7 +84,7 @@ def community_tasks(user: dict, today: date) -> None:
                     if d <= today + timedelta(days=HORIZON_DAYS) and not state.get(k, {}).get("done_at")]
         if not upcoming:
             continue
-        with st.container(border=True):
+        with st.container(border=True, key=ui.card_key()):
             st.markdown(f"### 🏘️ {grp['name']}")
             for d, k, label in upcoming:
                 who = state.get(k, {}).get("username")

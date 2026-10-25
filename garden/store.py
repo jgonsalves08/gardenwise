@@ -86,6 +86,12 @@ CREATE TABLE IF NOT EXISTS harvests (
     donated INTEGER NOT NULL DEFAULT 0,
     user_id INTEGER REFERENCES users(id)
 );
+CREATE TABLE IF NOT EXISTS task_dates (
+    garden_id INTEGER NOT NULL REFERENCES gardens(id) ON DELETE CASCADE,
+    item_key TEXT NOT NULL,
+    new_date TEXT NOT NULL,
+    PRIMARY KEY (garden_id, item_key)
+);
 CREATE TABLE IF NOT EXISTS checks (
     garden_id INTEGER NOT NULL REFERENCES gardens(id) ON DELETE CASCADE,
     item_key TEXT NOT NULL,
@@ -580,3 +586,23 @@ def delete_plot(owner_id: int, plot_id: int) -> None:
     with connect() as db:
         db.execute("DELETE FROM gardens WHERE plot_id = ? AND owner_id = ? AND group_id IS NULL",
                    (plot_id, owner_id))
+
+
+
+# ---------- user-edited task dates (Gardenwise recommends; the gardener can move any task) ----------
+def get_task_dates(garden_id: int) -> dict[str, date]:
+    with connect() as db:
+        rows = db.execute("SELECT item_key, new_date FROM task_dates WHERE garden_id = ?", (garden_id,)).fetchall()
+        return {r["item_key"]: date.fromisoformat(r["new_date"]) for r in rows}
+
+
+def set_task_date(garden_id: int, owner_id: int, item_key: str, new: date | None) -> None:
+    """new=None resets the task to its recommended date."""
+    with connect() as db:
+        if not db.execute("SELECT 1 FROM gardens WHERE id = ? AND owner_id = ?", (garden_id, owner_id)).fetchone():
+            return
+        if new is None:
+            db.execute("DELETE FROM task_dates WHERE garden_id = ? AND item_key = ?", (garden_id, item_key[:200]))
+        else:
+            db.execute("INSERT OR REPLACE INTO task_dates (garden_id, item_key, new_date) VALUES (?, ?, ?)",
+                       (garden_id, item_key[:200], new.isoformat()))

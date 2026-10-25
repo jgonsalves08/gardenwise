@@ -16,6 +16,7 @@ from garden.views import about, account, community, dashboard, gardens, helper_u
 
 st.set_page_config(page_title=config.APP_NAME, page_icon="🌱", layout="wide")
 ui.inject_css()
+ui.reset_cards()
 
 
 @st.cache_resource

@@ -43,6 +43,12 @@ CSS = """
     font-size: .8rem !important; background: #EEF6EC !important; border: 1px solid #D6E6D3 !important;
     color: #2F6B3F !important; font-weight: 600 !important;}
 .st-key-helper_actions button {font-size: .85rem !important;}
+.bubble.typing {display: inline-flex; gap: 4px; align-items: center; padding: .65rem .8rem;}
+.bubble.typing span {width: 7px; height: 7px; border-radius: 50%; background: #9BB59A;
+    animation: gwblink 1.2s infinite ease-in-out;}
+.bubble.typing span:nth-child(2) {animation-delay: .2s;}
+.bubble.typing span:nth-child(3) {animation-delay: .4s;}
+@keyframes gwblink {0%, 80%, 100% {opacity: .25; transform: translateY(0);} 40% {opacity: 1; transform: translateY(-2px);}}
 .helper-foot {font-size: .7rem; color: #6E7F70; text-align: center;}
 </style>
 """
@@ -79,15 +85,23 @@ def _bubble(role: str, text: str) -> str:
     return f'<div class="bubble-row {side}"><div class="bubble {side}">{safe}</div></div>'
 
 
-def _ask(text: str) -> None:
+def _queue(text: str) -> None:
+    """Show the user's message immediately; the reply is produced on the next run."""
     screen = screen_text(text)
     _say("user", screen.text)
     if screen.refused:
         _say("assistant", screen.refusal)
+    else:
+        st.session_state.helper_pending = screen.text
+
+
+def _answer_pending() -> None:
+    text = st.session_state.pop("helper_pending", None)
+    if not text:
         return
     history = st.session_state.helper_history[:-1]
     try:
-        out = run_helper(history, screen.text, st.session_state.get("user"), st.session_state.budget)
+        out = run_helper(history, text, st.session_state.get("user"), st.session_state.budget)
     except llm.BudgetExceeded as e:
         _say("assistant", f"🛑 {e} This limit protects against runaway costs.")
         return
@@ -107,6 +121,9 @@ def _confirm(a: dict) -> None:
         return
     if a["kind"] == "task":
         store.set_check(a["garden_id"], user["id"], a["key"], True)   # ownership checked in store
+    elif a["kind"] == "move":
+        from datetime import date as _date
+        store.set_task_date(a["garden_id"], user["id"], a["key"], _date.fromisoformat(a["new_date"]))
     elif a["kind"] == "harvest":
         p = plants()[a["plant_id"]]
         store.log_harvest(a["garden_id"], user["id"], p.id, a["size"],
@@ -121,9 +138,12 @@ def chat_panel() -> None:
                 '<div class="helper-status">AI assistant · replies in a few seconds</div></div></div>',
                 unsafe_allow_html=True)
     hist = st.session_state.setdefault("helper_history", [])
+    pending = st.session_state.get("helper_pending")
     with st.container(height=330, key="helper_msgs", border=False):
-        st.markdown(_bubble("assistant", GREETING) + "".join(_bubble(m["role"], m["text"]) for m in hist),
-                    unsafe_allow_html=True)
+        typing = ('<div class="bubble-row bot"><div class="bubble bot typing"><span></span><span></span>'
+                  '<span></span></div></div>') if pending else ""
+        st.markdown(_bubble("assistant", GREETING) + "".join(_bubble(m["role"], m["text"]) for m in hist)
+                    + typing, unsafe_allow_html=True)
         actions = st.session_state.get("helper_actions") or []
         with st.container(key="helper_actions"):
             for i, a in enumerate(actions):
@@ -157,13 +177,14 @@ def chat_panel() -> None:
         with st.container(key="helper_chips"):
             for i, q in enumerate(STARTERS):
                 if st.button(q, key=f"chip_{i}"):
-                    with st.spinner("Typing…"):
-                        _ask(q)
+                    _queue(q)
                     st.rerun(scope="fragment")
-    prompt = st.chat_input("Type a message…", max_chars=500, key="helper_input")
+    prompt = st.chat_input("Type a message…", max_chars=500, key="helper_input", disabled=bool(pending))
     if prompt:
-        with st.spinner("Typing…"):
-            _ask(prompt)
+        _queue(prompt)
+        st.rerun(scope="fragment")
+    if pending:   # the panel has already drawn your message + the typing dots; now get the reply
+        _answer_pending()
         st.rerun(scope="fragment")
     f1, f2 = st.columns([3, 1], vertical_alignment="center")
     f1.markdown('<div class="helper-foot">AI can make mistakes. Nothing in your gardens changes until you '

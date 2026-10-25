@@ -298,7 +298,7 @@ def page() -> None:
 
     chat = st.session_state.get("chat")
     if chat:
-        with st.container(border=True):
+        with st.container(border=True, key=ui.card_key()):
             st.markdown("**💬 Quick question before I pick your plants**")
             for role, text in chat["messages"]:
                 st.chat_message("user" if role == "user" else "assistant",

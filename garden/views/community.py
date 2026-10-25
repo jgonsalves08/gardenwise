@@ -45,7 +45,7 @@ def page() -> None:
         st.markdown("### Your community gardens")
         cols = st.columns(2)
         for i, g in enumerate(groups):
-            with cols[i % 2].container(border=True):
+            with cols[i % 2].container(border=True, key=ui.card_key()):
                 loc = locations()[g["settings"]["location_id"]]
                 n_plots = len(store.group_plots(g["id"]))
                 st.markdown(f"#### {html.escape(g['name'])}")
@@ -58,9 +58,9 @@ def page() -> None:
                     st.rerun()
 
     left, right = st.columns(2)
-    with left, st.container(border=True):
+    with left, st.container(border=True, key=ui.card_key()):
         join_form(user)
-    with right, st.container(border=True):
+    with right, st.container(border=True, key=ui.card_key()):
         create_form(user)
 
 
@@ -198,7 +198,7 @@ def plots_tab(group: dict, user: dict, views: list[cm.PlotView], is_admin: bool)
     cols = st.columns(3)
     for i, v in enumerate(views):
         g = v.garden
-        with cols[i % 3].container(border=True):
+        with cols[i % 3].container(border=True, key=ui.card_key()):
             st.markdown(f"**{html.escape(g['name'])}**")
             who = (f'<span class="badge done">👤 {html.escape(v.claimed_by)}</span>' if v.claimed_by
                    else '<span class="badge warn">unclaimed</span>')

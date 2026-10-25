@@ -107,6 +107,7 @@ class Task(BaseModel):
     title: str
     detail: str = ""
     plant_id: str | None = None
+    recommended: date | None = None   # set when the gardener moved the task; holds Gardenwise's date
 
 
 class PlantSchedule(BaseModel):

@@ -46,7 +46,9 @@ How to help:
    covers the basics (where they live or their ZIP, how much space, and what they'd like to grow).
    Once you know at least two details, call fill_planner_form with what you know (null for the rest)
    and tell them to review it and press "Recommend plants".
-3. To change saved data (tick a task, log a harvest) call propose_update. It only PROPOSES; the user
+3. To change saved data (tick a task, MOVE a task to another date, log a harvest) call propose_update.
+   Dates in the plan are recommendations; gardeners can move them. If moving a planting puts it before
+   the last frost (the tool returns a frost_note), mention that risk. It only PROPOSES; the user
    must press Confirm. Never say a change is done until they confirm.
 4. ALWAYS answer the question itself first, with the actual numbers or facts from a tool (e.g. "You've
    harvested about 12 lb: 8 lb of cherry tomatoes…"). Only then, if useful, offer a page with open_page
@@ -111,8 +113,10 @@ TOOLS = [
         {"garden_name": _nullable({"type": "string"}), "year": _nullable({"type": "integer"})}),
     _fn("whats_due", "Open tasks across the user's current and future gardens in the next N days (max 60).",
         {"days": {"type": "integer"}}),
-    _fn("propose_update", "Propose a change the user must confirm: mark a task done, or log a harvest.",
-        {"action": {"type": "string", "enum": ["mark_task_done", "log_harvest"]},
+    _fn("propose_update", "Propose a change the user must confirm: mark a task done, move a task to a new "
+        "date (new_date as YYYY-MM-DD), or log a harvest.",
+        {"action": {"type": "string", "enum": ["mark_task_done", "move_task", "log_harvest"]},
+         "new_date": _nullable({"type": "string"}),
          "garden_name": {"type": "string"},
          "task_title": _nullable({"type": "string"}),
          "plant_id": _nullable({"type": "string", "enum": _ids}),
@@ -224,19 +228,39 @@ def _find_garden(user, name: str) -> dict | None:
         next((g for g in gs if name_l and name_l in g["name"].lower()), None)
 
 
+def _stem(w: str) -> str:
+    for suf in ("ing", "ed", "es", "s"):
+        if w.endswith(suf) and len(w) - len(suf) >= 4:
+            return w[: -len(suf)]
+    return w
+
+
 def _words(text: str) -> set[str]:
     import re
-    return {w for w in re.findall(r"[a-z]+", text.lower()) if len(w) > 2}
+    return {_stem(w) for w in re.findall(r"[a-z]+", text.lower()) if len(w) > 2}
+
+
+class Ambiguous(Exception):
+    def __init__(self, options):
+        self.options = options
 
 
 def _best_task(tasks, query: str):
-    """Closest task title by word overlap (e.g. "build compost bin" → "Build: Wire compost bin")."""
+    """Closest task title by word overlap ("transplanting cherry tomato" → "Transplant Cherry tomato
+    outdoors"). Exact title wins; a tie between different tasks raises Ambiguous so the helper asks."""
+    exact = [t for t in tasks if t.title.lower() == (query or "").strip().lower()]
+    if exact:
+        return exact[0]
     q = _words(query)
     if not q:
         return None
-    scored = [(len(q & _words(t.title)) / len(q), t) for t in tasks]
-    score, best = max(scored, key=lambda x: x[0], default=(0, None))
-    return best if score >= 0.6 else None
+    scored = sorted(((len(q & _words(t.title)) / len(q), t) for t in tasks), key=lambda x: -x[0])
+    if not scored or scored[0][0] < 0.6:
+        return None
+    top = [t for sc, t in scored if sc == scored[0][0]]
+    if len({t.title for t in top}) > 1:
+        raise Ambiguous([t.title for t in top][:5])
+    return top[0]
 
 
 def _propose(user, args: dict, pending: list) -> dict:
@@ -248,6 +272,23 @@ def _propose(user, args: dict, pending: list) -> dict:
         return {"error": "No saved garden by that name."}
     from ..views.gardens import load_plan
     _rec, plan = load_plan(g, user["id"])
+    if args["action"] == "move_task":
+        t = _best_task(plan.tasks, args.get("task_title") or "")
+        if not t:
+            return {"error": "No task with that title in this garden.", "tasks": [x.title for x in plan.tasks][:15]}
+        try:
+            new = date.fromisoformat((args.get("new_date") or "").strip())
+        except ValueError:
+            return {"error": "new_date must be YYYY-MM-DD."}
+        if abs((new - date.today()).days) > 730:
+            return {"error": "That date is too far away."}
+        from ..data import locations as _locs
+        from ..ui import _date_warning
+        warn = _date_warning(t, new, _locs()[_rec.constraints.location_id]).replace("⚠️ ", "")
+        pending.append({"kind": "move", "garden_id": g["id"], "key": task_key(t), "new_date": new.isoformat(),
+                        "label": f"Move “{t.title}” in {g['name']} from {t.when:%b %d} to {new:%b %d, %Y}"
+                                 + (f". Note: {warn}" if warn else "")})
+        return {"status": "waiting for the user to press Confirm", "frost_note": warn or "none"}
     if args["action"] == "mark_task_done":
         t = _best_task(plan.tasks, args.get("task_title") or "")
         if not t:
@@ -275,7 +316,7 @@ def run_helper(history: list[dict], user_text: str, user: dict | None, budget: l
     pending: list[dict] = []
     for _ in range(MAX_STEPS):
         resp = llm.call_with_tools(agent="helper", instructions=INSTRUCTIONS, input_items=items, tools=TOOLS,
-                                   budget=budget, cache_key="helper-v4")
+                                   budget=budget, cache_key="helper-v5")
         calls = [o for o in resp.output if o.type == "function_call"]
         if not calls:
             return {"reply": clean_model_text(resp.output_text, 1200), "actions": actions + pending}
@@ -284,6 +325,9 @@ def run_helper(history: list[dict], user_text: str, user: dict | None, budget: l
             try:
                 args = json.loads(c.arguments or "{}")
                 result = _dispatch(c.name, args, user, actions, pending)
+            except Ambiguous as amb:
+                result = {"error": "More than one task matches. Ask the user which one, or call again with "
+                                   "the exact task_title.", "matching_tasks": amb.options}
             except Exception as e:  # bad arguments from the model: report back, don't crash
                 result = {"error": f"{type(e).__name__}"}
             items.append({"type": "function_call_output", "call_id": c.call_id,
