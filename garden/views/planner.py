@@ -33,7 +33,11 @@ def page() -> None:
     pf: dict = st.session_state.get("prefill") or {}
     if pf and not pf.get("from_home"):
         b1, b2 = st.columns([5, 1], vertical_alignment="center")
-        if pf.get("from_helper"):
+        if pf.get("plot_id"):
+            b1.info(f"🔁 Planning the next season of **{pf.get('plot_name', 'your garden')}** (after the "
+                    f"{pf.get('from_season', 'last season')}). Your site settings are filled in, and Gardenwise "
+                    "will suggest crop rotation based on what grew there before.")
+        elif pf.get("from_helper"):
             b1.info("💬 The garden helper filled in this form from your chat. Check it over, change anything, "
                     "then press **Recommend plants**.")
         else:
@@ -261,6 +265,7 @@ def page() -> None:
                 has_cats=has_cats, has_dogs=has_dogs, place=place,
                 audience=audience, adults=adults, kids=kids, grade_band=grade_band,
                 school_start=school_start, school_end=school_end, summer_care=summer_care,
+                plot_history=pf.get("plot_history", []),
             )
             if scout_updates:
                 avoid = list(dict.fromkeys(c.avoid_plants + scout_updates.pop("avoid", [])))[:10]
@@ -357,8 +362,9 @@ def save_box(rec: Recommendation, chosen: list[str], addons: list[str]) -> None:
     loc = locations()[rec.constraints.location_id]
     with st.form("save_form", border=True):
         st.markdown("**💾 Save this plan to track it**")
-        default_name = (f"{rec.constraints.place} garden" if rec.constraints.place
-                        else f"{loc.name} garden") + f" {rec.constraints.start_date.year}"
+        pf_save = st.session_state.get("prefill") or {}
+        default_name = pf_save.get("plot_name") or ((f"{rec.constraints.place} garden" if rec.constraints.place
+                                                    else f"{loc.name} garden"))
         name = st.text_input("Garden name", value=default_name,
                              max_chars=60)
         if st.form_submit_button("Save to My gardens", type="primary"):
@@ -367,6 +373,18 @@ def save_box(rec: Recommendation, chosen: list[str], addons: list[str]) -> None:
                 store.save_garden(user["id"], name, rec_to_json(rec), chosen, addons,
                                   group_id=pf["group_id"], plot_label=user["username"],
                                   assigned_to=user["username"])
+            elif pf.get("plot_id"):
+                # Next season of an existing plot: same garden name, linked seasons, last one finished.
+                store.save_garden(user["id"], pf.get("plot_name", name), rec_to_json(rec), chosen, addons,
+                                  plot_id=pf["plot_id"])
+                prev = store.get_garden(pf.get("prev_season_id", -1), user["id"])
+                if prev and prev["end_date"] is None:
+                    from .gardens import load_plan as _load
+                    _r, prev_plan = _load(prev, user["id"])
+                    last_harvest = max((s_.harvest_end for s_ in prev_plan.schedules), default=date.today())
+                    if last_harvest <= date.today():   # only close it if nothing is still growing (e.g. garlic)
+                        store.set_dates(prev["id"], user["id"], prev["start_date"],
+                                        max(prev["start_date"], date.today()))
             else:
                 store.save_garden(user["id"], name, rec_to_json(rec), chosen, addons)
             st.session_state.saved_run = rec.run_id

@@ -221,9 +221,9 @@ def personal_section(user: dict, gardens: list[dict], today: date, f: Filters) -
 
     # Headline tiles: single numbers are better as numbers than as charts.
     t = st.columns(4)
-    t[0].metric("Gardens", len(gardens),
-                help=f"{status_counts['current']} current · {status_counts['future']} future · "
-                     f"{status_counts['past']} past")
+    t[0].metric("Gardens", len({g["plot_id"] for g in gardens}),
+                help=f"{len(gardens)} seasons: {status_counts['current']} current · {status_counts['future']} "
+                     f"future · {status_counts['past']} past")
     t[1].metric("Different crops", len({r["Crop"] for r in crop_rows}))
     t[2].metric("Harvested (approx.)", f"{total_lb:,.1f} lb",
                 help="From one-tap harvest logs (handful ≈ ¼ lb, bowl ≈ 1 lb, basket ≈ 5 lb; herbs less).")

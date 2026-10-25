@@ -232,6 +232,12 @@ def assemble(rec: Recommendation, chosen_ids: list[str], addon_ids: list[str] | 
     tasks.sort(key=lambda t: t.when)
 
     warnings = safety_warnings(c, chosen)
+    if c.plot_history:
+        from .rotation import FAMILY_LABEL, conflicts, tips
+        warnings = tips(c.plot_history, c.start_date.year, c.space_type) + warnings
+        for pid, f, y in conflicts([p.id for p in chosen], c.plot_history, c.start_date.year):
+            warnings.append(f"🔁 **{db[pid].name}** is in the {FAMILY_LABEL[f]}, which grew in this plot in {y}. "
+                            "Plant it in a different spot this year if you can, or refresh the soil.")
     if c.audience == "school" and not c.summer_care:
         summer = [p.name for p, s in zip(chosen, schedules) if not harvest_in_school(s, c)]
         if summer:

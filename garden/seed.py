@@ -27,7 +27,13 @@ def ensure_demo(today: date | None = None) -> None:
         user = store.create_user(DEMO_USERNAME, DEMO_PASSWORD)
     except store.AuthError:
         return  # already exists
+    # Last year's season on the same backyard bed (tomatoes + basil + lettuce), so this year's plan
+    # shows crop-rotation advice and the garden has a season history.
+    prev_id = _backyard_last_year(user["id"], today)
+    from .rotation import history_from_seasons
+    history = history_from_seasons([store.get_garden(prev_id, user["id"])])
     c = Constraints(
+        plot_history=history,
         location_id="new_haven_ct", skill_level="beginner", goals=["salad", "salsa"],
         start_mode="now", start_date=today - timedelta(days=21), space_type="raised_bed",
         width_ft=4, length_ft=8, sun="full", sun_basis="your estimate: “mostly sunny”",
@@ -48,7 +54,8 @@ def ensure_demo(today: date | None = None) -> None:
                          report=report,
                          build_recs=[("compost_bin", "Fall leaves make free compost for spring.")])
     chosen = [p.plant_id for p in picks]
-    gid = store.save_garden(user["id"], "Backyard bed (demo)", rec_to_json(rec), chosen, ["compost_bin"])
+    gid = store.save_garden(user["id"], "Backyard bed (demo)", rec_to_json(rec), chosen, ["compost_bin"],
+                            plot_id=prev_id)
     plan = assemble(rec, chosen, ["compost_bin"])
     for t in plan.tasks:  # tick off everything that was due before today
         if t.when < today:
@@ -176,3 +183,30 @@ def _seed_community_harvests(user_id: int, plot_ids: dict[str, int], year: int) 
             p = plants()[pid]
             store.log_harvest(plot_ids[plot], user_id, pid, size, store.size_to_lb(size, p.category, p.edible),
                               donated=bool(don), picked_on=date(year, m, d))
+
+
+def _backyard_last_year(user_id: int, today: date) -> int:
+    y = today.year - 1
+    c = Constraints(location_id="new_haven_ct", skill_level="beginner", goals=["salsa", "pesto_herbs"],
+                    start_mode="month", start_date=date(y, 4, 1), space_type="raised_bed", width_ft=4,
+                    length_ft=8, sun="full", sun_basis="your estimate: “mostly sunny”", budget_min=100,
+                    budget_max=400, has_cats=True, place="Home")
+    picks = [PlantPick(plant_id="tomato_cherry", reason="A forgiving first tomato."),
+             PlantPick(plant_id="basil", reason="Pesto, and tomatoes' best friend."),
+             PlantPick(plant_id="lettuce", reason="Quick spring greens.")]
+    loc = locations()[c.location_id]
+    rec = Recommendation(run_id="demoprev", constraints=c, picks=picks, alternates=[],
+                         summary="First season: a salsa-and-pesto bed.",
+                         report=verify(picks, c, loc, {p.id for p in candidates(c, loc)}))
+    ids = [p.plant_id for p in picks]
+    gid = store.save_garden(user_id, "Backyard bed (demo)", rec_to_json(rec), ids, ["raised_bed"])
+    store.set_dates(gid, user_id, date(y, 4, 1), date(y, 10, 20))
+    for t in assemble(rec, ids, []).tasks:
+        store.set_check(gid, user_id, task_key(t), True)
+    from .data import plants
+    for pid, size, m, d in [("lettuce", "bowl", 5, 25), ("lettuce", "bowl", 6, 8), ("basil", "handful", 7, 1),
+                            ("tomato_cherry", "bowl", 7, 22), ("tomato_cherry", "basket", 8, 12),
+                            ("basil", "bowl", 8, 2), ("tomato_cherry", "basket", 8, 30), ("tomato_cherry", "bowl", 9, 18)]:
+        p = plants()[pid]
+        store.log_harvest(gid, user_id, pid, size, store.size_to_lb(size, p.category, p.edible), picked_on=date(y, m, d))
+    return gid

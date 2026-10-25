@@ -125,6 +125,14 @@ def verify(picks: list[PlantPick], c: Constraints, loc: Location,
           f"The picks need at least {need} {unit} but only {cap} {unit} are available. Pick fewer or smaller plants.",
           f"needs {need} of {cap} {unit}")
 
+    if c.plot_history:
+        from .rotation import FAMILY_LABEL, conflicts
+        rot = conflicts([p.id for p in valid], c.plot_history, c.start_date.year)
+        r.add("Crop rotation", not rot,
+              "Repeats a family grown here recently: "
+              + "; ".join(f"{db[pid].name} ({FAMILY_LABEL[f]}, {y})" for pid, f, y in rot)
+              + ". Fine in fresh soil or containers; otherwise consider a different spot.",
+              "no plant family repeated too soon", warn=True)
     pets = [k for k, has in (("cats", c.has_cats), ("dogs", c.has_dogs)) if has]
     toxic = [p.name for p in valid if any(getattr(p.pet_toxic, k) for k in pets)]
     r.add("Pet safety", not toxic, f"Toxic to your pets: {', '.join(toxic)} — warning shown.",

@@ -60,7 +60,9 @@ Rules (follow all of them):
     school_harvest=true (harvested while students are in the building). For every pick and
     alternate, fill "lesson" with ONE short classroom tie-in suited to the grade band (e.g. "3-5:
     measure and graph weekly growth"). For non-school gardens leave lesson as "".
-13. Households: the profile says how many people eat from the garden; prefer crops they will
+13. Crop rotation: if the profile lists families grown recently in this plot, prefer candidates
+    from other families when they can serve the same goal (e.g. after tomatoes, try beans or greens).
+14. Households: the profile says how many people eat from the garden; prefer crops they will
     actually eat a lot of, and fewer, higher-yield plants when space is tight.
 
 Below is the full plant catalog for reference (id | name | difficulty | sun | goals | notes).
@@ -117,6 +119,15 @@ def candidates(c: Constraints, loc: Location) -> list[Plant]:
     return out
 
 
+def _rotation_note(c: Constraints) -> str:
+    from ..rotation import FAMILY_LABEL, recent_families
+    recent = recent_families(c.plot_history, c.start_date.year)
+    if not recent:
+        return ""
+    return ("Crop rotation: avoid the " + "; ".join(f"{FAMILY_LABEL[f]} (grown {y})" for f, y in recent.items())
+            + " in this plot this year if other candidates serve the goals.")
+
+
 def _profile(c: Constraints, loc: Location, cands: list[Plant], feedback: str) -> str:
     soon_matters = c.start_mode in ("now", "month")
     cand_lines = []
@@ -150,6 +161,7 @@ def _profile(c: Constraints, loc: Location, cands: list[Plant], feedback: str) -
         "sun": f"{c.sun} ({c.sun_basis})",
         "pets": [p for p, has in (("cats", c.has_cats), ("dogs", c.has_dogs)) if has] or "none",
         "requested_plants": c.want_plants,
+        "earlier_seasons_in_this_plot": _rotation_note(c) or "none",
         "site_from_photos": {"summary": c.site_summary, "hazards": c.site_hazards} if c.site_summary else "none",
         "garden_for": {"me": "one person", "household": f"a household of {c.adults} adults and {c.kids} kids",
                        "school": f"a school garden, grades {c.grade_band}, school year "
@@ -187,7 +199,7 @@ def select_plants(c: Constraints, loc: Location, budget: llm.Budget, run_id: str
         schema=selection_schema(),
         budget=budget,
         run_id=run_id,
-        cache_key="selector-v3",
+        cache_key="selector-v4",
     )
     sel = Selection.model_validate(out.model_dump())
     return sel, cands

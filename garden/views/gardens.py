@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import date
+import html
+from datetime import date, timedelta
 
+import pandas as pd
 import streamlit as st
 
 from .. import llm, store, ui
@@ -76,28 +78,30 @@ def page() -> None:
             return
         st.session_state.open_garden = None
 
-    ui.hero("🌿 My gardens", "Your saved plans: what's growing now, what's coming up, and what you've grown before.")
-    ui.page_tip("gardens", "Open a garden to see its layout, calendar and shopping list, and tick things off. "
-                           "Use ⋯ More to finish, reopen or delete a garden, or start a new one at the same place.")
-    st.page_link(st.session_state.pages["plan"], label="➕ Plan a new garden", icon="🌱")
-    gardens = store.list_gardens(user["id"])
-    if not gardens:
+    ui.hero("🌿 My gardens", "Each garden is a plot of land. Every year you plan it again as a new season, "
+                            "and earlier seasons stay as history.")
+    ui.page_tip("gardens", "Open a garden to see this season's layout, calendar and shopping list. When a season "
+                           "ends, use 🔁 Plan next season here: your site settings carry over and you get "
+                           "crop-rotation tips from earlier seasons.")
+    st.page_link(st.session_state.pages["plan"], label="➕ Plan a new garden (a different plot)", icon="🌱")
+    all_plots = store.plots(user["id"])
+    if not all_plots:
         st.info("No saved gardens yet. Make a plan, then press **Save to My gardens** at the bottom.")
         return
     flash = st.session_state.pop("garden_flash", None)
     if flash:
         st.success(flash)
 
-    places = sorted({store.place_of(g) for g in gardens if store.place_of(g)}, key=str.lower)
+    places = sorted({store.place_of(p["latest"]) for p in all_plots if store.place_of(p["latest"])}, key=str.lower)
     if places:
         pick = st.selectbox("📍 Show gardens at", ["All places"] + places + ["(no place set)"])
         if pick == "(no place set)":
-            gardens = [g for g in gardens if not store.place_of(g)]
+            all_plots = [p for p in all_plots if not store.place_of(p["latest"])]
         elif pick != "All places":
-            gardens = [g for g in gardens if store.place_of(g).lower() == pick.lower()]
+            all_plots = [p for p in all_plots if store.place_of(p["latest"]).lower() == pick.lower()]
     by_status: dict[str, list[dict]] = {"current": [], "future": [], "past": []}
-    for g in gardens:
-        by_status[store.garden_status(g)].append(g)
+    for p in all_plots:
+        by_status[store.garden_status(p["active"])].append(p)
     for status, title, blurb in SECTIONS:
         group = by_status[status]
         if not group:
@@ -105,31 +109,83 @@ def page() -> None:
         st.markdown(f"## {title} ({len(group)})")
         st.caption(blurb)
         cols = st.columns(2)
-        for i, g in enumerate(group):
+        for i, p in enumerate(group):
             with cols[i % 2].container(border=True):
-                garden_card(g, status, user)
+                plot_card(p, status, user)
 
 
-def garden_card(g: dict, status: str, user: dict) -> None:
+def plot_card(p: dict, status: str, user: dict) -> None:
+    g = p["active"]
     rec, plan = load_plan(g, user["id"])
     loc = locations()[rec.constraints.location_id]
     done = store.get_checks(g["id"])
-    st.markdown(f"### {g['name']}")
+    st.markdown(f"### {html.escape(p['name'])}")
     place = store.place_of(g)
-    place_badge = f'<span class="badge">📍 {ui.html.escape(place)}</span>' if place else ""
-    st.markdown(f"{STATUS_BADGE[status]}{place_badge} <span class='muted'>{date_line(g)}</span>",
+    badges = STATUS_BADGE[status]
+    badges += f'<span class="badge">📍 {html.escape(place)}</span>' if place else ""
+    n = len(p["seasons"])
+    badges += f'<span class="badge">🗂️ {n} season{"s" if n != 1 else ""}</span>'
+    if p["latest"]["id"] != g["id"]:
+        badges += f'<span class="badge">next: {store.season_label(p["latest"])}</span>'
+    st.markdown(f"{badges} <span class='muted'>{store.season_label(g)} · {date_line(g)}</span>",
                 unsafe_allow_html=True)
-    st.caption(f"{loc.label} · {', '.join(p.name for p in plan.plants)}")
+    st.caption(f"{loc.label} · {', '.join(x.name for x in plan.plants)}")
     st.markdown(progress_badges(plan, done), unsafe_allow_html=True)
+    if season_looks_done(g, plan, loc):
+        st.markdown('<span class="badge warn">🍂 season looks finished</span>', unsafe_allow_html=True)
     b1, b2 = st.columns([1, 1])
     if b1.button("Open", key=f"open_{g['id']}", type="primary", width="stretch"):
         st.session_state.open_garden = g["id"]
         st.rerun()
     with b2.popover("⋯ More", width="stretch"):
         lifecycle_buttons(g, status, user, key=f"card_{g['id']}")
+        next_season_button(g, rec, user, key=f"card_{g['id']}")
         new_garden_here(g, rec, key=f"card_{g['id']}")
         st.markdown("---")
-        delete_control(g, user, key=f"card_{g['id']}")
+        delete_control(g, user, key=f"card_{g['id']}", whole_plot=True)
+
+
+def season_looks_done(g: dict, plan, loc) -> bool:
+    """Past the first fall frost of the season's year, with every harvest window over."""
+    if store.garden_status(g) != "current" or not plan.schedules:
+        return False
+    today = date.today()
+    last_harvest = max(s.harvest_end for s in plan.schedules)
+    frost = loc.first_frost_on(last_harvest.year)
+    return today > last_harvest and today >= min(frost, last_harvest + timedelta(days=1))
+
+
+def next_season_prefill(g: dict, rec, user: dict) -> dict:
+    """Carry the site over to a new season and pass this plot's history for crop rotation."""
+    from ..rotation import history_from_seasons
+
+    c = rec.constraints
+    seasons = store.plot_seasons(user["id"], g["plot_id"])
+    pf = {
+        "location_id": c.location_id, "place": c.place, "skill_level": c.skill_level, "has_cats": c.has_cats,
+        "has_dogs": c.has_dogs, "audience": c.audience if c.audience in ("me", "household", "school") else "me",
+        "adults": c.adults, "kids": c.kids, "space_type": c.space_type, "num_containers": c.num_containers,
+        "budget": (c.budget_min, c.budget_max if c.budget_max is not None else 1500),
+        "goals": list(c.goals), "start_mode": "next_season",
+        "plot_id": g["plot_id"], "plot_name": g["name"], "from_season": store.season_label(g),
+        "plot_history": history_from_seasons(seasons), "prev_season_id": g["id"],
+    }
+    if c.space_type in ("raised_bed", "in_ground"):
+        pf |= {"width_ft": c.width_ft, "length_ft": c.length_ft}
+    if c.sun != "unknown":
+        pf["sun"] = c.sun
+    return pf
+
+
+def next_season_button(g: dict, rec, user: dict, key: str, primary: bool = False) -> None:
+    if st.button("🔁 Plan next season here", key=f"{key}_next", width="stretch",
+                 type="primary" if primary else "secondary",
+                 help="Same plot, new year: site settings carry over and you get crop-rotation tips."):
+        st.session_state.prefill = next_season_prefill(g, rec, user)
+        if st.session_state.prefill.get("audience"):
+            st.session_state["audience"] = st.session_state.prefill["audience"]
+        st.session_state.rec = None
+        st.switch_page(st.session_state.pages["plan"])
 
 
 def lifecycle_buttons(g: dict, status: str, user: dict, key: str) -> None:
@@ -168,11 +224,15 @@ def new_garden_here(g: dict, rec, key: str) -> None:
         st.switch_page(st.session_state.pages["plan"])
 
 
-def delete_control(g: dict, user: dict, key: str) -> None:
-    sure = st.checkbox("I want to delete this garden", key=f"{key}_delsure")
+def delete_control(g: dict, user: dict, key: str, whole_plot: bool = False) -> None:
+    what = "this garden and all its seasons" if whole_plot else "this season only"
+    sure = st.checkbox(f"I want to delete {what}", key=f"{key}_delsure")
     if st.button("🗑️ Delete permanently", key=f"{key}_del", disabled=not sure, width="stretch"):
-        store.delete_garden(g["id"], user["id"])
-        st.session_state.garden_flash = f"Deleted “{g['name']}”."
+        if whole_plot:
+            store.delete_plot(user["id"], g["plot_id"])
+        else:
+            store.delete_garden(g["id"], user["id"])
+        st.session_state.garden_flash = f"Deleted {'“' + g['name'] + '”' if whole_plot else store.season_label(g)}."
         st.session_state.open_garden = None
         st.rerun()
 
@@ -187,11 +247,23 @@ def detail(g: dict, user: dict) -> None:
     if st.button("← All gardens"):
         st.session_state.open_garden = None
         st.rerun()
-    ui.hero(f"🌿 {g['name']}", f"{loc.label} · {date_line(g)}")
-    top1, top2 = st.columns([3, 1])
+    seasons = store.plot_seasons(user["id"], g["plot_id"])
+    ui.hero(f"🌿 {html.escape(g['name'])}", f"{loc.label} · {store.season_label(g)} · {date_line(g)}")
+    if len(seasons) > 1:
+        labels = {s_["id"]: store.season_label(s_) for s_ in seasons}
+        pick = st.segmented_control("Season", list(labels), format_func=labels.get, default=g["id"],
+                                    key=f"season_pick_{g['plot_id']}")
+        if pick and pick != g["id"]:
+            st.session_state.open_garden = pick
+            st.rerun()
+    top1, top2, top3 = st.columns([2.2, 1, 1])
     top1.markdown(f"{STATUS_BADGE[status]}", unsafe_allow_html=True)
     with top2:
         lifecycle_buttons(g, status, user, key=f"detail_{g['id']}")
+    with top3:
+        if g["id"] == seasons[-1]["id"]:
+            next_season_button(g, rec, user, key=f"detail_{g['id']}")
+    finish_prompt(g, rec, plan, loc, user)
     ui.location_header(loc, plan.total)
     ui.verification_panel(rec)
     misfit_banner(g, rec, user)
@@ -207,8 +279,52 @@ def detail(g: dict, user: dict) -> None:
 
     ui.plan_tabs(rec, plan, f"g{g['id']}", set(g["addons"]), cl)
 
+    if len(seasons) > 1:
+        season_history(seasons, g)
     with st.expander("⚙️ Garden settings"):
         settings(g, rec, user)
+
+
+def finish_prompt(g: dict, rec, plan, loc, user: dict) -> None:
+    dismissed = st.session_state.setdefault("finish_dismissed", set())
+    if g["id"] in dismissed or not season_looks_done(g, plan, loc):
+        return
+    frost = loc.first_frost_on(max(s_.harvest_end for s_ in plan.schedules).year)
+    with st.container(border=True, key=f"finish_{g['id']}"):
+        st.markdown(f"**🍂 This season looks finished.** Your average first frost ({frost:%b %d}) has passed "
+                    "and every harvest window is over. Wrap it up to keep it as history?")
+        a, b, c = st.columns(3)
+        if a.button("✅ Finish season", key=f"fin_now_{g['id']}", width="stretch"):
+            store.set_dates(g["id"], user["id"], g["start_date"], max(date.today(), g["start_date"]))
+            st.session_state.garden_flash = f"Finished the {store.season_label(g)} of “{g['name']}”."
+            st.rerun()
+        if b.button("🔁 Finish & plan next season", key=f"fin_next_{g['id']}", type="primary", width="stretch"):
+            store.set_dates(g["id"], user["id"], g["start_date"], max(date.today(), g["start_date"]))
+            st.session_state.prefill = next_season_prefill(store.get_garden(g["id"], user["id"]), rec, user)
+            st.session_state.rec = None
+            st.switch_page(st.session_state.pages["plan"])
+        if c.button("Not yet", key=f"fin_no_{g['id']}", width="stretch"):
+            dismissed.add(g["id"])
+            st.rerun()
+
+
+def season_history(seasons: list[dict], current: dict) -> None:
+    from ..data import plants as plant_db
+    from ..rotation import FAMILY_LABEL, family_of
+
+    with st.expander(f"🗂️ Season history ({len(seasons)} seasons)", expanded=False):
+        rows = []
+        for s_ in reversed(seasons):
+            logs = store.list_harvests(s_["id"])
+            fams = sorted({FAMILY_LABEL[f].split(" (")[0] for pid in s_["chosen"] if (f := family_of(pid))})
+            rows.append({"Season": store.season_label(s_) + (" (this one)" if s_["id"] == current["id"] else ""),
+                         "Status": store.garden_status(s_),
+                         "Grew": ", ".join(plant_db()[pid].name for pid in s_["chosen"] if pid in plant_db()),
+                         "Families": ", ".join(fams) or "—",
+                         "Harvest (approx. lb)": f"{sum(h['est_lb'] for h in logs):,.1f}"})
+        st.table(pd.DataFrame(rows).set_index("Season"))
+        st.caption("Families matter for crop rotation: Gardenwise suggests not repeating the tomato, squash, "
+                   "cabbage, onion, beet and carrot families in the same plot for 3 years.")
 
 
 def settings(g: dict, rec, user: dict) -> None:
@@ -257,7 +373,7 @@ def settings(g: dict, rec, user: dict) -> None:
             st.error(str(e))
             return
         if new_name != g["name"]:
-            store.update_garden(gid, user["id"], name=new_name)
+            store.rename_plot(user["id"], g["plot_id"], new_name)   # every season keeps the garden's name
         if (loc_id, sun, place) != (c.location_id, c.sun, c.place):
             # Site changed: update constraints and re-run the (free, code-only) verifier.
             fresh = store.get_garden(gid, user["id"])

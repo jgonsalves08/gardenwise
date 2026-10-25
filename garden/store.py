@@ -118,9 +118,11 @@ def _migrate(conn: sqlite3.Connection) -> None:
     """Add columns introduced after the first release to older garden.db files."""
     cols = {r["name"] for r in conn.execute("PRAGMA table_info(gardens)")}
     for col, typ in (("start_date", "TEXT"), ("end_date", "TEXT"), ("group_id", "INTEGER"),
-                     ("plot_label", "TEXT"), ("assigned_to", "TEXT")):
+                     ("plot_label", "TEXT"), ("assigned_to", "TEXT"), ("plot_id", "INTEGER")):
         if col not in cols:
             conn.execute(f"ALTER TABLE gardens ADD COLUMN {col} {typ}")
+    # A garden is a plot of land; each saved plan is one season of it. Old rows become 1-season plots.
+    conn.execute("UPDATE gardens SET plot_id = id WHERE plot_id IS NULL")
 
 
 # ---------- accounts ----------
@@ -170,7 +172,9 @@ def authenticate(username: str, password: str) -> dict:
 
 # ---------- gardens ----------
 def save_garden(owner_id: int, name: str, rec_json: dict, chosen: list[str], addons: list[str],
-                group_id: int | None = None, plot_label: str = "", assigned_to: str = "") -> int:
+                group_id: int | None = None, plot_label: str = "", assigned_to: str = "",
+                plot_id: int | None = None) -> int:
+    """Save one season. plot_id links seasons of the same plot of land (None = a new plot)."""
     start = rec_json["constraints"]["start_date"]  # the plan's start date; editable later
     with connect() as db:
         cur = db.execute(
@@ -180,7 +184,12 @@ def save_garden(owner_id: int, name: str, rec_json: dict, chosen: list[str], add
             (owner_id, name.strip()[:60] or "My garden", _now(), _now(),
              json.dumps(rec_json), json.dumps(chosen), json.dumps(addons), start,
              group_id, plot_label[:30], assigned_to[:30]))
-        return cur.lastrowid
+        gid = cur.lastrowid
+        if plot_id is not None:
+            owns = db.execute("SELECT 1 FROM gardens WHERE id = ? AND owner_id = ?", (plot_id, owner_id)).fetchone()
+            plot_id = plot_id if owns else None
+        db.execute("UPDATE gardens SET plot_id = ? WHERE id = ?", (plot_id or gid, gid))
+        return gid
 
 
 def set_dates(garden_id: int, owner_id: int, start: date, end: date | None) -> None:
@@ -238,7 +247,8 @@ def _garden_row(r: sqlite3.Row) -> dict:
             "start_date": date.fromisoformat(start),
             "end_date": date.fromisoformat(r["end_date"]) if r["end_date"] else None,
             "owner_id": r["owner_id"], "group_id": r["group_id"],
-            "plot_label": r["plot_label"] or "", "assigned_to": r["assigned_to"] or ""}
+            "plot_label": r["plot_label"] or "", "assigned_to": r["assigned_to"] or "",
+            "plot_id": r["plot_id"] or r["id"]}
 
 
 def update_garden(garden_id: int, owner_id: int, *, name: str | None = None,
@@ -529,3 +539,44 @@ def delete_harvest(harvest_id: int, user_id: int) -> None:
     with connect() as db:
         db.execute("DELETE FROM harvests WHERE id = ? AND garden_id IN "
                    "(SELECT id FROM gardens WHERE owner_id = ?)", (harvest_id, user_id))
+
+
+
+# ---------- plots and seasons ----------
+def season_label(g: dict) -> str:
+    """'2026 season', or '2026–27 season' for plans that start in late summer/fall (garlic, cover crops)."""
+    y = g["start_date"].year
+    return f"{y}–{(y + 1) % 100:02d} season" if g["start_date"].month >= 8 else f"{y} season"
+
+
+def plots(owner_id: int) -> list[dict]:
+    """The owner's gardens grouped by plot of land: [{plot_id, name, seasons (oldest→newest), latest}]."""
+    by_plot: dict[int, list[dict]] = {}
+    for g in list_gardens(owner_id):
+        by_plot.setdefault(g["plot_id"], []).append(g)
+    out = []
+    for pid, seasons in by_plot.items():
+        seasons.sort(key=lambda g: (g["start_date"], g["id"]))
+        current = [g for g in seasons if garden_status(g) == "current"]
+        # The season shown on the card: the one growing now, else the newest.
+        active = current[-1] if current else seasons[-1]
+        out.append({"plot_id": pid, "name": seasons[0]["name"], "seasons": seasons, "latest": seasons[-1],
+                    "active": active})
+    out.sort(key=lambda p: p["latest"]["updated_at"], reverse=True)
+    return out
+
+
+def plot_seasons(owner_id: int, plot_id: int) -> list[dict]:
+    return next((p["seasons"] for p in plots(owner_id) if p["plot_id"] == plot_id), [])
+
+
+def rename_plot(owner_id: int, plot_id: int, name: str) -> None:
+    with connect() as db:
+        db.execute("UPDATE gardens SET name = ?, updated_at = ? WHERE plot_id = ? AND owner_id = ?",
+                   (name.strip()[:60] or "My garden", _now(), plot_id, owner_id))
+
+
+def delete_plot(owner_id: int, plot_id: int) -> None:
+    with connect() as db:
+        db.execute("DELETE FROM gardens WHERE plot_id = ? AND owner_id = ? AND group_id IS NULL",
+                   (plot_id, owner_id))

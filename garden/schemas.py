@@ -73,6 +73,7 @@ class Constraints(BaseModel):
     beds_ready: bool = False                             # beds/soil already exist (e.g. community plots)
     site_hazards: list[str] = Field(default_factory=list, max_length=6)  # confirmed from photos
     site_summary: str = Field(default="", max_length=250)               # Site Scout summary (confirmed)
+    plot_history: list[dict] = Field(default_factory=list, max_length=10)  # earlier seasons in this plot
 
     @property
     def people(self) -> float:
