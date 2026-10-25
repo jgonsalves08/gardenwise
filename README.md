@@ -9,7 +9,7 @@ frost data before you see it. Save a garden to tick off tasks, log harvests in o
 season with crop-rotation tips. The same engine scales up to **households, school gardens and whole
 community gardens** (join codes, roles, CSV import of members, shared work days, pooled costs).
 
-Course project for *AI Foundations* (Yale SOM). Model: `gpt-6-luna` via Portkey.
+Course project for *AI Foundations* (Yale SOM). Model: `gpt-6-luna` via Portkey. Report: [`report.html`](report.html) · slides: [`slides.html`](slides.html).
 
 ![Gardenwise home](screenshots/01_guest_home.png)
 
@@ -21,8 +21,8 @@ You need **Python 3.11 or newer** (tested on 3.14) and a terminal.
 
 1. **Get the code** and open a terminal in the repo folder:
    ```bash
-   git clone <this-repo-url> garden-planner
-   cd garden-planner
+   git clone https://github.com/jgonsalves08/gardenwise.git
+   cd gardenwise
    ```
 2. **Create a virtual environment and install** the requirements:
    ```bash
