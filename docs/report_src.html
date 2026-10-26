@@ -185,7 +185,6 @@ year."</i> The table traces this real run agent by agent; the screenshots show a
 </table>
 <figure>{{img:04_guest_plan_chicago}}<figcaption>Step 2: the plan header (zone and frost dates with plain-English help), the "How we checked these plants" panel, and the recommended plants. Untick any plant and everything below updates instantly, with no extra AI call.</figcaption></figure>
 <figure class="half">{{img:06_how_we_checked}}<figcaption>The verifier's checks, shown to the user.</figcaption></figure><figure class="half">{{img:07_layout_grid}}<figcaption>The bed layout (north at top; tall plants on the north side).</figcaption></figure>
-<figure class="half">{{img:08_calendar_month_view}}<figcaption>Month calendar; each task date can be moved, with frost warnings.</figcaption></figure><figure class="half">{{img:09_shopping_and_budget}}<figcaption>Costed shopping list with store links and the budget check.</figcaption></figure>
 <p>After saving, the gardener sees weekly to-dos, can move any task date, logs harvests in one tap, and next fall uses
 <b>"Plan next season here,"</b> which carries the site over and adds crop-rotation advice (below, for a bed that grew tomatoes last year).
 The garden helper can do most of this from a sentence.</p>
@@ -273,7 +272,7 @@ and missing lead-in-soil warnings.</p>
 <ul>
   <li><b>Time:</b> the form takes about a minute, and the AI planning step about {{SECONDS_PLAN}} seconds. The result includes plant choices,
       a dated calendar from local frost data, a layout and a shopping list, which otherwise means cross-referencing seed packets, an
-      extension calendar and store prices. <i>(Comparison times from real users: see the box below.)</i></li>
+      extension calendar and store prices. A real tester went from a new account to a saved plan in about 7 minutes (below).</li>
   <li><b>Money:</b> plans stay inside the user's budget range, use bulk soil when it's cheaper than bags, and suggest cheaper options when
       over budget. In the demo community garden, pooling builds and seed packets brings 4 plots from <b>$890</b> (each buying alone) to
       <b>$370</b>. That figure assumes each plot would otherwise buy its own compost bin and rain barrel, so it is an upper bound.</li>
@@ -283,9 +282,32 @@ and missing lead-in-soil warnings.</p>
   <li><b>Reach:</b> 111 reference cities across all 48 contiguous states; one engine serves individuals, households, schools and community
       gardens. At about $29 a month in AI cost for 10,000 active users, a nonprofit or school district could run it.</li>
 </ul>
-<div class="todo"><b>To add before submitting: real-user test.</b> Have 2–3 people (first-time gardeners) plan a garden two ways: (a) with
-Google / ChatGPT, and (b) with Gardenwise. Record minutes taken, whether they'd trust and use the plan (1–5), and one quote each. Add a
-screenshot of one tester's plan. <i>[Results table and quotes go here.]</i></div>
+<h3>A real user test</h3>
+<p>A New Haven resident who wants to start a garden tried Gardenwise on their own: they made an account, filled in the form
+for a 10×10 ft backyard bed and saved a plan. Times come from the app's own records; the Google/ChatGPT time is their estimate.</p>
+<div style="display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start">
+<div>
+<table>
+  <tr><th></th><th>Google / ChatGPT</th><th>Gardenwise</th></tr>
+  <tr><td>Time to a plan</td><td>"At least 1–2 hours just to get started"</td><td><b>~7 minutes</b> from account to saved plan (AI step ~8 s)</td></tr>
+  <tr><td>Would trust the plan</td><td>—</td><td><b>4 / 5</b> ("skepticalness would be because of AI")</td></tr>
+  <tr><td>Would use the plan</td><td>—</td><td><b>5 / 5</b></td></tr>
+</table>
+<p class="lead" style="margin-top:12px">"If I were to do it alone using ChatGPT or something I would get lost and frustrated. I think this saves a
+lot of time and I like how it saves everything."</p>
+</div>
+<figure style="margin:0">{{img:24_user_test_plan}}<figcaption>The tester's saved plan (printable view, shown with the fixes below).</figcaption></figure>
+</div>
+<h3>What the tester found, and what changed</h3>
+<table>
+  <tr><th>What happened</th><th>Why</th><th>What I changed</th></tr>
+  <tr><td>Their <i>Three Sisters</i> goal was left out, and they assumed it was "not good for the soil."</td><td>The real reason was part sun plus beginner level (corn and squash need full sun and are rated for experienced gardeners). The plan only said "no plant fits this goal," next to a lead-in-soil warning.</td><td>Plans now explain any unmet goal in plain bullets (the actual reason, then how to grow it), using the same code that filters the plants. No form warning: the gardener can read why and re-plan.</td></tr>
+  <tr><td>The "what Gardenwise covers" note in step 2 was confusing.</td><td>It used USDA-zone jargon.</td><td>Rewritten in plain words ("works wherever it freezes in winter…").</td></tr>
+  <tr><td>The layout only showed the planted rows of their 10×10 bed.</td><td>Free space was a number, not a picture.</td><td>The layout now draws the whole bed, with dashed free squares (52 sq ft here).</td></tr>
+  <tr><td>Separate zip-tie lines for the trellis and the compost bin.</td><td>—</td><td>Kept: they liked seeing how much to buy and what each is for.</td></tr>
+</table>
+<p class="small">Caveat: one tester, informal, and the trust and time answers are self-reported. It is evidence the problem is real and the
+plan was usable, not a controlled study.</p>
 
 <!-- 8. Limits -->
 <h2>8. Limits and next steps</h2>
