@@ -105,8 +105,10 @@ Flow: Intake (optional) → Selector ⇄ Verifier → Calendar → Build advisor
 tokens, latency and cost to `logs/usage.jsonl` (shown in the sidebar's *AI usage* panel).
 
 **Coverage:** 111 reference cities in all 48 contiguous states + DC; every ZIP prefix maps to one.
-Hot climates (most of USDA zones 9–11) are marked *limited support* and planning is off there for now,
-because their season is set by summer heat, not frost.
+Places where it rarely freezes are marked *limited support* and planning is off there for now, because
+their season is set by summer heat, not frost: all of Florida, the Gulf and southern Atlantic coast, south and
+central Texas, the low deserts (Phoenix, Tucson, Las Vegas, Palm Springs) and most of California outside the
+mountains (23 of the 111 cities).
 
 ---
 

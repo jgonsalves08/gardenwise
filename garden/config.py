@@ -28,10 +28,17 @@ for _env in ENV_SEARCH_PATHS:
 APP_NAME = "Gardenwise"
 APP_TAGLINE = "Garden plans that fit your space, skill, budget and frost dates"
 
-REGION_NOTE = ("Gardenwise works in the lower 48 states wherever it freezes in winter, which is most of the "
-               "country. In very hot places where it rarely freezes (Florida, the Gulf Coast, South Texas, the "
-               "desert Southwest and coastal Southern California), summer heat decides when to plant instead, "
-               "so we can't give reliable planting dates there yet.")
+# HTML (shown inside a styled box on Home, step 2 of the planner and About).
+REGION_NOTE = ("Gardenwise works across the continental US (every state except Alaska and Hawaii). It doesn't "
+               "fully support places where it rarely freezes, because there summer heat, not frost, decides when "
+               "to plant:<ul class='region-list'>"
+               "<li>All of Florida</li>"
+               "<li>The Gulf and southern Atlantic coast: Mobile (AL), New Orleans (LA), Savannah (GA), "
+               "Charleston (SC)</li>"
+               "<li>South and central Texas: Houston, Austin, San Antonio, the Rio Grande Valley</li>"
+               "<li>The low deserts: Phoenix and Tucson (AZ), Las Vegas (NV), Palm Springs (CA)</li>"
+               "<li>Most of California outside the mountains: Los Angeles, San Diego, the Bay Area, Sacramento, "
+               "the Central Valley and the North Coast</li></ul>")
 LIMITED_NOTE = ("🌴 **{city} isn't fully supported yet.** Gardenwise times every planting from when frost "
                 "usually ends in spring and starts in fall, but here the weather works differently. {reason} "
                 "Our dates would be wrong, so planning is turned off here for now. Your county's extension "

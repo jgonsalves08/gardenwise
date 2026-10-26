@@ -90,6 +90,8 @@ h3::after {content: ""; display: block; width: 42px; height: 3px; border-radius:
                     background: #EEF6EC;}
 .region-note {background: #EEF6EC; border: 1px solid #D6E6D3; color: #1E2A22; border-radius: 10px;
               padding: .45rem .8rem; font-size: .88rem; margin: .2rem 0 .8rem 0;}
+.region-note .region-list {margin: .3rem 0 .1rem 0; padding-left: 1.6rem;}
+.region-note .region-list li {margin: .1rem 0;}
 .guide-grid {display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; margin: .4rem 0 .9rem 0;}
 @media (max-width: 900px) {.guide-grid {grid-template-columns: repeat(2, 1fr);}}
 .guide-step {display: flex; gap: .6rem; background: #F8FBF6; border: 1px solid #E3EDE0; border-radius: 12px;

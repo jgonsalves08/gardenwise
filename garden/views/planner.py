@@ -119,7 +119,7 @@ def page() -> None:
                  "aren't suggested twice. Please don't enter a street address.")
         note = st.session_state.get("zip_note")
         if note == "outside":
-            st.caption("We couldn't match that ZIP (Gardenwise covers the lower 48 states, not Alaska, Hawaii "
+            st.caption("We couldn't match that ZIP (Gardenwise covers the continental US, not Alaska, Hawaii "
                        "or US territories). Please choose the closest city from the list instead.")
         elif note:
             st.caption(f"📍 Your ZIP is closest to **{note}**, so we'll use its frost dates.")
