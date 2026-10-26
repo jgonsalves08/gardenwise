@@ -58,6 +58,7 @@ test password doesn't reveal anyone else's.
 
 | Log in as | User type | What's already there |
 |---|---|---|
+| `demo` | **Showcase** (start here to show someone the app) | A New Haven gardener with a bit of everything: a backyard bed with last year's season + this fall's (rotation tip), a kitchen windowsill, last summer's balcony tea pots, next spring's front-yard flowers, and **Plot 4 at Elm Street Community Garden** as an admin; harvest history throughout |
 | *(no login)* | **Guest** | Plan any garden; save is the only thing that needs an account |
 | `test_individual` | **Individual** | New Haven backyard bed with 2 seasons (crop-rotation tip), indoor kitchen windowsill, finished patio containers, a future cabin garden in **Boise, ID**; harvest history |
 | `test_household` | **Household** (2 adults, 2 kids, dog) | Atlanta, GA in-ground family salsa garden, sized to how much they eat |

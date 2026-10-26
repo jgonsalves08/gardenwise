@@ -128,6 +128,22 @@ def test_personas_cover_each_user_type_and_region(people):
     assert {"new_haven_ct", "atlanta_ga", "minneapolis_mn", "seattle_wa", "boise_id"} <= locs
 
 
+def test_demo_account_has_a_bit_of_everything(people):
+    from garden import seeds_people
+    seeds_people.ensure_demo()
+    seeds_people.ensure_demo()                       # safe to run again
+    demo = store.authenticate(seeds_people.DEMO_USER, seeds_people.TEST_PASSWORD)
+    gardens = store.list_gardens(demo["id"])
+    for g in gardens:
+        fails = [c.name for c in rec_from_json(g["rec"]).report.checks if c.status == "fail"]
+        assert not fails, (g["name"], fails)
+    assert {"past", "current", "future"} <= {store.garden_status(g) for g in gardens}
+    assert any(g["group_id"] for g in gardens)       # its community plot shows in My gardens
+    assert any(len(p["seasons"]) > 1 for p in store.plots(demo["id"]))
+    assert {g["name"]: g["role"] for g in store.my_groups(demo["id"])}["Elm Street Community Garden"] == "admin"
+    assert sum(len(store.list_harvests(g["id"])) for g in gardens) >= 10
+
+
 def test_community_permissions(people):
     org, adm, mem = (people[u]["id"] for u in ("test_organizer", "test_admin", "test_member"))
     elm = next(g for g in store.my_groups(org) if g["name"].startswith("Elm"))

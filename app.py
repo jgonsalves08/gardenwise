@@ -23,6 +23,7 @@ ui.reset_cards()
 def _seed_once() -> bool:
     if config.SEED_TEST_ACCOUNTS:   # local test accounts; disabled for public deployments
         seeds_people.ensure_people()
+        seeds_people.ensure_demo()
     return True
 
 

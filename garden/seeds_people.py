@@ -12,6 +12,8 @@ in code (no AI calls), so seeding is free and instant.
 | test_organizer    | runs Elm Street Community Garden      | New Haven CT                  |
 | test_admin        | admin at Elm Street; runs a garden    | New Haven CT + Seattle WA     |
 | test_member       | member of both community gardens      | New Haven CT + Seattle WA     |
+| demo              | showcase: a gardener with a bit of everything (several gardens, seasons,
+|                   | harvests, and an admin's plot at Elm Street) for showing people the app    |
 """
 
 from __future__ import annotations
@@ -21,13 +23,14 @@ from datetime import date, timedelta
 from . import store
 from .agents.selector import candidates
 from .data import locations, plants
-from .pipeline import Recommendation, assemble, rec_to_json, task_key
+from .pipeline import Recommendation, assemble, rec_from_json, rec_to_json, task_key
 from .rotation import history_from_seasons
 from .schemas import Constraints, PlantPick
 from .verifier import verify
 
 TEST_PASSWORD = "gardenwise-test-2026"
 USERS = ["test_individual", "test_household", "test_school", "test_organizer", "test_admin", "test_member"]
+DEMO_USER = "demo"
 
 
 def _rec(c: Constraints, picks: list[tuple[str, str] | tuple[str, str, str]], summary: str,
@@ -218,3 +221,90 @@ def _communities(ids: dict[str, int], today: date, y: int) -> None:
          "B": [("tomato_cherry", "bowl", date(sea_start.year, 8, 28))]})
     store.join_group(ids["test_member"], sea["join_code"])
     store.claim_plot(sea_plots["A"], sea["id"], ids["test_member"], "test_member")
+
+
+# ---------- demo: one showcase account with a bit of everything ----------
+def ensure_demo(today: date | None = None) -> None:
+    """Separate from the personas so it can be added to a database that already has them."""
+    today = today or date.today()
+    try:
+        uid = store.create_user(DEMO_USER, TEST_PASSWORD)["id"]
+    except store.AuthError:
+        return   # already there
+    y = today.year
+    # Backyard bed in New Haven: last year's salsa season, then this fall's garlic and greens
+    c1 = _c(location_id="new_haven_ct", goals=["salsa", "pesto_herbs"], start_date=date(y - 1, 4, 1),
+            space_type="raised_bed", width_ft=4, length_ft=8, has_cats=True, place="Home")
+    r1 = _rec(c1, [("tomato_cherry", "A forgiving first tomato that keeps producing."),
+                   ("arugula", "Peppery leaves for pesto and salads, ready in weeks."),
+                   ("basil", "Pesto, and a good neighbor for tomatoes."), ("scallion", "Quick, easy salsa onions.")],
+              "First season: a salsa-and-pesto bed.", build_recs=[("trellis", "Keeps cherry tomatoes off the ground.")])
+    prev = _save(uid, "Backyard bed", r1, ["raised_bed", "trellis"], date(y - 1, 4, 1), date(y - 1, 10, 20),
+                 date(y - 1, 10, 20),
+                 harvests=[("scallion", "handful", date(y - 1, 6, 20)), ("basil", "bowl", date(y - 1, 7, 14)),
+                           ("tomato_cherry", "basket", date(y - 1, 8, 5)),
+                           ("arugula", "bowl", date(y - 1, 5, 28)),
+                           ("tomato_cherry", "basket", date(y - 1, 8, 26), True),
+                           ("tomato_cherry", "basket", date(y - 1, 9, 12))])
+    hist = history_from_seasons([store.get_garden(prev, uid)])
+    c2 = _c(location_id="new_haven_ct", goals=["salad"], start_mode="now", start_date=today - timedelta(days=28),
+            space_type="raised_bed", width_ft=4, length_ft=8, has_cats=True, place="Home", plot_history=hist)
+    r2 = _rec(c2, [("garlic", "Plant cloves now for a big harvest next July."),
+                   ("radish", "Ready about a month after spring sowing."),
+                   ("kale", "Sweeter after frost; picks into winter."), ("lettuce", "Fast spring greens.")],
+              "Garlic and kale this fall; lettuce and radishes in early spring.",
+              build_recs=[("compost_bin", "Fall leaves make free compost.")])
+    _save(uid, "Backyard bed", r2, ["compost_bin"], today - timedelta(days=28), None, today, plot_id=prev,
+          harvests=[("kale", "handful", today - timedelta(days=4))])
+    # Kitchen windowsill, growing now
+    c3 = _c(location_id="new_haven_ct", goals=["pesto_herbs", "salad"], start_mode="now",
+            start_date=today - timedelta(days=18), space_type="windowsill", num_containers=3,
+            sun_basis="south-facing window", place="Home – kitchen")
+    r3 = _rec(c3, [("microgreens", "Ready in about two weeks on a sunny sill."),
+                   ("basil", "Fresh leaves all winter."), ("chives", "Snip as you need them.")],
+              "A kitchen windowsill of fast greens and herbs.")
+    _save(uid, "Kitchen windowsill", r3, [], today - timedelta(days=18), None, today,
+          harvests=[("microgreens", "handful", today - timedelta(days=5)),
+                    ("microgreens", "handful", today - timedelta(days=1))])
+    # Last summer's balcony containers, finished
+    c4 = _c(location_id="new_haven_ct", goals=["herbal_tea"], start_date=date(y - 1, 5, 1), space_type="containers",
+            num_containers=4, budget_max=150, place="Home – balcony")
+    r4 = _rec(c4, [("lemon_balm", "Lemony tea, almost impossible to kill."),
+                   ("thyme", "A soothing tea, and it shrugs off dry spells."), ("mint", "Keep it in its own pot.")],
+              "A balcony tea garden in pots.")
+    _save(uid, "Balcony tea pots", r4, [], date(y - 1, 5, 1), date(y - 1, 10, 1), date(y - 1, 10, 1),
+          harvests=[("mint", "handful", date(y - 1, 6, 28)), ("thyme", "handful", date(y - 1, 7, 10)),
+                    ("lemon_balm", "bowl", date(y - 1, 7, 30))])
+    # Next spring: a front-yard flower strip for pollinators
+    c5 = _c(location_id="new_haven_ct", goals=["pollinator", "cut_flowers"], start_date=date(y + 1, 4, 15),
+            space_type="in_ground", width_ft=3, length_ft=12, budget_max=200, place="Home – front yard")
+    r5 = _rec(c5, [("zinnia", "Bright, easy and loved by butterflies."), ("cosmos", "Airy flowers for bouquets."),
+                   ("sunflower", "A tall back row for bees.")], "A cheerful pollinator strip by the sidewalk.")
+    _save(uid, "Front-yard flowers", r5, [], date(y + 1, 4, 15), None, None)
+    # Community garden: admin at Elm Street with its own plot (Plot 4)
+    elm = next((g for u in ("test_organizer",) for g in _groups_of(u) if g["name"].startswith("Elm")), None)
+    if not elm:
+        return
+    org = elm["organizer_id"]
+    store.join_group(uid, elm["join_code"])
+    store.set_role(elm["id"], org, uid, "admin")
+    plot = next((p for p in store.group_plots(elm["id"]) if p["plot_label"] == "4"), None)
+    if plot and store.claim_plot(plot["id"], elm["id"], uid, DEMO_USER):
+        store.update_garden(plot["id"], uid, name=f"Plot 4 – {DEMO_USER}")
+        g = store.get_garden(plot["id"], uid)
+        r = rec_from_json(g["rec"])
+        keys = [task_key(t) for t in assemble(r, g["chosen"], []).tasks if t.when < today]
+        store.set_checks_bulk(plot["id"], uid, keys)
+        sy = r.constraints.start_date.year
+        for pid, size, when, *don in [("arugula", "bowl", date(sy, 5, 10)), ("lettuce", "bowl", date(sy, 5, 24)),
+                                      ("kale", "bowl", date(sy, 6, 30)), ("kale", "basket", date(sy, 9, 15), True)]:
+            if when <= today:
+                p = plants()[pid]
+                store.log_harvest(plot["id"], uid, pid, size, store.size_to_lb(size, p.category, p.edible),
+                                  donated=bool(don), picked_on=when)
+
+
+def _groups_of(username: str) -> list[dict]:
+    with store.connect() as db:
+        row = db.execute("SELECT id FROM users WHERE username = ?", (username,)).fetchone()
+    return store.my_groups(row["id"]) if row else []
