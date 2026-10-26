@@ -82,6 +82,9 @@ h3::after {content: ""; display: block; width: 42px; height: 3px; border-radius:
 .grid {border-collapse: collapse; margin: .4rem 0 1rem 0;}
 .grid td {width: 44px; height: 44px; text-align: center; font-size: 1.25rem; line-height: 1;
           border: 2px solid #FFFFFF; border-radius: 6px;}
+.grid td.free {background: #FFFFFF; border: 2px dashed #B9D3B2;}
+.grid td.off {background: transparent; border-color: transparent;}
+.legend-chip.free-chip {background: #FFFFFF; border: 1px dashed #9BC27E;}
 .plant-photo {border-radius: 12px; object-fit: cover; border: 1px solid #E3EDE0; display: block;}
 .plant-photo-empty {display: flex; align-items: center; justify-content: center; font-size: 2.2rem;
                     background: #EEF6EC;}
@@ -561,25 +564,33 @@ def layout_view(plan: Plan) -> None:
             st.markdown(f"- **{db[a.plant_id].name}**: {a.containers} pot(s), {a.count} plant(s)")
     else:
         st.caption("Top-down view, north at the top. Each square is 1 × 1 ft. "
-                   "Tall plants sit on the north side so they don't shade the rest.")
+                   "Tall plants sit on the north side so they don't shade the rest. "
+                   "Dashed squares are free space you can still plant.")
         rows = []
         for row in plan.grid:
             tds = "".join(
                 f'<td style="background:{color[cid]}" title="{html.escape(db[cid].name)}">'
                 f'{plant_icon(cid)}</td>' if cid else
-                '<td style="background:#F3F6F0" title="open space"></td>' for cid in row)
+                '<td class="free" title="Free space: room for another plant"></td>' if cid is None else
+                '<td class="off"></td>' for cid in row)
             rows.append(f"<tr>{tds}</tr>")
         st.markdown(f'<table class="grid">{"".join(rows)}</table>', unsafe_allow_html=True)
         legend = " ".join(f'<span class="legend-chip" style="background:{color[a.plant_id]}">'
                           f'{plant_icon(a.plant_id)} <b>{html.escape(db[a.plant_id].name)}</b> × {a.count}'
                           f'<span class="muted"> · {a.squares} sq ft</span></span>'
                           for a in plan.allocations if a.count)
+        if plan.free_space:
+            legend += (f' <span class="legend-chip free-chip">➕ <b>Free space</b>'
+                       f'<span class="muted"> · {plan.free_space} sq ft</span></span>')
         st.markdown(legend, unsafe_allow_html=True)
         if c.space_type == "in_ground":
             st.caption("About 30% of an in-ground plot is left for paths.")
     if plan.free_space:
-        unit = "pot(s)" if c.space_type in ("containers", "windowsill") else "sq ft"
-        st.info(f"🟦 {plan.free_space} {unit} still open — tick another recommended plant to use it.")
+        if c.space_type in ("containers", "windowsill"):
+            st.info(f"➕ {plan.free_space} pot(s) still free. Tick another recommended plant to use them.")
+        else:
+            st.info(f"➕ {plan.free_space} sq ft still free (the dashed squares). Tick another recommended "
+                    "plant to fill it, or leave it open for later.")
 
 
 # ---------- shopping ----------

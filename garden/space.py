@@ -150,18 +150,22 @@ def allocate(plants: list[Plant], c: Constraints) -> list[Allocation]:
 
 def layout_grid(allocs: list[Allocation], plants: dict[str, Plant], c: Constraints,
                 max_cols: int = 16, max_rows: int = 16) -> list[list[str | None]]:
-    """A top-down grid (north at top). Tall plants go on the north rows so they don't shade others."""
+    """A top-down grid of the whole usable bed (north at top). Tall plants go on the north rows so they
+    don't shade others. Cells: a plant ID, None for a free square (room for more plants), or "" for the
+    leftover corner of the last row that isn't part of the bed."""
     if c.space_type in ("containers", "windowsill"):
         return []
     cols = max(1, min(int(c.width_ft), max_cols))
-    total = sum(a.squares for a in allocs)
-    rows = max(1, min(math.ceil(total / cols), max_rows))
+    used = sum(a.squares for a in allocs)
+    bed = max(used, usable_squares(c))
+    rows = max(1, min(math.ceil(bed / cols), max_rows))
     order = sorted(allocs, key=lambda a: (not plants[a.plant_id].tall, plants[a.plant_id].sprawling))
     cells: list[str | None] = []
     for a in order:
         cells.extend([a.plant_id] * a.squares)
+    cells += [None] * (bed - len(cells))
     cells = cells[: rows * cols]
-    cells += [None] * (rows * cols - len(cells))
+    cells += [""] * (rows * cols - len(cells))
     grid = [cells[r * cols:(r + 1) * cols] for r in range(rows)]
     # Snake every other row so a plant's squares stay next to each other.
     for r in range(1, rows, 2):

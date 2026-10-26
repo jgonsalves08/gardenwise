@@ -247,3 +247,17 @@ def test_unmet_goal_says_the_actual_reason():
     [w] = unmet_goal_warnings(sunny, loc)
     assert "full sun" not in w and "beginner" in w     # only the reason that still applies
     assert unmet_goal_warnings(Constraints(**base, skill_level="experienced", sun="full"), loc) == []
+
+
+def test_layout_shows_free_space(people):
+    """The grid covers the whole usable bed, and its free squares match the plan's free space."""
+    from garden.pipeline import assemble
+    for u in people:
+        for g in store.list_gardens(people[u]["id"]):
+            plan = assemble(rec_from_json(g["rec"]), g["chosen"], g["addons"])
+            if not plan.grid:
+                continue
+            free = sum(x is None for row in plan.grid for x in row)
+            used = sum(bool(x) for row in plan.grid for x in row)
+            assert used == sum(a.squares for a in plan.allocations), g["name"]
+            assert free == plan.free_space, (g["name"], free, plan.free_space)

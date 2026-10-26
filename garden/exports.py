@@ -6,6 +6,7 @@ import base64
 import hashlib
 import html
 import io
+import re
 from datetime import date, datetime, timedelta, timezone
 
 from . import config
@@ -64,6 +65,24 @@ def _photo(pid: str) -> str:
     return f'<img src="data:image/jpeg;base64,{base64.b64encode(p.read_bytes()).decode()}" alt="">'
 
 
+def _alert_html(text: str) -> str:
+    """An alert's simple markdown (**bold**, "- " bullet lines, blank-line paragraphs) as safe HTML."""
+    out, items = [], []
+    for line in html.escape(text).split("\n"):
+        line = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", line.strip())
+        if line.startswith("- "):
+            items.append(f"<li>{line[2:]}</li>")
+            continue
+        if items:
+            out.append("<ul>" + "".join(items) + "</ul>")
+            items = []
+        if line:
+            out.append(f"<div>{line}</div>")
+    if items:
+        out.append("<ul>" + "".join(items) + "</ul>")
+    return "".join(out)
+
+
 def printable_html(plan: Plan, garden_name: str, season: str = "", done: dict | None = None,
                    icons: dict | None = None) -> bytes:
     done, icons = done or {}, icons or {}
@@ -80,10 +99,13 @@ def printable_html(plan: Plan, garden_name: str, season: str = "", done: dict | 
     grid = ""
     if plan.grid:
         grid = "<table class='grid'>" + "".join(
-            "<tr>" + "".join(f"<td>{icons.get(cid, '🌱') if cid else ''}</td>" for cid in row) + "</tr>"
+            "<tr>" + "".join(f"<td>{icons.get(cid, '🌱')}</td>" if cid else "<td class='free'></td>" if cid is None
+                             else "<td class='off'></td>" for cid in row) + "</tr>"
             for row in plan.grid) + "</table>"
-        grid += "<p class='m'>" + " · ".join(f"{icons.get(a.plant_id, '🌱')} {e(db[a.plant_id].name)} × {a.count}"
-                                            for a in plan.allocations if a.count) + "</p>"
+        grid += "<p class='m'>" + " · ".join(
+            [f"{icons.get(a.plant_id, '🌱')} {e(db[a.plant_id].name)} × {a.count}" for a in plan.allocations if a.count]
+            + ([f"➕ free space: {plan.free_space} sq ft (dashed squares), room for more plants"]
+               if plan.free_space else [])) + "</p>"
     tasks, month = "", None
     for t in plan.tasks:
         m = t.when.strftime("%B %Y")
@@ -95,7 +117,7 @@ def printable_html(plan: Plan, garden_name: str, season: str = "", done: dict | 
     shop = ""
     for group, m in plan.shopping_lines():
         shop += f"<tr><td>☐ {e(m.item)}</td><td>{m.qty}</td><td>~${round(m.subtotal):,}</td></tr>"
-    warn = "".join(f"<li>{e(w.replace('**', ''))}</li>" for w in plan.warnings)
+    warn = "".join(f"<li>{_alert_html(w)}</li>" for w in plan.warnings)
     doc = f"""<!doctype html><html><head><meta charset="utf-8"><title>{e(garden_name)} · {config.APP_NAME}</title>
 <style>
 html {{color-scheme: light; background: #FFFFFF;}}
@@ -105,6 +127,7 @@ h3 {{margin: 14px 0 4px 0; color:#4E7A55;}} .m {{color:#5C6B5F; font-size: 13px;
 table {{border-collapse: collapse; width: 100%;}} td, th {{padding: 6px 8px; border-bottom: 1px solid #E3EDE0; vertical-align: top; font-size: 14px;}}
 th {{text-align: left; color:#2F6B3F;}} td.ph img {{width: 64px; height: 64px; object-fit: cover; border-radius: 8px;}}
 .grid td {{width: 34px; height: 34px; text-align: center; border: 1px solid #fff; background: #EEF6EC; font-size: 18px;}}
+.grid td.free {{background: #fff; border: 2px dashed #B9D3B2;}} .grid td.off {{background: none;}}
 .grid {{width: auto;}} .t {{font-size: 14px; padding: 2px 0;}} .btn {{background:#2F6B3F; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer;}}
 @media print {{ .noprint {{display:none;}} h2 {{page-break-after: avoid;}} }}
 </style></head><body>
