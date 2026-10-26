@@ -22,6 +22,7 @@ import re
 import secrets
 import sqlite3
 from contextlib import contextmanager
+from functools import lru_cache
 from datetime import date, datetime, timedelta, timezone
 
 from . import config
@@ -217,13 +218,41 @@ def set_dates(garden_id: int, owner_id: int, start: date, end: date | None) -> N
 
 
 def garden_status(g: dict, today: date | None = None) -> str:
-    """'past' once an end date is set and reached, 'future' before the start date, else 'current'."""
+    """'past' once an end date is set and reached; 'future' until the garden starts (its start date, or
+    its first task if that's later: a "when the time is right" plan made in October has nothing to do
+    until late winter); else 'current'."""
     today = today or date.today()
     if g["end_date"] and g["end_date"] <= today:
         return "past"
-    if g["start_date"] > today:
+    if starts_on(g) > today:
         return "future"
     return "current"
+
+
+def starts_on(g: dict) -> date:
+    """When the garden really begins: its start date or its first task, whichever is later."""
+    first = first_task_date(g)
+    return max(g["start_date"], first) if first else g["start_date"]
+
+
+def first_task_date(g: dict) -> date | None:
+    """The earliest task in the saved plan, counting any task dates the gardener moved."""
+    planned = _planned_task_dates(g["id"], g["updated_at"], json.dumps(g["rec"], sort_keys=True),
+                                  tuple(g["chosen"]), tuple(g["addons"]))
+    if not planned:
+        return None
+    moved = get_task_dates(g["id"]) if g.get("id") else {}
+    return min(moved.get(k, d) for k, d in planned)
+
+
+@lru_cache(maxsize=512)
+def _planned_task_dates(_gid, _updated, rec_json: str, chosen: tuple, addons: tuple) -> tuple:
+    from .pipeline import assemble, rec_from_json, task_key   # plan math lives in the pipeline
+    try:
+        plan = assemble(rec_from_json(json.loads(rec_json)), list(chosen), list(addons))
+    except Exception:   # an unreadable old plan shouldn't break the garden list
+        return ()
+    return tuple((task_key(t), t.when) for t in plan.tasks)
 
 
 def list_gardens(owner_id: int) -> list[dict]:

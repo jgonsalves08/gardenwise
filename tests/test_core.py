@@ -261,3 +261,24 @@ def test_layout_shows_free_space(people):
             used = sum(bool(x) for row in plan.grid for x in row)
             assert used == sum(a.squares for a in plan.allocations), g["name"]
             assert free == plan.free_space, (g["name"], free, plan.free_space)
+
+
+def test_best_time_plan_stays_future_until_first_task(people):
+    """A 'when the time is right' plan made in October has nothing to do until late winter (real user test)."""
+    from garden import seeds_people as sp
+    from garden.pipeline import rec_to_json, task_key, assemble
+    uid = people["test_household"]["id"]
+    c = sp._c(location_id="new_haven_ct", goals=["salad"], start_mode="best_time", start_date=date(2026, 10, 25),
+              space_type="in_ground", width_ft=10, length_ft=10)
+    rec = sp._rec(c, [("lettuce", "Fast spring greens."), ("pea_snap", "Early peas.")], "Spring salad bed.")
+    gid = store.save_garden(uid, "Spring bed", rec_to_json(rec), ["lettuce", "pea_snap"], [])
+    g = store.get_garden(gid, uid)
+    first = store.first_task_date(g)
+    assert first > date(2027, 1, 1)
+    assert store.garden_status(g, today=date(2026, 10, 26)) == "future"
+    assert store.starts_on(g) == first
+    assert store.garden_status(g, today=first) == "current"
+    # Moving the first task earlier moves the garden into Current sooner.
+    t0 = min(assemble(rec, g["chosen"], []).tasks, key=lambda t: t.when)
+    store.set_task_date(gid, uid, task_key(t0), date(2026, 11, 1))
+    assert store.garden_status(g, today=date(2026, 11, 2)) == "current"

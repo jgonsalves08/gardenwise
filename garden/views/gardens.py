@@ -66,8 +66,8 @@ def date_line(g: dict) -> str:
     s, e = g["start_date"], g["end_date"]
     if e:
         return f"{s:%b %d, %Y} – {e:%b %d, %Y}"
-    if s > date.today():
-        return f"Starts {s:%b %d, %Y}"
+    if store.garden_status(g) == "future":
+        return f"Starts {store.starts_on(g):%b %d, %Y}"
     return f"Started {s:%b %d, %Y} · ongoing"
 
 

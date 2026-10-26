@@ -115,7 +115,7 @@ mountains (23 of the 111 cities).
 ## Tests, costs and evidence
 
 ```bash
-pytest tests/test_core.py          # 37 offline tests: data, calendar, verifier, roles, privacy, exports, personas
+pytest tests/test_core.py          # 38 offline tests: data, calendar, verifier, roles, privacy, exports, personas
 pytest tests/test_injection.py     # 14 attacks (10 need the API key); writes results/injection_results.md
 python scripts/cost_benchmark.py   # 10 plans cold vs warm cache; writes results/cost_*.{csv,md}
 python scripts/compare_baseline.py # Gardenwise vs a plain prompt, same checks; writes results/baseline_*.{csv,md}

@@ -47,7 +47,7 @@ def page() -> None:
 
         with st.container(border=True, key=ui.card_key()):
             future = store.garden_status(g) == "future"
-            st.markdown(f"### {g['name']}" + (" · *starts " + f"{g['start_date']:%b %d}*" if future else ""))
+            st.markdown(f"### {g['name']}" + (" · *starts " + f"{store.starts_on(g):%b %d}*" if future else ""))
             if overdue:
                 anything = True
                 st.markdown("**⏰ Overdue**")
