@@ -106,8 +106,8 @@ def verify(picks: list[PlantPick], c: Constraints, loc: Location,
     cand_goals = {g for cid in candidate_ids if cid in db for g in db[cid].goals}
     for g in c.goals:
         if g not in cand_goals:
-            r.add(f"Goal: {GOAL_LABELS[g]}", False,
-                  "No plant fits this goal under these conditions.", warn=True)
+            from .goals import unmet_goal_reason
+            r.add(f"Goal: {GOAL_LABELS[g]}", False, unmet_goal_reason(g, c, loc), warn=True)
             continue
         served = [p.name for p in valid if g in p.goals]
         r.add(f"Goal: {GOAL_LABELS[g]}", bool(served),

@@ -93,7 +93,7 @@ def create_form(user: dict) -> None:
     with st.form("create_group", border=False):
         name = st.text_input("Garden name", max_chars=60, placeholder="Elm Street Community Garden")
         c1, c2 = st.columns(2)
-        loc_id = c1.selectbox("Nearest reference city", loc_ids, index=loc_ids.index("new_haven_ct"),
+        loc_id = c1.selectbox("Closest city", loc_ids, index=loc_ids.index("new_haven_ct"),
                               format_func=lambda i: locs[i].label)
         zip_code = c2.text_input("…or ZIP (not saved)", max_chars=5)
         place_raw = st.text_input("Place nickname", max_chars=40, placeholder="e.g. Elm St lot",

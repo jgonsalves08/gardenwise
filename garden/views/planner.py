@@ -91,7 +91,7 @@ def page() -> None:
 
     # Step 2 · where
     with st.container(border=True, key="step_2"):
-        ui.step_header(2, TOTAL, "Where is it?", "We use this for your frost dates and growing zone.")
+        ui.step_header(2, TOTAL, "Where is it?", "This tells us when frost usually ends and starts where you live.")
         st.markdown(f'<div class="region-note">📍 {config.REGION_NOTE}</div>', unsafe_allow_html=True)
         # Picking a location from a ZIP updates the dropdown itself (via its session key).
         if pf.get("location_id") and st.session_state.get("_pf_loc_for") != id(pf):
@@ -106,10 +106,10 @@ def page() -> None:
 
         l1, l2, l3 = st.columns([1.3, 1, 1.3])
         loc_id = l1.selectbox(
-            "Nearest reference city", loc_ids, format_func=lambda i: locs[i].label, index=None,
+            "Closest city", loc_ids, format_func=lambda i: locs[i].label, index=None,
             placeholder="Choose the closest city…", key="loc_select",
-            help="Gardenwise uses frost dates and zones for reference cities in every contiguous state. Pick "
-                 "the one closest to you (or most like your climate), or enter your ZIP and we'll pick it for you.")
+            help="We use this city's usual frost dates to time your planting. Pick the one nearest you (or "
+                 "with the most similar weather), or type your ZIP and we'll pick it for you.")
         l2.text_input("…or ZIP code (not saved)", max_chars=5, placeholder="e.g. 06511", key="zip_input",
                       on_change=_zip_to_location)
         place_raw = l3.text_input(
@@ -119,8 +119,8 @@ def page() -> None:
                  "aren't suggested twice. Please don't enter a street address.")
         note = st.session_state.get("zip_note")
         if note == "outside":
-            st.caption("We couldn't match that ZIP (Gardenwise covers the contiguous US, not Alaska, Hawaii "
-                       "or territories). Please choose the closest city from the list instead.")
+            st.caption("We couldn't match that ZIP (Gardenwise covers the lower 48 states, not Alaska, Hawaii "
+                       "or US territories). Please choose the closest city from the list instead.")
         elif note:
             st.caption(f"📍 Your ZIP is closest to **{note}**, so we'll use its frost dates.")
         limited = bool(loc_id) and not locs[loc_id].supported

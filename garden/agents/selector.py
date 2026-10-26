@@ -20,8 +20,7 @@ from pydantic import BaseModel, Field, create_model
 
 from .. import llm
 from ..data import Location, Plant, plants
-from ..schemas import SKILL_RANK, Constraints, GOAL_LABELS, PlantPick, Selection
-from ..space import suits_space
+from ..schemas import Constraints, GOAL_LABELS, PlantPick, Selection
 from ..school import harvest_in_school
 from .calendar import plantable_within, schedule_plant
 
@@ -52,7 +51,9 @@ Rules (follow all of them):
    plants outside the CANDIDATES list.
 9. Each reason is one short, friendly sentence (under 25 words) saying why the plant fits
    THIS gardener. Plain text only: no links, no markdown, no instructions.
-10. summary: 1–2 sentences describing the garden you chose.
+10. summary: 1–2 sentences describing the garden you chose. Describe only what you picked: do not
+    mention goals you could not cover or words like "candidates" or "list" (the app explains
+    unmet goals to the gardener itself).
 11. alternates: 2–3 OTHER candidates (not in picks) the gardener might like instead or as
     extras, each with a one-sentence reason. Same rules as picks.
 
@@ -101,26 +102,9 @@ def selection_schema() -> type[BaseModel]:
 
 
 def candidates(c: Constraints, loc: Location) -> list[Plant]:
-    out = []
-    for p in plants().values():
-        if not (p.zone_min <= loc.zone_num <= p.zone_max):
-            continue
-        if SKILL_RANK[p.difficulty] > SKILL_RANK[c.skill_level]:
-            continue
-        if c.sun != "unknown" and c.sun not in p.sun:
-            continue
-        if not suits_space(p, c):
-            continue
-        if p.id in c.avoid_plants:
-            continue
-        if p.category == "cover_crop" and c.space_type != "in_ground" and c.space_type != "raised_bed":
-            continue
-        try:   # short mountain seasons: drop crops that can't ripen before frost at all
-            schedule_plant(p, loc, c.start_date, c.skill_level)
-        except ValueError:
-            continue
-        out.append(p)
-    return out
+    """Plants that fit the zone, skill, sun, space, avoid list and season (see goals.why_not)."""
+    from ..goals import why_not
+    return [p for p in plants().values() if not why_not(p, c, loc)]
 
 
 def _rotation_note(c: Constraints) -> str:
@@ -203,7 +187,7 @@ def select_plants(c: Constraints, loc: Location, budget: llm.Budget, run_id: str
         schema=selection_schema(),
         budget=budget,
         run_id=run_id,
-        cache_key="selector-v4",
+        cache_key="selector-v5",
     )
     sel = Selection.model_validate(out.model_dump())
     return sel, cands

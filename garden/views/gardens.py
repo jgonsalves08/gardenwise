@@ -402,7 +402,7 @@ def settings(g: dict, rec, user: dict) -> None:
 
     st.markdown("**📍 Where is it?**")
     l1, l2 = st.columns(2)
-    loc_id = l1.selectbox("Nearest reference city", loc_ids, index=loc_ids.index(c.location_id),
+    loc_id = l1.selectbox("Closest city", loc_ids, index=loc_ids.index(c.location_id),
                           format_func=lambda i: locs[i].label, key=f"loc_{gid}")
     zip_code = l2.text_input("…or ZIP code (not saved)", max_chars=5, key=f"zip_{gid}")
     if zip_code:

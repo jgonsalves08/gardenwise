@@ -233,7 +233,8 @@ def assemble(rec: Recommendation, chosen_ids: list[str], addon_ids: list[str] | 
     tasks.extend(summer_care_tasks(schedules, c))
     tasks.sort(key=lambda t: t.when)
 
-    warnings = safety_warnings(c, chosen)
+    from .goals import unmet_goal_warnings
+    warnings = unmet_goal_warnings(c, loc) + safety_warnings(c, chosen)
     if c.plot_history:
         from .rotation import FAMILY_LABEL, conflicts, tips
         warnings = tips(c.plot_history, c.start_date.year, c.space_type) + warnings

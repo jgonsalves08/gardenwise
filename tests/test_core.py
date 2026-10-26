@@ -228,3 +228,22 @@ def test_exports(people):
     assert str(wb["Summary"]["A1"].value).startswith("Garden budget")
     assert all(not str(c.value).startswith("=") for row in wb["Summary"].iter_rows() for c in row if c.value)
     assert b"<html>" in exports.printable_html(plan, g["name"]) or b"<!doctype html>" in exports.printable_html(plan, g["name"])
+
+
+# ---------- unmet goals are explained in plain words (from a real user test) ----------
+def test_unmet_goal_says_the_actual_reason():
+    from garden.agents.selector import candidates
+    from garden.goals import unmet_goal_warnings
+    from garden.schemas import Constraints
+    loc = locations()["new_haven_ct"]
+    base = dict(location_id="new_haven_ct", goals=["three_sisters", "salad"], start_mode="best_time",
+                start_date=date(2027, 3, 1), space_type="in_ground", width_ft=10, length_ft=10)
+    c = Constraints(**base, skill_level="beginner", sun="part")
+    [w] = unmet_goal_warnings(c, loc)                 # salad is fine; only Three Sisters is unmet
+    assert "Three Sisters" in w and "full sun" in w and "some sun, some shade" in w and "beginner" in w
+    assert "soil" not in w.lower()
+    assert not any("three_sisters" in p.goals for p in candidates(c, loc))     # matches the real filter
+    sunny = Constraints(**base, skill_level="beginner", sun="full")
+    [w] = unmet_goal_warnings(sunny, loc)
+    assert "full sun" not in w and "beginner" in w     # only the reason that still applies
+    assert unmet_goal_warnings(Constraints(**base, skill_level="experienced", sun="full"), loc) == []
